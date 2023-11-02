@@ -6,9 +6,13 @@ const {
   getAmin,
   patchAdmin,
   deleteAdmin,
+  createAdmin,
 } = require('../controllers/adminController');
 
 const connectDb = require('../config/dbConnMysql');
+
+// 사업자 등록
+router.route('/register').post(createAdmin);
 
 // 모든 사용자 조회
 router.route('/').get(getAdmins);
