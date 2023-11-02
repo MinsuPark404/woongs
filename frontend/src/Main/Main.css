@@ -1,0 +1,128 @@
+/* main-container styles */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.search-button {
+    background-color: #e0e0e0;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.content-container {
+    display: flex;
+    flex-grow: 1;
+}
+
+/* sidebar styles */
+.sidebar {
+    width: 20%;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-right: 1px solid #e0e0e0;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+}
+
+.menu-list li {
+    margin-bottom: 10px;
+    list-style: none;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: left;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.menu-list li:hover {
+    background-color: #e6e6e6;
+}
+
+.menu-list li:active {
+    transform: scale(0.95);
+}
+
+.notification-button {
+    background-color: #e0e0e0;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+footer {
+    position: absolute;
+    bottom: 20px;
+    width: calc(20% - 40px);
+    text-align: center;
+}
+
+/* main-content styles */
+.main-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+    width: 80%;
+}
+
+.post {
+    margin-bottom: 20px;
+    border-radius: 10px; /* rounded corners */
+    overflow: hidden; /* ensures that content does not overflow the rounded corners */
+    transition: transform 0.2s, box-shadow 0.2s; /* smooth transition for hover effects */
+}
+
+/* Adding a shadow and slight scale effect on hover to make the posts pop */
+.post:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Left posts */
+.post1, .post2 {
+    width: calc(36.333% ); /* Adjusted width for three posts */
+    height: 300px; /* or whatever height you desire */
+}
+
+/* Right posts */
+.post3,  .post5 {
+    width: calc(23.5% - 10px); /* Adjusted width for two square posts */
+    height: calc(23.5% - 10px); /* Making the height equal to the width to create a square */
+}
+.post4 {
+    width: calc(75.333%); /* Adjusted width for three posts */
+    height: 500px; /* or whatever height you desire */
+}
+
+/* Adding unique styles to each post */
+.post1 { background-color: #f4f4f4; }
+.post2 { background-color: #f4f4f4; }
+.post3 { background-color: #f4f4f4; }
+.post4 { background-color: #f4f4f4; }
+.post5 { background-color: #f4f4f4; }
+
