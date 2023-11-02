@@ -25,13 +25,43 @@ const getAdmins = asyncHandler(async (req, res) => {
 // Endpoint POST /api/admins/register
 // @access admin
 const createAdmin = asyncHandler(async (req, res) => {
-  const { admin_name, admin_password, admin_email, admin_phone, role } =
-    req.body;
-  const sql =
-    'INSERT INTO admins (admin_name, admin_password, admin_email, admin_phone, role) VALUES (?, ?, ?, ?, ?)';
+  const {
+    admin_name,
+    admin_password,
+    company_name,
+    company_address,
+    company_unique,
+    admin_email,
+    admin_phone,
+    admin_phone2,
+    role,
+    is_active,
+  } = req.body;
+  const sql = `INSERT INTO admins (
+    admin_name, 
+    admin_password, 
+    company_name, 
+    company_address, 
+    company_unique, 
+    admin_email, 
+    admin_phone, 
+    admin_phone2, 
+    role, 
+    is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
   db.query(
     sql,
-    [admin_name, admin_password, admin_email, admin_phone, role],
+    [
+      admin_name,
+      admin_password,
+      company_name,
+      company_address,
+      company_unique,
+      admin_email,
+      admin_phone,
+      admin_phone2,
+      role,
+      is_active,
+    ],
     (err, results) => {
       if (err) return res.status(500).json({ message: 'Server Error', err });
       res.status(201).json({
@@ -51,7 +81,7 @@ const getAmin = asyncHandler(async (req, res) => {
 
 const getAdmin = asyncHandler(async (req, res) => {
   const { adminId } = req.params;
-  const sql = 'SELECT * FROM admins WHERE admin_id = ?';
+  const sql = 'SELECT * FROM admins WHERE company_unique = ?';
   db.query(sql, [adminId], (err, results) => {
     if (err) return res.status(500).json({ message: 'Server Error', err });
     if (results.length === 0)

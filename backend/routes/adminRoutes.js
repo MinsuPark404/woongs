@@ -18,11 +18,12 @@ router.route('/register').post(createAdmin);
 router.route('/').get(getAdmins);
 
 // 특정 사용자 조회
-router.route('/:userId').get(getAmin);
+router.route('/:adminId').get(getAmin);
+
 // 특정 사용자의 권한 변경
-router.route('/:userId/role').patch(patchAdmin);
+router.route('/:adminId/role').patch(patchAdmin);
 
 // 특정 사용자 삭제
-router.route('/:userId').delete(deleteAdmin);
+router.route('/:adminId').delete(deleteAdmin);
 
 module.exports = router;
