@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
 import './Login.css';
 
 function Login() {
@@ -13,23 +11,25 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage(''); // 이전 메시지 초기화
     try {
-      console.log('뭐가  문제냐 ');
-      const response = await axios.post(
-        'http://localhost:5000/api/admins/login',
-        {
-          // username,
-          // password
-
-          admin_email: username, // 백엔드에서 요구하는 키 값에 맞춰서 변경
-          admin_password: password,
-        }
-      );
-      navigate('/main');
+      const response = await axios.post('http://localhost:5000/api/admins/login', {
+        admin_email: username,
+        admin_password: password,
+      });
+      // 서버가 성공 메시지를 반환하면 메인 페이지로 네비게이트
       setMessage(response.data.message);
+      navigate('/main');
     } catch (error) {
+      // 에러 처리 개선
+      if (error.response) {
+        // 서버가 반환한 에러 메시지를 표시
+        setMessage(error.response.data.message);
+      } else {
+        // 에러 메시지가 없는 경우 일반 메시지를 표시
+        setMessage('로그인 중에 오류가 발생했습니다. 나중에 다시 시도해 주세요.');
+      }
       console.error('Login error', error);
-      setMessage('An error occurred while logging in');
     }
   };
 
@@ -58,10 +58,13 @@ function Login() {
             <button className="btn-login" type="submit">
               Login
             </button>
-            <button className="btn-ask">Ask</button>
+            {/* "Ask" 버튼의 기능이 명시되지 않았으니 기능을 추가하거나 제거해야 합니다. */}
+            <button className="btn-ask" type="button">
+              Ask
+            </button>
           </div>
         </form>
-        {message && <p>{message}</p>}
+        {message && <p className="error-message">{message}</p>}
       </div>
     </div>
   );

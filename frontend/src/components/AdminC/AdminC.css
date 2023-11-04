@@ -35,6 +35,7 @@
     justify-content: space-between;
     padding: 20px;
     width: 80%;
+    height: 100%;
 }
 .main-container {
     display: flex;
@@ -78,6 +79,7 @@
 .admin-panel li:hover {
   background-color: #f0f0f0;
 }
+/* AdminC.css */
 .register-business {
   max-width: 600px;
   margin: 0 auto;
