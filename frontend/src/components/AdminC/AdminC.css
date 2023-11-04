@@ -1,0 +1,117 @@
+.admin-panel {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .admin-panel h2 {
+    margin-bottom: 10px;
+  }
+  
+  .admin-panel ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .admin-panel li {
+    margin-bottom: 10px;
+  }
+  
+  .admin-panel button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #ff6666;
+    color: white;
+    border-radius: 5px;
+  }
+  
+  .admin-panel button:hover {
+    background-color: #ff3333;
+  }
+  .main-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+    width: 80%;
+}
+.main-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+}
+.admin-panel {
+  height: 90%; /* 높이를 100%로 설정 */
+  width: 100%;
+  margin: 0; /* 기본 마진 제거 */
+  padding: 20px;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column; /* 컬럼 방향으로 정렬 */
+  
+}
+
+.admin-panel h2 {
+  margin-bottom: 20px;
+}
+
+.admin-panel ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-direction: row; /* 행 방향으로 항목 정렬 */
+  flex-wrap: wrap; /* 항목이 너무 많으면 다음 줄로 넘어가도록 설정 */
+  gap: 3px; /* 항목 사이의 간격 설정 */
+}
+
+.admin-panel li {
+  flex: 0; 
+  min-width: calc(23% - 10px); 
+  padding: 10px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  text-align: center; 
+}
+
+.admin-panel li:hover {
+  background-color: #f0f0f0;
+}
+.register-business {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.register-business h2 {
+  text-align: center;
+}
+
+.register-business form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-business label {
+  margin-bottom: 15px;
+}
+
+.register-business input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.register-business button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.register-business button:hover {
+  background-color: #45a049;
+}
