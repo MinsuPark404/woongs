@@ -1,3 +1,4 @@
+/* 판 */
 .admin-panel {
     background-color: #f4f4f4;
     padding: 20px;
@@ -76,10 +77,23 @@
   text-align: center; 
 }
 
-.admin-panel li:hover {
+/* .admin-panel li:hover {
   background-color: #f0f0f0;
+} */
+li {
+  cursor: pointer;
+  /* 탭에 대한 기본 스타일 */
 }
-/* AdminC.css */
+
+/* 활성화된 탭 스타일 */
+li.active {
+  background-color: #4CAF50;
+  color: white;
+  /* 활성화된 탭에 대한 스타일 */
+}
+/* 판 */
+
+/* 사업자등록 */
 .register-business {
   max-width: 600px;
   margin: 0 auto;
@@ -117,3 +131,132 @@
 .register-business button:hover {
   background-color: #45a049;
 }
+/* 사업자등록 */
+/* 모달 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 5px;
+  width: 500px; /* Or your desired width */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 30px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close:hover {
+  color: #666;
+}
+
+h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+}
+
+p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  text-align: left;
+  background-color: #f2f2f2;
+}
+
+td {
+  text-align: right;
+}
+
+
+/* 모달 */
+/* 검색창 */
+.search-box {
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 20%;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(74, 144, 226, 0.5);
+}
+/* 검색창 */
+/* 사업자목록 */
+.business-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2px;
+}
+
+.business-table th,
+.business-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.business-table th {
+  background-color: #f4f4f4;
+}
+
+.business-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.business-table tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+.table-container {
+  max-height: 600px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+.business-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+/* 사업자목록 */

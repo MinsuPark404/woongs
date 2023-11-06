@@ -7,21 +7,21 @@ import LogManagement from './LogManagement';
 
 const List = () => {
   const [items] = useState(['사업자 등록', '사업자 목록', '권한 관리', '로그 관리']);
-  const [activeItem, setActiveItem] = useState(null);
+  const [activeItem, setActiveItem] = useState(items[0]); // 기본적으로 첫 번째 항목을 활성화
 
   const handleClick = (item) => {
-    if (activeItem === item) {
-      setActiveItem(null);
-    } else {
-      setActiveItem(item);
-    }
+    setActiveItem(item); // 현재 클릭된 항목으로 activeItem 상태를 설정
   };
 
   return (
     <div className="admin-panel">
       <ul>
         {items.map((item, index) => (
-          <li key={index} onClick={() => handleClick(item)}>
+          <li 
+            key={index} 
+            className={activeItem === item ? 'active' : ''} // 현재 활성화된 항목에 대해 'active' 클래스를 추가
+            onClick={() => handleClick(item)}
+          >
             {item}
           </li>
         ))}
