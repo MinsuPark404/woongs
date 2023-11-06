@@ -1,53 +1,19 @@
 /* 관리자 계정 관리: 조회, 등록, 업데이트, 삭제, 로그 관리 */
-
+const adminModel = require('../models/adminModel');
 const asyncHandler = require('express-async-handler');
 const db = require('../config/dbConnMysql');
 
-
-
-
-
+// @관리자 등록
+// @Endpoint POST /api/admins/register
+// @access superAdmin
 const createAdmin = asyncHandler(async (req, res) => {
-  const {
-    admin_name,
-    admin_password,
-    company_name,
-    company_address,
-    company_unique,
-    admin_email,
-    admin_phone,
-    admin_phone2,
-    role,
-    is_active,
-  } = req.body;
-  const sql = `INSERT INTO admins (
-    admin_name, 
-    admin_password, 
-    company_name, 
-    company_address, 
-    company_unique, 
-    admin_email, 
-    admin_phone, 
-    admin_phone2, 
-    role, 
-    is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
   try {
-    const results = await db.query(sql, [
-      admin_name,
-      admin_password,
-      company_name,
-      company_address,
-      company_unique,
-      admin_email,
-      admin_phone,
-      admin_phone2,
-      role,
-      is_active,
-    ]);
+    console.log('회원 정보', req.body);
+    const adminData = req.body;
+    const results = await adminModel.createAdmin(adminData);
     res.status(201).json({
-      
       message: '관리자가 성공적으로 생성되었습니다.',
-      adminId: results[0].insertId,
+      adminId: results.insertId,
     });
   } catch (err) {
     console.error(err); // 에러 로깅
@@ -68,49 +34,39 @@ const createAdmin = asyncHandler(async (req, res) => {
   }
 });
 
-
+// @관리자 로그인
+// @Endpoint POST /api/admins/login
+// @access superAdmin, admin
 const loginAdmin = asyncHandler(async (req, res) => {
-  const { admin_email, admin_password } = req.body;
   try {
-    
-    const connection = await db.getConnection();
-    const [results] = await connection.query(
-      'SELECT * FROM admins WHERE admin_email = ?',
-      [admin_email]
+    // 요청 본문에서 관리자 이메일과 비밀번호 추출
+    const { admin_email, admin_password } = req.body;
+    // 관리자가 DB에 존재하는지 확인
+    const admin = await adminModel.getAdminByEmail(admin_email);
+    // 비밀번호 비교
+    const isMatch = await adminModel.verifyAdminPassword(
+      admin_password,
+      admin.admin_password
     );
-    connection.release();
-
-    if (results.length === 0) {
-      
-      return res.status(401).json({ message: '일치하는 관리자가 없습니다.' });
-    }
-    console.log(results[0])
-
-    const admin = results[0];
-
-
-    if (admin_password === admin.admin_password) {
-      // Passwords match
+    if (isMatch) {
+      // 비밀번호 일치
       return res.status(200).json({ message: '로그인 성공', admin });
     } else {
-      // Passwords do not match
+      // 비밀번호 불일치
       return res.status(401).json({ message: '비밀번호가 일치하지 않습니다.' });
     }
-    
   } catch (error) {
     console.error(error);
+    // 서버 오류 처리
     return res.status(500).json({ message: '서버 오류' });
   }
 });
-const businessList = asyncHandler(async (req, res) => {
-  
-  const [admins] = await db.query('SELECT * FROM admins WHERE is_active = ?', [true]);
-  res.status(200).json(admins);
-});
 
+// @관리자 조회
+// @Endpoint POST /api/admins/login
+// @access superAdmin
 
-
-
+// @로그인 로그 조회
 const getLoginLogs = asyncHandler(async (req, res, next) => {
   const sql = 'SELECT * FROM login_logs ORDER BY login_time DESC';
   db.query(sql, (err, results) => {
@@ -129,9 +85,16 @@ const getLoginLogs = asyncHandler(async (req, res, next) => {
   });
 });
 
+const businessList = asyncHandler(async (req, res) => {
+  const [admins] = await db.query('SELECT * FROM admins WHERE is_active = ?', [
+    true,
+  ]);
+  res.status(200).json(admins);
+});
+
 module.exports = {
-  createAdmin,
   businessList,
+  createAdmin,
   loginAdmin,
   getLoginLogs,
 };
