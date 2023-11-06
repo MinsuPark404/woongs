@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import './AdminC.css'; // Make sure this path is correct
+import './AdminC.css'; 
 import axios from 'axios';
 
+
 const RegisterAdmin = () => {
+  
   const [adminInfo, setAdminInfo] = useState({
     admin_name: '',
     admin_password: '',
@@ -24,30 +26,39 @@ const RegisterAdmin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage(''); // Reset message
-    
-    // Prepare the admin information, converting `is_active` to an integer.
+    setMessage('');
+  
     const adminData = {
       ...adminInfo,
-      is_active: adminInfo.is_active ? 1 : 0, // Convert to 1 or 0 for the database
+      is_active: adminInfo.is_active ? 1 : 0,
     };
   
     try {
-      // Attempt to register the admin with the server
       const response = await axios.post('http://localhost:5000/api/admins/register', adminData);
-      // Handle the response from the server here
-      setMessage('Admin registered successfully!');
+  
+      
+      setAdminInfo({
+        admin_name: '',
+        admin_password: '',
+        company_name: '',
+        company_address: '',
+        company_unique: '',
+        admin_email: '',
+        admin_phone: '',
+        admin_phone2: '',
+        role: '',
+        is_active: ''
+      });
+  
+      alert('가입됨!');
       console.log(response.data);
+      
     } catch (error) {
-      // Improved error handling
       if (error.response) {
-        // The server responded with a status code that falls out of the range of 2xx
         setMessage(error.response.data.message);
       } else if (error.request) {
-        // The request was made but no response was received
         setMessage('No response received. Check your network connection.');
       } else {
-        // Something happened in setting up the request that triggered an Error
         setMessage('Error: ' + error.message);
       }
       console.error('Registration error', error);

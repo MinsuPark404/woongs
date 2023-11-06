@@ -72,7 +72,7 @@ const createAdmin = asyncHandler(async (req, res) => {
 const loginAdmin = asyncHandler(async (req, res) => {
   const { admin_email, admin_password } = req.body;
   try {
-    // Connect to MySQL and retrieve admin information by email
+    
     const connection = await db.getConnection();
     const [results] = await connection.query(
       'SELECT * FROM admins WHERE admin_email = ?',
@@ -80,16 +80,15 @@ const loginAdmin = asyncHandler(async (req, res) => {
     );
     connection.release();
 
-    // Check if the admin exists
     if (results.length === 0) {
-      cons
+      
       return res.status(401).json({ message: '일치하는 관리자가 없습니다.' });
     }
     console.log(results[0])
 
     const admin = results[0];
 
-    // Compare passwords (assuming passwords are stored in plain text, which is not recommended)
+
     if (admin_password === admin.admin_password) {
       // Passwords match
       return res.status(200).json({ message: '로그인 성공', admin });
@@ -103,6 +102,12 @@ const loginAdmin = asyncHandler(async (req, res) => {
     return res.status(500).json({ message: '서버 오류' });
   }
 });
+const businessList = asyncHandler(async (req, res) => {
+  
+  const [admins] = await db.query('SELECT * FROM admins WHERE is_active = ?', [true]);
+  res.status(200).json(admins);
+});
+
 
 
 
@@ -126,7 +131,7 @@ const getLoginLogs = asyncHandler(async (req, res, next) => {
 
 module.exports = {
   createAdmin,
-  
+  businessList,
   loginAdmin,
   getLoginLogs,
 };
