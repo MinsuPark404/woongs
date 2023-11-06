@@ -2,17 +2,17 @@
 const express = require('express');
 const router = express.Router();
 const {
- 
+  businessList,
   createAdmin,
   getLoginLogs,
   loginAdmin,
 } = require('../../controllers/adminController');
 
-const connectDb = require('../../config/dbConnMysql');
-
 // 사업자 등록
 router.route('/register').post(createAdmin);
 
+// 사업자 조회
+router.route('/list').get(businessList);
 
 // 로그인
 router.route('/login').post(loginAdmin);

@@ -2,6 +2,12 @@ const mysql = require('mysql2/promise');
 
 // createPool을 사용하여 MySQL 연결 풀 생성
 const connectDb = mysql.createPool({
+  // host: '127.0.0.1',
+  // user: 'root',
+  // password: '1234',
+  // port: 3306,
+  // database: 'Insa4_JSB_hacksim_3',
+
   host: 'project-db-stu3.smhrd.com',
   user: 'Insa4_JSB_hacksim_3',
   password: 'aishcool3',
@@ -16,13 +22,13 @@ const connectDb = mysql.createPool({
 connectDb.getConnection((err, connection) => {
   if (err) {
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-      console.error('Database connection was closed.');
+      console.error('데이터베이스 연결이 종료되었습니다.');
     }
     if (err.code === 'ER_CON_COUNT_ERROR') {
-      console.error('Database has too many connections.');
+      console.error('데이터베이스에 너무 많은 연결이 있습니다.');
     }
     if (err.code === 'ECONNREFUSED') {
-      console.error('Database connection was refused.');
+      console.error('데이터베이스 연결이 거부되었습니다.');
     }
   }
 
@@ -31,9 +37,6 @@ connectDb.getConnection((err, connection) => {
   return;
 });
 
-console.log('MySQL pool created...');
-
-// connectDb.query를 사용하여 쿼리를 실행할 수 있습니다.
-// 예시: connectDb.query('SELECT * FROM table', (err, results) => { ... });
+console.log('MySQL 연결 성공...');
 
 module.exports = connectDb;
