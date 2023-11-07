@@ -1,6 +1,9 @@
 /* 관리자 계정 관리: 조회, 등록, 업데이트, 삭제, 로그 관리 */
 const adminModel = require('../models/adminModel');
 const asyncHandler = require('express-async-handler');
+const bcrypt = require('bcrypt');
+const saltRounds = 10; // bcrypt 솔트 라운드, 더 높은 수는 더 강력한 해시를 생성하지만 더 많은 처리 시간을 필요로 함
+
 const db = require('../config/dbConnMysql');
 
 // @관리자 등록
@@ -10,6 +13,16 @@ const createAdmin = asyncHandler(async (req, res) => {
   try {
     console.log('회원 정보', req.body);
     const adminData = req.body;
+
+    // 비밀번호를 해시하기 전에 유효성 검사를 수행합니다.
+    if (!adminData.password) {
+      throw new Error('비밀번호가 제공되지 않았습니다.');
+    }
+
+    // 비밀번호 해시
+    const hashedPassword = await bcrypt.hash(adminData.password, saltRounds);
+    adminData.password = hashedPassword; // 해시된 비밀번호로 대체
+
     const results = await adminModel.createAdmin(adminData);
     res.status(201).json({
       message: '관리자가 성공적으로 생성되었습니다.',
@@ -18,8 +31,8 @@ const createAdmin = asyncHandler(async (req, res) => {
   } catch (err) {
     console.error(err); // 에러 로깅
     // 에러 유형에 따라 다른 메시지를 설정할 수 있습니다.
-    let errorMessage =
-      '관리자 생성 중 문제가 발생했습니다. 나중에 다시 시도해 주세요.';
+    // ... 기존 에러 핸들링 코드 ...
+    let errorMessage = '관리자 생성 중 문제가 발생했습니다. 나중에 다시 시도해 주세요.';
     if (err.code === 'ER_DUP_ENTRY') {
       errorMessage = '이미 존재하는 관리자입니다.';
     } else if (err.code === 'ER_BAD_NULL_ERROR') {
@@ -34,6 +47,34 @@ const createAdmin = asyncHandler(async (req, res) => {
   }
 });
 
+// const createAdmin = asyncHandler(async (req, res) => {
+//   try {
+//     console.log('회원 정보', req.body);
+//     const adminData = req.body;
+//     const results = await adminModel.createAdmin(adminData);
+//     res.status(201).json({
+//       message: '관리자가 성공적으로 생성되었습니다.',
+//       adminId: results.insertId,
+//     });
+//   } catch (err) {
+//     console.error(err); // 에러 로깅
+//     // 에러 유형에 따라 다른 메시지를 설정할 수 있습니다.
+//     let errorMessage =
+//       '관리자 생성 중 문제가 발생했습니다. 나중에 다시 시도해 주세요.';
+//     if (err.code === 'ER_DUP_ENTRY') {
+//       errorMessage = '이미 존재하는 관리자입니다.';
+//     } else if (err.code === 'ER_BAD_NULL_ERROR') {
+//       errorMessage = '필수 정보가 누락되었습니다.';
+//     } else if (err.code === 'ER_ACCESS_DENIED_ERROR') {
+//       errorMessage = '데이터베이스 접근 권한이 거부되었습니다.';
+//     }
+//     res.status(500).json({
+//       message: errorMessage,
+//       error: err.code, // 에러 코드 추가 (옵션)
+//     });
+//   }
+// });
+
 // @관리자 로그인
 // @Endpoint POST /api/admins/login
 // @access superAdmin, admin
@@ -44,10 +85,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
     // 관리자가 DB에 존재하는지 확인
     const admin = await adminModel.getAdminByEmail(admin_email);
     // 비밀번호 비교
-    const isMatch = await adminModel.verifyAdminPassword(
-      admin_password,
-      admin.admin_password
-    );
+    const isMatch = await adminModel.verifyAdminPassword(admin_password, admin.admin_password);
     if (isMatch) {
       // 비밀번호 일치
       return res.status(200).json({ message: '로그인 성공', admin });
@@ -86,9 +124,7 @@ const getLoginLogs = asyncHandler(async (req, res, next) => {
 });
 
 const businessList = asyncHandler(async (req, res) => {
-  const [admins] = await db.query('SELECT * FROM admins WHERE is_active = ?', [
-    true,
-  ]);
+  const [admins] = await db.query('SELECT * FROM admins WHERE is_active = ?', [true]);
   res.status(200).json(admins);
 });
 
