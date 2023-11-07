@@ -92,9 +92,45 @@ const businessList = asyncHandler(async (req, res) => {
   res.status(200).json(admins);
 });
 
+// @관리자 정보 업데이트
+// @Endpoint PUT /api/admins/:id
+// @access superAdmin
+const updateAdmin = asyncHandler(async (req, res) => {
+  const adminId = req.params.id; // URL 경로에서 관리자 ID 추출
+  const adminData = req.body; // 요청 본문에서 관리자 데이터 추출
+
+  try {
+    
+    const result = await adminModel.updateAdminData(adminId, adminData);
+    if (result.affectedRows > 0) {
+      res.status(200).json({
+        message: '관리자 정보가 업데이트되었습니다.',
+        adminId: adminId,
+      });
+    } else {
+      res.status(404).json({
+        message: '업데이트할 관리자를 찾을 수 없습니다.',
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    let errorMessage = '관리자 정보 업데이트 중 문제가 발생했습니다.';
+    // 다양한 에러 타입에 따라 처리
+    if (err.code === 'ER_ROW_IS_REFERENCED_2') {
+      errorMessage = '이 관리자는 현재 다른 데이터와 연관되어 있어서 업데이트할 수 없습니다.';
+    }
+    res.status(500).json({
+      message: errorMessage,
+      error: err.code,
+    });
+  }
+});
+
+
 module.exports = {
   businessList,
   createAdmin,
   loginAdmin,
   getLoginLogs,
+  updateAdmin
 };

@@ -1,5 +1,5 @@
 const db = require('../config/dbConnMysql');
-const { createAdminQuery, loginAdminQuery } = require('./adminQueries');
+const { createAdminQuery, loginAdminQuery, updateAdminQuery } = require('./adminQueries');
 
 const createAdmin = async (adminData) => {
   const results = await db.query(createAdminQuery, Object.values(adminData));
@@ -25,8 +25,36 @@ const verifyAdminPassword = async (inputPassword, adminPassword) => {
   return false;
 };
 
+const updateAdminData = async (adminId, adminData) => {
+  const conn = await db.getConnection();
+  try {
+    const results = await conn.query(updateAdminQuery, [
+      // List all the fields that you wish to update
+      adminData.admin_name,
+      adminData.admin_password,
+      adminData.company_name,
+      adminData.company_address,
+      adminData.company_unique,
+      adminData.admin_email,
+      adminData.admin_phone,
+      adminData.admin_phone2,
+      adminData.role,
+      adminData.is_active,
+      adminData.created_at,
+      adminData.updated_at,
+      adminId // This should be the last parameter as per the WHERE clause
+    ]);
+    return results[0];
+  } catch (error) {
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
 module.exports = {
   createAdmin,
   getAdminByEmail,
   verifyAdminPassword,
+  updateAdminData,
 };

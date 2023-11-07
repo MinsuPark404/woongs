@@ -19,5 +19,25 @@ module.exports = {
   // 관리자 조회 쿼리문
   getAdminQuery: `SELECT * FROM admins WHERE admin_id`,
 
+  updateAdminQuery: `
+  UPDATE admins 
+  SET 
+    admin_name = ?, 
+    admin_password = ?, 
+    company_name = ?, 
+    company_address = ?, 
+    company_unique = ?, 
+    admin_email = ?, 
+    admin_phone = ?, 
+    admin_phone2 = ?, 
+    role = ?, 
+    is_active = ?, 
+    created_at = ?, 
+    updated_at = ? 
+  WHERE admin_id = ?;
+`
+
+
+
   /* 다른 쿼리문을 여기에 추가 */
 };

@@ -133,7 +133,7 @@ li.active {
 }
 /* 사업자등록 */
 /* 모달 */
-.modal {
+/* .modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -150,7 +150,7 @@ li.active {
   background-color: #fff;
   padding: 25px;
   border-radius: 5px;
-  width: 500px; /* Or your desired width */
+  width: 500px; 
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   position: relative;
   transition: all 0.3s ease;
@@ -200,7 +200,7 @@ th {
 
 td {
   text-align: right;
-}
+} */
 
 
 /* 모달 */
@@ -251,7 +251,7 @@ td {
   cursor: pointer;
 }
 .table-container {
-  max-height: 600px;
+  max-height: 70%;
   overflow-y: auto;
   margin-bottom: 20px;
 }

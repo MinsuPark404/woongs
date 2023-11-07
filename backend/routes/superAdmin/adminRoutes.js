@@ -1,4 +1,3 @@
-// 사용자 관련 API
 const express = require('express');
 const router = express.Router();
 const {
@@ -6,18 +5,23 @@ const {
   createAdmin,
   getLoginLogs,
   loginAdmin,
+  updateAdmin, // Import the updateAdmin function
 } = require('../../controllers/adminController');
 
 // 사업자 등록
-router.route('/register').post(createAdmin);
+router.post('/register', createAdmin);
 
 // 사업자 조회
-router.route('/list').get(businessList);
+router.get('/list', businessList);
 
 // 로그인
-router.route('/login').post(loginAdmin);
+router.post('/login', loginAdmin);
 
-// 로그인 조회
-router.route('/loginLogs').get(getLoginLogs);
+// 로그인 로그 조회
+router.get('/loginLogs', getLoginLogs);
+
+// 관리자 정보 업데이트 (assuming that the update is based on admin's ID)
+// Make sure to secure this route as necessary, e.g., with authentication middleware
+router.put('/update/:id', updateAdmin);
 
 module.exports = router;
