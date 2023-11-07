@@ -100,7 +100,15 @@ const updateAdmin = asyncHandler(async (req, res) => {
   const adminData = req.body; // 요청 본문에서 관리자 데이터 추출
 
   try {
+    // ISO 8601 형식을 MySQL dateTime 형식으로 변환
+    if (adminData.created_at) {
+      adminData.created_at = adminData.created_at.replace('T', ' ').slice(0, 19);
+    }
+    if (adminData.updated_at) {
+      adminData.updated_at = adminData.updated_at.replace('T', ' ').slice(0, 19);
+    }
     
+    // 관리자 데이터를 업데이트하는 모델 함수를 호출
     const result = await adminModel.updateAdminData(adminId, adminData);
     if (result.affectedRows > 0) {
       res.status(200).json({
