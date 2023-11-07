@@ -35,9 +35,7 @@ module.exports = {
     created_at = ?, 
     updated_at = ? 
   WHERE admin_id = ?;
-`
-
-
+`,
 
   /* 다른 쿼리문을 여기에 추가 */
 };

@@ -1,4 +1,5 @@
 const express = require('express');
+const { check } = require('express-validator');
 const router = express.Router();
 const {
   businessList,
@@ -9,7 +10,11 @@ const {
 } = require('../../controllers/adminController');
 
 // 사업자 등록
-router.post('/register', createAdmin);
+router.post(
+  '/register',
+  [check('admin_email').isEmail().withMessage('유효한 이메일을 입력해주세요.'), check('admin_password').isLength({ min: 8 }).withMessage('비밀번호는 8자 이상이어야 합니다.')],
+  createAdmin
+);
 
 // 사업자 조회
 router.get('/list', businessList);

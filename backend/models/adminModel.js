@@ -1,21 +1,46 @@
 const db = require('../config/dbConnMysql');
-const { createAdminQuery, loginAdminQuery, updateAdminQuery } = require('./adminQueries');
+// const { createAdminQuery, loginAdminQuery, updateAdminQuery } = require('./adminQueries');
 
 const createAdmin = async (adminData) => {
-  const results = await db.query(createAdminQuery, Object.values(adminData));
+  const results = await db.query(
+    `INSERT INTO admins (
+    admin_name, 
+    admin_password, 
+    company_name, 
+    company_address, 
+    company_unique, 
+    admin_email, 
+    admin_phone, 
+    admin_phone2, 
+    role, 
+    is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    Object.values(adminData)
+  );
   return results[0];
 };
 
-const getAdminByEmail = async (admin_email) => {
-  // MySQL에 연결하고 이메일로 관리자 정보 검색
+const findAdminByEmail = async (admin_email) => {
   const conn = await db.getConnection();
-  const [results] = await conn.query(loginAdminQuery, [admin_email]);
-  conn.release();
-  // 검색된 관리자가 없는 경우 (반환된 데이터가 없는 경우)
-  if (results.length === 0) {
-    throw new Error('아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.');
+  try {
+    const [results] = await conn.query(`SELECT * FROM admins WHERE admin_email = ?`, [admin_email]);
+    return results.length > 0 ? results[0] : null;
+  } catch (error) {
+    throw error; // 데이터베이스 쿼리 오류를 던짐
+  } finally {
+    conn.release(); // 항상 연결 해제
   }
-  return results[0];
+};
+
+const findAdminByCompanyNum = async (company_unique) => {
+  const conn = await db.getConnection();
+  try {
+    const [results] = await conn.query(`SELECT * FROM admins WHERE company_unique = ?`, [company_unique]);
+    return results.length > 0 ? results[0] : null;
+  } catch (error) {
+    throw error; // 데이터베이스 쿼리 오류를 던짐
+  } finally {
+    conn.release(); // 항상 연결 해제
+  }
 };
 
 const verifyAdminPassword = async (inputPassword, adminPassword) => {
@@ -28,22 +53,41 @@ const verifyAdminPassword = async (inputPassword, adminPassword) => {
 const updateAdminData = async (adminId, adminData) => {
   const conn = await db.getConnection();
   try {
-    const results = await conn.query(updateAdminQuery, [
-      // List all the fields that you wish to update
-      adminData.admin_name,
-      adminData.admin_password,
-      adminData.company_name,
-      adminData.company_address,
-      adminData.company_unique,
-      adminData.admin_email,
-      adminData.admin_phone,
-      adminData.admin_phone2,
-      adminData.role,
-      adminData.is_active,
-      adminData.created_at,
-      adminData.updated_at,
-      adminId // This should be the last parameter as per the WHERE clause
-    ]);
+    const results = await conn.query(
+      `
+    UPDATE admins 
+    SET 
+      admin_name = ?, 
+      admin_password = ?, 
+      company_name = ?, 
+      company_address = ?, 
+      company_unique = ?, 
+      admin_email = ?, 
+      admin_phone = ?, 
+      admin_phone2 = ?, 
+      role = ?, 
+      is_active = ?, 
+      created_at = ?, 
+      updated_at = ? 
+    WHERE admin_id = ?;
+  `,
+      [
+        // List all the fields that you wish to update
+        adminData.admin_name,
+        adminData.admin_password,
+        adminData.company_name,
+        adminData.company_address,
+        adminData.company_unique,
+        adminData.admin_email,
+        adminData.admin_phone,
+        adminData.admin_phone2,
+        adminData.role,
+        adminData.is_active,
+        adminData.created_at,
+        adminData.updated_at,
+        adminId, // This should be the last parameter as per the WHERE clause
+      ]
+    );
     return results[0];
   } catch (error) {
     throw error;
@@ -54,7 +98,8 @@ const updateAdminData = async (adminId, adminData) => {
 
 module.exports = {
   createAdmin,
-  getAdminByEmail,
+  findAdminByEmail,
   verifyAdminPassword,
   updateAdminData,
+  findAdminByCompanyNum,
 };

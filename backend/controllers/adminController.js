@@ -2,6 +2,7 @@
 const adminModel = require('../models/adminModel');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
+const { validationResult } = require('express-validator');
 const saltRounds = 10; // bcrypt 솔트 라운드, 더 높은 수는 더 강력한 해시를 생성하지만 더 많은 처리 시간을 필요로 함
 
 const db = require('../config/dbConnMysql');
@@ -10,80 +11,56 @@ const db = require('../config/dbConnMysql');
 // @Endpoint POST /api/admins/register
 // @access superAdmin
 const createAdmin = asyncHandler(async (req, res) => {
+  // 유효성 검사 결과를 확인
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   try {
-    console.log('회원 정보', req.body);
     const adminData = req.body;
 
-    // 비밀번호를 해시하기 전에 유효성 검사를 수행합니다.
-    if (!adminData.password) {
-      throw new Error('비밀번호가 제공되지 않았습니다.');
+    // 이메일 중복 체크
+    const existingAdminEmail = await adminModel.findAdminByEmail(adminData.admin_email);
+    if (existingAdminEmail) {
+      return res.status(409).json({ message: '이미 존재하는 이메일입니다.' });
     }
-
+    // 사업자번호 중복 체크
+    const existingAdminCompanyNum = await adminModel.findAdminByCompanyNum(adminData.company_unique);
+    if (existingAdminCompanyNum) {
+      return res.status(409).json({ message: '이미 존재하는 사업자번호입니다.' });
+    }
     // 비밀번호 해시
-    const hashedPassword = await bcrypt.hash(adminData.password, saltRounds);
-    adminData.password = hashedPassword; // 해시된 비밀번호로 대체
+    const hashedPassword = await bcrypt.hash(adminData.admin_password, saltRounds);
+    adminData.admin_password = hashedPassword; // 해시된 비밀번호로 대체
 
-    const results = await adminModel.createAdmin(adminData);
-    res.status(201).json({
+    // 관리자 데이터 추가
+    const newAdmin = await adminModel.createAdmin(adminData);
+
+    return res.status(201).json({
       message: '관리자가 성공적으로 생성되었습니다.',
-      adminId: results.insertId,
+      adminId: newAdmin.insertId,
     });
-  } catch (err) {
-    console.error(err); // 에러 로깅
-    // 에러 유형에 따라 다른 메시지를 설정할 수 있습니다.
-    // ... 기존 에러 핸들링 코드 ...
-    let errorMessage = '관리자 생성 중 문제가 발생했습니다. 나중에 다시 시도해 주세요.';
-    if (err.code === 'ER_DUP_ENTRY') {
-      errorMessage = '이미 존재하는 관리자입니다.';
-    } else if (err.code === 'ER_BAD_NULL_ERROR') {
-      errorMessage = '필수 정보가 누락되었습니다.';
-    } else if (err.code === 'ER_ACCESS_DENIED_ERROR') {
-      errorMessage = '데이터베이스 접근 권한이 거부되었습니다.';
-    }
-    res.status(500).json({
-      message: errorMessage,
-      error: err.code, // 에러 코드 추가 (옵션)
-    });
+  } catch (error) {
+    // 에러 로깅
+    console.error('Admin creation failed:', error);
+    return res.status(500).json({ message: '관리자 생성 중 오류가 발생했습니다.' });
   }
 });
-
-// const createAdmin = asyncHandler(async (req, res) => {
-//   try {
-//     console.log('회원 정보', req.body);
-//     const adminData = req.body;
-//     const results = await adminModel.createAdmin(adminData);
-//     res.status(201).json({
-//       message: '관리자가 성공적으로 생성되었습니다.',
-//       adminId: results.insertId,
-//     });
-//   } catch (err) {
-//     console.error(err); // 에러 로깅
-//     // 에러 유형에 따라 다른 메시지를 설정할 수 있습니다.
-//     let errorMessage =
-//       '관리자 생성 중 문제가 발생했습니다. 나중에 다시 시도해 주세요.';
-//     if (err.code === 'ER_DUP_ENTRY') {
-//       errorMessage = '이미 존재하는 관리자입니다.';
-//     } else if (err.code === 'ER_BAD_NULL_ERROR') {
-//       errorMessage = '필수 정보가 누락되었습니다.';
-//     } else if (err.code === 'ER_ACCESS_DENIED_ERROR') {
-//       errorMessage = '데이터베이스 접근 권한이 거부되었습니다.';
-//     }
-//     res.status(500).json({
-//       message: errorMessage,
-//       error: err.code, // 에러 코드 추가 (옵션)
-//     });
-//   }
-// });
 
 // @관리자 로그인
 // @Endpoint POST /api/admins/login
 // @access superAdmin, admin
+
 const loginAdmin = asyncHandler(async (req, res) => {
   try {
     // 요청 본문에서 관리자 이메일과 비밀번호 추출
     const { admin_email, admin_password } = req.body;
     // 관리자가 DB에 존재하는지 확인
-    const admin = await adminModel.getAdminByEmail(admin_email);
+    const admin = await adminModel.findAdminByEmail(admin_email);
+    if (!admin) {
+      return res.status(401).json({ message: '아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.' });
+    }
     // 비밀번호 비교
     const isMatch = await adminModel.verifyAdminPassword(admin_password, admin.admin_password);
     if (isMatch) {
@@ -143,7 +120,7 @@ const updateAdmin = asyncHandler(async (req, res) => {
     if (adminData.updated_at) {
       adminData.updated_at = adminData.updated_at.replace('T', ' ').slice(0, 19);
     }
-    
+
     // 관리자 데이터를 업데이트하는 모델 함수를 호출
     const result = await adminModel.updateAdminData(adminId, adminData);
     if (result.affectedRows > 0) {
@@ -170,11 +147,10 @@ const updateAdmin = asyncHandler(async (req, res) => {
   }
 });
 
-
 module.exports = {
   businessList,
   createAdmin,
   loginAdmin,
   getLoginLogs,
-  updateAdmin
+  updateAdmin,
 };
