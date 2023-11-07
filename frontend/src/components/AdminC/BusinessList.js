@@ -17,6 +17,34 @@ const BusinessList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAdmin, setSelectedAdmin] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const updateAdmin = async (updatedAdmin) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/admins/update/${updatedAdmin.admin_id}`, {
+        method: 'PUT', // 업데이트는 보통 PUT 요청을 사용합니다.
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedAdmin), // 변경된 객체를 JSON으로 변환하여 전송
+      });
+
+      if (!response.ok) {
+        throw new Error('관리자 정보 업데이트에 실패했습니다.');
+      }
+
+      const result = await response.json();
+
+      // 성공적으로 업데이트되었다면, UI에도 반영
+      setBusinesses((prevBusinesses) =>
+        prevBusinesses.map((admin) =>
+          admin.admin_id === updatedAdmin.admin_id ? { ...admin, ...updatedAdmin } : admin
+        )
+      );
+    } catch (error) {
+      console.error('업데이트 중 에러가 발생했습니다:', error);
+      // 적절한 에러 처리 로직을 구현해야 합니다. 예를 들면, 사용자에게 에러 메시지를 보여주는 것 등
+    }
+  };
+  
 
 
   useEffect(() => {
@@ -84,7 +112,7 @@ const BusinessList = () => {
           <p>검색 결과가 없습니다.</p>
         )}
       </div>
-      <Modal isOpen={isModalOpen} close={closeModal} admin={selectedAdmin} />
+      <Modal isOpen={isModalOpen} close={closeModal} admin={selectedAdmin} updateAdmin={updateAdmin} />
     </div>
   );
 };

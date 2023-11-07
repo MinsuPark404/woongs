@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
-import './AdminC.css';
+import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS if not already done in the project
 
 const Modal = ({ isOpen, close, admin, updateAdmin }) => {
-  const [editAdmin, setEditAdmin] = useState(admin);
+  const [editAdmin, setEditAdmin] = useState(admin || {});
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (admin) {
+      setEditAdmin(admin);
+    }
+  }, [admin]);
+
+  if (!isOpen || !admin) return null;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -13,64 +19,100 @@ const Modal = ({ isOpen, close, admin, updateAdmin }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateAdmin(editAdmin); // 여기서 updateAdmin은 상위 컴포넌트로부터 전달된 함수로 가정합니다.
-    close(); // 변경 후 모달을 닫습니다.
+    updateAdmin(editAdmin);
+    close();
   };
 
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <span className="close" onClick={close}>&times;</span>
-        <h2>{admin.admin_name}의 상세 정보</h2>
-        <table>
-          <tbody>
-            <tr>
-              <th>이름</th>
-              <td>{admin.admin_name}</td>
-            </tr>
-            <tr>
-              <th>전화번호 1</th>
-              <td>{admin.admin_phone}</td>
-            </tr>
-            <tr>
-              <th>전화번호 2</th>
-              <td>{admin.admin_phone2}</td>
-            </tr>
-            <tr>
-              <th>상호명</th>
-              <td>{admin.company_name}</td>
-            </tr>
-            <tr>
-              <th>주소</th>
-              <td>{admin.company_address}</td>
-            </tr>
-            <tr>
-              <th>고유번호</th>
-              <td>{admin.company_unique}</td>
-            </tr>
-            <tr>
-              <th>이메일 주소</th>
-              <td>{admin.admin_email}</td>
-            </tr>
-            <tr>
-              <th>권한</th>
-              <td>{admin.role}</td>
-            </tr>
-            <tr>
-              <th>활성 상태</th>
-              <td>{admin.is_active ? '활성화' : '비활성화'}</td>
-            </tr>
-            <tr>
-              <th>생성된 시간</th>
-              <td>{new Date(admin.created_at).toLocaleString()}</td>
-            </tr>
-            <tr>
-              <th>업데이트된 시간</th>
-              <td>{new Date(admin.updated_at).toLocaleString()}</td>
-            </tr>
-            
-          </tbody>
-        </table>
+    <div className="modal show" tabIndex="-1" style={{ display: 'block' }}>
+      <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">정보 수정 - {editAdmin.admin_name}</h5>
+            <button type="button" className="close" aria-label="Close" onClick={close}>
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div className="modal-body">
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="admin_name">이름:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="admin_name"
+                  name="admin_name"
+                  value={editAdmin.admin_name}
+                  onChange={handleChange}
+                />
+              </div>
+
+              {/* Repeat the pattern below for additional admin details */}
+{/*               
+              <div className="form-group">
+                <label htmlFor="admin_password">비밀번호:</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="admin_password"
+                  name="admin_password"
+                  value={editAdmin.admin_password}
+                  onChange={handleChange}
+                />
+              </div> */}
+
+              {/* ...more fields... */}
+
+              <div className="form-group">
+                <label htmlFor="admin_email">이메일:</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="admin_email"
+                  name="admin_email"
+                  value={editAdmin.admin_email}
+                  onChange={handleChange}
+                />
+              </div>
+
+              {/* ...more fields... */}
+              
+              <div className="form-group">
+                <label htmlFor="role">역할:</label>
+                <select
+                  className="form-control"
+                  id="role"
+                  name="role"
+                  value={editAdmin.role}
+                  onChange={handleChange}
+                >
+                  <option value="선생님">선생님</option>
+                  <option value="관리자">관리자</option>
+                  {/* Add more roles as needed */}
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="is_active">활성 상태:</label>
+                <select
+                  className="form-control"
+                  id="is_active"
+                  name="is_active"
+                  value={editAdmin.is_active}
+                  onChange={handleChange}
+                >
+                  <option value={1}>활성</option>
+                  <option value={0}>비활성</option>
+                </select>
+              </div>
+              
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={close}>닫기</button>
+                <button type="submit" className="btn btn-primary">저장하기</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );
