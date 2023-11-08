@@ -23,7 +23,7 @@ app.use(express.json());
 
 // 라우터 미들웨어
 app.use('/api/admins', require('./routes/adminRoutes'));
-app.use('/api/users', require('./routes/userRoutes'));
+// app.use('/api/users', require('./routes/userRoutes'));
 
 // 정적인 파일 관리
 app.use(express.static(path.join(__dirname, '../frontend', 'build')));

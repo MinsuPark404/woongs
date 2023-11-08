@@ -13,7 +13,6 @@ const fetchBusinesses = async () => {
 
 const BusinessList = () => {
   const [businesses, setBusinesses] = useState([]);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAdmin, setSelectedAdmin] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -103,7 +102,7 @@ const BusinessList = () => {
               {filteredBusinesses.map((admin) => (
                 <tr key={admin.admin_id} onClick={() => openModal(admin)}>
                   <td>{admin.admin_name}</td>
-                  <td>{admin.company_name}</td>
+                  <td>{admin.admin_business_name}</td>
                 </tr>
               ))}
             </tbody>

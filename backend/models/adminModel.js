@@ -1,19 +1,10 @@
 const db = require('../config/dbConnMysql');
-// const { createAdminQuery, loginAdminQuery, updateAdminQuery } = require('./adminQueries');
+const queries = require('./adminQueries');
 
+// 관리자 등록
 const createAdmin = async (adminData) => {
-  const results = await db.query(
-    // 기존의 is_active -> admin_status
-    `INSERT INTO cms_admins (
-      admin_email, 
-      admin_password, 
-      admin_name,
-      admin_tel, 
-      admin_role, 
-      admin_status,
-      admin_business_name) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-    Object.values(adminData)
-  );
+  const {admin_email,admin_password,admin_name,admin_tel,admin_role, admin_status,admin_business_name} = adminData;
+  const results = await db.query(queries.createAdminQuery, [admin_email, admin_password, admin_name,admin_tel, admin_role, admin_status,admin_business_name]);
   return results[0];
 };
 

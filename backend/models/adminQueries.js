@@ -2,40 +2,15 @@
 
 module.exports = {
   // 관리자 등록 쿼리문
-  createAdminQuery: `INSERT INTO admins (
-    admin_name, 
-    admin_password, 
-    company_name, 
-    company_address, 
-    company_unique, 
-    admin_email, 
-    admin_phone, 
-    admin_phone2, 
-    role, 
-    is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  createAdminQuery: `INSERT INTO cms_admins 
+                    (admin_email, admin_password, admin_name,admin_tel, admin_role, admin_status,admin_business_name)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)`,
   // 관리자 로그인 쿼리문
-  loginAdminQuery: `SELECT * FROM admins WHERE admin_email = ?`,
-
+  loginAdminQuery: ``,
   // 관리자 조회 쿼리문
-  getAdminQuery: `SELECT * FROM admins WHERE admin_id`,
-
-  updateAdminQuery: `
-  UPDATE admins 
-  SET 
-    admin_name = ?, 
-    admin_password = ?, 
-    company_name = ?, 
-    company_address = ?, 
-    company_unique = ?, 
-    admin_email = ?, 
-    admin_phone = ?, 
-    admin_phone2 = ?, 
-    role = ?, 
-    is_active = ?, 
-    created_at = ?, 
-    updated_at = ? 
-  WHERE admin_id = ?;
-`,
+  getAdminQuery: ``,
+  // 관리자 정보 수정(Update) 쿼리문
+  updateAdminQuery: ``,
 
   /* 다른 쿼리문을 여기에 추가 */
 };

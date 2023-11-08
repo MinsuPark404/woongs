@@ -2,7 +2,6 @@
 const adminModel = require('../models/adminModel');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
-const { validationResult } = require('express-validator');
 const saltRounds = 10; // bcrypt 솔트 라운드, 더 높은 수는 더 강력한 해시를 생성하지만 더 많은 처리 시간을 필요로 함
 
 const db = require('../config/dbConnMysql');
@@ -11,15 +10,8 @@ const db = require('../config/dbConnMysql');
 // @Endpoint POST /api/admins/register
 // @access superAdmin
 const createAdmin = asyncHandler(async (req, res) => {
-  // 유효성 검사 결과를 확인
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
-  try {
+try {
     const adminData = req.body;
-
     // 이메일 중복 체크
     const existingAdminEmail = await adminModel.findAdminByEmail(
       adminData.admin_email
@@ -27,17 +19,14 @@ const createAdmin = asyncHandler(async (req, res) => {
     if (existingAdminEmail) {
       return res.status(409).json({ message: '이미 존재하는 이메일입니다.' });
     }
-
     // 비밀번호 해시
     const hashedPassword = await bcrypt.hash(
       adminData.admin_password,
       saltRounds
     );
     adminData.admin_password = hashedPassword; // 해시된 비밀번호로 대체
-
     // 관리자 데이터 추가
     const newAdmin = await adminModel.createAdmin(adminData);
-
     return res.status(201).json({
       message: '관리자가 성공적으로 생성되었습니다.',
       adminId: newAdmin.insertId,
@@ -110,9 +99,7 @@ const getLoginLogs = asyncHandler(async (req, res, next) => {
 });
 
 const businessList = asyncHandler(async (req, res) => {
-  const [admins] = await db.query('SELECT * FROM admins WHERE is_active = ?', [
-    true,
-  ]);
+  const [admins] = await db.query('SELECT * FROM cms_admins');
   res.status(200).json(admins);
 });
 
