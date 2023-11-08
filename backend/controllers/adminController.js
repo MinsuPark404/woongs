@@ -44,48 +44,37 @@ try {
 const loginAdmin = asyncHandler(async (req, res) => {
   try {
     const { admin_email, admin_password } = req.body;
+
+    // 이메일로 관리자 찾기
     const admin = await adminModel.findAdminByEmail(admin_email);
-    if (!admin || admin.admin_password !== admin_password) {
-      return res.status(401).json({
-        message: '아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.',
+    
+    // 관리자가 존재하지 않거나, 비밀번호가 맞지 않으면 오류 메시지 전송
+    if (!admin) {
+      return res.status(401).json({ message: '인증 정보가 잘못되었습니다.' });
+    }
+
+    // bcrypt.compare로 입력된 비밀번호와 해시된 비밀번호 비교
+    const passwordMatch = await bcrypt.compare(admin_password, admin.admin_password);
+    
+    // 비밀번호가 일치하면 로그인 성공 처리
+    if (passwordMatch) {
+      // 토큰 발급 등의 로그인 성공 처리 로직을 여기에 작성합니다.
+      // 예: JWT 토큰 발급
+      return res.status(200).json({
+        message: '로그인 성공!',
+        // 토큰과 관리자 정보 전송 (중요 정보는 제외하고 전송)
       });
+    } else {
+      // 비밀번호 불일치
+      return res.status(401).json({ message: '비밀번호가 틀렸습니다.' });
     }
-    // 비밀번호 일치
-    return res.status(200).json({ message: '로그인 성공', admin });
-
   } catch (error) {
-    console.error(error);
-    // 서버 오류 처리
-    return res.status(500).json({ message: '서버 오류' });
+    // 에러 로깅
+    console.error('Admin login failed:', error);
+    return res
+      .status(500)
+      .json({ message: '로그인 처리 중 오류가 발생했습니다.' });
   }
-});
-
-// @관리자 조회
-// @Endpoint POST /api/admins/login
-// @access superAdmin
-
-// @로그인 로그 조회
-const getLoginLogs = asyncHandler(async (req, res, next) => {
-  const sql = 'SELECT * FROM login_logs ORDER BY login_time DESC';
-  db.query(sql, (err, results) => {
-    if (err) {
-      // 에러를 next 함수에 전달
-      return next(err);
-    }
-    if (results.length === 0) {
-      // 로그인 로그가 없을 경우 오류를 생성하여 next 함수에 전달
-      const error = new Error('No login logs found');
-      res.statusCode = 404; // 상태 코드를 404로 설정
-      return next(error);
-    }
-    // 로그인 로그를 JSON 형태로 응답
-    res.status(200).json({ message: '로그인 로그 조회', results });
-  });
-});
-
-const businessList = asyncHandler(async (req, res) => {
-  const [admins] = await db.query('SELECT * FROM cms_admins');
-  res.status(200).json(admins);
 });
 
 // @관리자 정보 업데이트
@@ -134,6 +123,36 @@ const updateAdmin = asyncHandler(async (req, res) => {
     });
   }
 });
+
+// @관리자 조회
+// @Endpoint POST /api/admins/login
+// @access superAdmin
+
+// @로그인 로그 조회
+const getLoginLogs = asyncHandler(async (req, res, next) => {
+  const sql = 'SELECT * FROM login_logs ORDER BY login_time DESC';
+  db.query(sql, (err, results) => {
+    if (err) {
+      // 에러를 next 함수에 전달
+      return next(err);
+    }
+    if (results.length === 0) {
+      // 로그인 로그가 없을 경우 오류를 생성하여 next 함수에 전달
+      const error = new Error('No login logs found');
+      res.statusCode = 404; // 상태 코드를 404로 설정
+      return next(error);
+    }
+    // 로그인 로그를 JSON 형태로 응답
+    res.status(200).json({ message: '로그인 로그 조회', results });
+  });
+});
+
+const businessList = asyncHandler(async (req, res) => {
+  const [admins] = await db.query('SELECT * FROM cms_admins');
+  res.status(200).json(admins);
+});
+
+
 
 module.exports = {
   businessList,

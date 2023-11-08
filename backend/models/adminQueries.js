@@ -10,7 +10,8 @@ module.exports = {
   // 관리자 조회 쿼리문
   getAdminQuery: ``,
   // 관리자 정보 수정(Update) 쿼리문
-  updateAdminQuery: ``,
+  updateAdminQuery: `UPDATE cms_admins SET admin_email = ?, admin_password = ?, admin_name = ?, admin_tel = ?, admin_role = ?, admin_status = ?, admin_business_name = ?, updated_at = ? WHERE admin_id = ?;
+`,
 
   /* 다른 쿼리문을 여기에 추가 */
 };
