@@ -1,14 +1,12 @@
-/* 관리자 계정 관리: 조회, 등록, 업데이트, 삭제, 로그 관리 */
 const adminModel = require('../models/adminModel');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
-const saltRounds = 10; // bcrypt 솔트 라운드, 더 높은 수는 더 강력한 해시를 생성하지만 더 많은 처리 시간을 필요로 함
-
+const saltRounds = 10;
 const db = require('../config/dbConnMysql');
 
 // @관리자 등록
 // @Endpoint POST /api/admins/register
-// @access superAdmin
+// @access admin_s
 const createAdmin = asyncHandler(async (req, res) => {
 try {
     const adminData = req.body;
@@ -42,32 +40,19 @@ try {
 
 // @관리자 로그인
 // @Endpoint POST /api/admins/login
-// @access superAdmin, admin
-
+// @access admin_s, admin_c
 const loginAdmin = asyncHandler(async (req, res) => {
   try {
-    // 요청 본문에서 관리자 이메일과 비밀번호 추출
     const { admin_email, admin_password } = req.body;
-    // 관리자가 DB에 존재하는지 확인
     const admin = await adminModel.findAdminByEmail(admin_email);
-    if (!admin) {
+    if (!admin || admin.admin_password !== admin_password) {
       return res.status(401).json({
-        message:
-          '아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.',
+        message: '아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.',
       });
     }
-    // 비밀번호 비교
-    const isMatch = await adminModel.verifyAdminPassword(
-      admin_password,
-      admin.admin_password
-    );
-    if (isMatch) {
-      // 비밀번호 일치
-      return res.status(200).json({ message: '로그인 성공', admin });
-    } else {
-      // 비밀번호 불일치
-      return res.status(401).json({ message: '비밀번호가 일치하지 않습니다.' });
-    }
+    // 비밀번호 일치
+    return res.status(200).json({ message: '로그인 성공', admin });
+
   } catch (error) {
     console.error(error);
     // 서버 오류 처리

@@ -23,28 +23,6 @@ const findAdminByEmail = async (admin_email) => {
   }
 };
 
-// const findAdminByCompanyNum = async (company_unique) => {
-//   const conn = await db.getConnection();
-//   try {
-//     const [results] = await conn.query(
-//       `SELECT * FROM cms_admins WHERE company_unique = ?`,
-//       [company_unique]
-//     );
-//     return results.length > 0 ? results[0] : null;
-//   } catch (error) {
-//     throw error; // 데이터베이스 쿼리 오류를 던짐
-//   } finally {
-//     conn.release(); // 항상 연결 해제
-//   }
-// };
-
-const verifyAdminPassword = async (inputPassword, adminPassword) => {
-  if (inputPassword === adminPassword) {
-    return true;
-  }
-  return false;
-};
-
 const updateAdminData = async (adminId, adminData) => {
   const conn = await db.getConnection();
   try {
@@ -86,6 +64,5 @@ const updateAdminData = async (adminId, adminData) => {
 module.exports = {
   createAdmin,
   findAdminByEmail,
-  verifyAdminPassword,
   updateAdminData,
 };

@@ -10,9 +10,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-/* MongoDB */
-// const connectDb = require('./config/dbConnMong');
-
 /* MySQL */
 const connectDb = require('./config/dbConnMysql');
 app.set('db', connectDb);
@@ -23,7 +20,6 @@ app.use(express.json());
 
 // 라우터 미들웨어
 app.use('/api/admins', require('./routes/adminRoutes'));
-// app.use('/api/users', require('./routes/userRoutes'));
 
 // 정적인 파일 관리
 app.use(express.static(path.join(__dirname, '../frontend', 'build')));

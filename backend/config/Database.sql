@@ -12,7 +12,7 @@ CREATE TABLE cms_admins
     `admin_created_at`     DATETIME      NULL      DEFAULT now(),   -- 관리자 등록일자 
     `admin_updated_at`     DATETIME      NULL      DEFAULT now(),   -- 관리자 수정일자 
     `admin_last_login`     DATETIME      NULL      DEFAULT now(),   -- 관리자 최종 로그인 
-     PRIMARY KEY (admin_idx),
+     PRIMARY KEY (admin_idx)
 );
 
 -- 테이블 생성 SQL - cms_businesses
