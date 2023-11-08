@@ -8,20 +8,15 @@ const db = require('../config/dbConnMysql');
 // @Endpoint POST /api/admins/register
 // @access admin_s
 const createAdmin = asyncHandler(async (req, res) => {
-try {
+  try {
     const adminData = req.body;
     // 이메일 중복 체크
-    const existingAdminEmail = await adminModel.findAdminByEmail(
-      adminData.admin_email
-    );
+    const existingAdminEmail = await adminModel.findAdminByEmail(adminData.admin_email);
     if (existingAdminEmail.length > 0) {
       return res.status(409).json({ message: '이미 존재하는 이메일입니다.' });
     }
     // 비밀번호 해시
-    const hashedPassword = await bcrypt.hash(
-      adminData.admin_password,
-      saltRounds
-    );
+    const hashedPassword = await bcrypt.hash(adminData.admin_password, saltRounds);
     adminData.admin_password = hashedPassword; // 해시된 비밀번호로 대체
     // 관리자 데이터 추가
     const newAdmin = await adminModel.createAdmin(adminData);
@@ -32,9 +27,7 @@ try {
   } catch (error) {
     // 에러 로깅
     console.error('Admin creation failed:', error);
-    return res
-      .status(500)
-      .json({ message: '관리자 생성 중 오류가 발생했습니다.' });
+    return res.status(500).json({ message: '관리자 생성 중 오류가 발생했습니다.' });
   }
 });
 
@@ -46,9 +39,9 @@ const loginAdmin = asyncHandler(async (req, res) => {
     const { admin_email, admin_password } = req.body;
 
     // 이메일로 관리자 찾기
-      const adminData = await adminModel.findAdminByEmail(admin_email);
-      const admin = adminData.length > 0 ? adminData[0] : null;
-    
+    const adminData = await adminModel.findAdminByEmail(admin_email);
+    const admin = adminData.length > 0 ? adminData[0] : null;
+
     // 관리자가 존재하지 않거나, 비밀번호가 맞지 않으면 오류 메시지 전송
     if (!admin) {
       return res.status(401).json({ message: '인증 정보가 잘못되었습니다.' });
@@ -56,7 +49,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
     // bcrypt.compare로 입력된 비밀번호와 해시된 비밀번호 비교
     const passwordMatch = await bcrypt.compare(admin_password, admin.admin_password);
-    
+
     // 비밀번호가 일치하면 로그인 성공 처리
     if (passwordMatch) {
       // 토큰 발급 등의 로그인 성공 처리 로직을 여기에 작성합니다.
@@ -72,9 +65,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
   } catch (error) {
     // 에러 로깅
     console.error('Admin login failed:', error);
-    return res
-      .status(500)
-      .json({ message: '로그인 처리 중 오류가 발생했습니다.' });
+    return res.status(500).json({ message: '로그인 처리 중 오류가 발생했습니다.' });
   }
 });
 
@@ -89,7 +80,6 @@ const businessList = asyncHandler(async (req, res) => {
 // @관리자 정보 업데이트
 // @Endpoint PUT /api/admins/:id
 // @access admin_s
-// adminController.js
 const updateAdmin = asyncHandler(async (req, res) => {
   const adminId = req.params.id; // URL 경로에서 관리자 ID 추출
   const adminData = req.body; // 요청 본문에서 관리자 데이터 추출
@@ -97,14 +87,10 @@ const updateAdmin = asyncHandler(async (req, res) => {
   try {
     // ISO 8601 형식을 MySQL dateTime 형식으로 변환
     if (adminData.created_at) {
-      adminData.created_at = adminData.created_at
-        .replace('T', ' ')
-        .slice(0, 19);
+      adminData.created_at = adminData.created_at.replace('T', ' ').slice(0, 19);
     }
     if (adminData.updated_at) {
-      adminData.updated_at = adminData.updated_at
-        .replace('T', ' ')
-        .slice(0, 19);
+      adminData.updated_at = adminData.updated_at.replace('T', ' ').slice(0, 19);
     }
 
     // 관리자 데이터를 업데이트하는 모델 함수를 호출
@@ -124,8 +110,7 @@ const updateAdmin = asyncHandler(async (req, res) => {
     let errorMessage = '관리자 정보 업데이트 중 문제가 발생했습니다.';
     // 다양한 에러 타입에 따라 처리
     if (err.code === 'ER_ROW_IS_REFERENCED_2') {
-      errorMessage =
-        '이 관리자는 현재 다른 데이터와 연관되어 있어서 업데이트할 수 없습니다.';
+      errorMessage = '이 관리자는 현재 다른 데이터와 연관되어 있어서 업데이트할 수 없습니다.';
     }
     res.status(500).json({
       message: errorMessage,
@@ -153,19 +138,21 @@ const getLoginLogs = asyncHandler(async (req, res, next) => {
   });
 });
 
+// @어린이집 등록
+// @Endpoint POST /api/admins/businesses
+// @access admin_s
 const createBusiness = asyncHandler(async (req, res) => {
   try {
     const businessData = req.body;
-    await adminModel.createBusiness(businessData);
+    console.log(businessData);
+    const createdBusiness = await adminModel.createBusiness(businessData);
     return res.status(201).json({
       message: '사업체 생성 성공',
-      business_id: insertId
+      business: createdBusiness,
     });
-  }catch(error){
+  } catch (error) {
     console.error('사업체 생성 실패', error);
-    return res
-      .status(500)
-      .json({ message: '사업체 생성 중 오류가 발생했습니다.'});
+    return res.status(500).json({ message: '사업체 생성 중 오류가 발생했습니다.' });
   }
 });
 
