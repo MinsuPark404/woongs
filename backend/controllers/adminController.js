@@ -14,7 +14,7 @@ try {
     const existingAdminEmail = await adminModel.findAdminByEmail(
       adminData.admin_email
     );
-    if (existingAdminEmail) {
+    if (existingAdminEmail.length > 0) {
       return res.status(409).json({ message: '이미 존재하는 이메일입니다.' });
     }
     // 비밀번호 해시
@@ -46,7 +46,8 @@ const loginAdmin = asyncHandler(async (req, res) => {
     const { admin_email, admin_password } = req.body;
 
     // 이메일로 관리자 찾기
-    const admin = await adminModel.findAdminByEmail(admin_email);
+      const adminData = await adminModel.findAdminByEmail(admin_email);
+      const admin = adminData.length > 0 ? adminData[0] : null;
     
     // 관리자가 존재하지 않거나, 비밀번호가 맞지 않으면 오류 메시지 전송
     if (!admin) {
@@ -77,9 +78,18 @@ const loginAdmin = asyncHandler(async (req, res) => {
   }
 });
 
+// @관리자 목록 조회
+// @Endpoint POST /api/admins/list
+// @access admin_s
+const businessList = asyncHandler(async (req, res) => {
+  const [admins] = await db.query('SELECT * FROM cms_admins');
+  res.status(200).json(admins);
+});
+
 // @관리자 정보 업데이트
 // @Endpoint PUT /api/admins/:id
-// @access superAdmin
+// @access admin_s
+// adminController.js
 const updateAdmin = asyncHandler(async (req, res) => {
   const adminId = req.params.id; // URL 경로에서 관리자 ID 추출
   const adminData = req.body; // 요청 본문에서 관리자 데이터 추출
@@ -124,10 +134,6 @@ const updateAdmin = asyncHandler(async (req, res) => {
   }
 });
 
-// @관리자 조회
-// @Endpoint POST /api/admins/login
-// @access superAdmin
-
 // @로그인 로그 조회
 const getLoginLogs = asyncHandler(async (req, res, next) => {
   const sql = 'SELECT * FROM login_logs ORDER BY login_time DESC';
@@ -147,12 +153,21 @@ const getLoginLogs = asyncHandler(async (req, res, next) => {
   });
 });
 
-const businessList = asyncHandler(async (req, res) => {
-  const [admins] = await db.query('SELECT * FROM cms_admins');
-  res.status(200).json(admins);
+const createBusiness = asyncHandler(async (req, res) => {
+  try {
+    const businessData = req.body;
+    await adminModel.createBusiness(businessData);
+    return res.status(201).json({
+      message: '사업체 생성 성공',
+      business_id: insertId
+    });
+  }catch(error){
+    console.error('사업체 생성 실패', error);
+    return res
+      .status(500)
+      .json({ message: '사업체 생성 중 오류가 발생했습니다.'});
+  }
 });
-
-
 
 module.exports = {
   businessList,
@@ -160,4 +175,5 @@ module.exports = {
   loginAdmin,
   getLoginLogs,
   updateAdmin,
+  createBusiness,
 };
