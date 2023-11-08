@@ -3,17 +3,15 @@ const db = require('../config/dbConnMysql');
 
 const createAdmin = async (adminData) => {
   const results = await db.query(
-    `INSERT INTO admins (
-    admin_name, 
-    admin_password, 
-    company_name, 
-    company_address, 
-    company_unique, 
-    admin_email, 
-    admin_phone, 
-    admin_phone2, 
-    role, 
-    is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    // 기존의 is_active -> admin_status
+    `INSERT INTO cms_admins (
+      admin_email, 
+      admin_password, 
+      admin_name,
+      admin_tel, 
+      admin_role, 
+      admin_status,
+      admin_business_name) VALUES (?, ?, ?, ?, ?, ?, ?)`,
     Object.values(adminData)
   );
   return results[0];
@@ -22,7 +20,10 @@ const createAdmin = async (adminData) => {
 const findAdminByEmail = async (admin_email) => {
   const conn = await db.getConnection();
   try {
-    const [results] = await conn.query(`SELECT * FROM admins WHERE admin_email = ?`, [admin_email]);
+    const [results] = await conn.query(
+      `SELECT * FROM cms_admins WHERE admin_email = ?`,
+      [admin_email]
+    );
     return results.length > 0 ? results[0] : null;
   } catch (error) {
     throw error; // 데이터베이스 쿼리 오류를 던짐
@@ -31,17 +32,20 @@ const findAdminByEmail = async (admin_email) => {
   }
 };
 
-const findAdminByCompanyNum = async (company_unique) => {
-  const conn = await db.getConnection();
-  try {
-    const [results] = await conn.query(`SELECT * FROM admins WHERE company_unique = ?`, [company_unique]);
-    return results.length > 0 ? results[0] : null;
-  } catch (error) {
-    throw error; // 데이터베이스 쿼리 오류를 던짐
-  } finally {
-    conn.release(); // 항상 연결 해제
-  }
-};
+// const findAdminByCompanyNum = async (company_unique) => {
+//   const conn = await db.getConnection();
+//   try {
+//     const [results] = await conn.query(
+//       `SELECT * FROM cms_admins WHERE company_unique = ?`,
+//       [company_unique]
+//     );
+//     return results.length > 0 ? results[0] : null;
+//   } catch (error) {
+//     throw error; // 데이터베이스 쿼리 오류를 던짐
+//   } finally {
+//     conn.release(); // 항상 연결 해제
+//   }
+// };
 
 const verifyAdminPassword = async (inputPassword, adminPassword) => {
   if (inputPassword === adminPassword) {
@@ -56,34 +60,26 @@ const updateAdminData = async (adminId, adminData) => {
     const results = await conn.query(
       `
     UPDATE admins 
-    SET 
-      admin_name = ?, 
-      admin_password = ?, 
-      company_name = ?, 
-      company_address = ?, 
-      company_unique = ?, 
+    SET
       admin_email = ?, 
-      admin_phone = ?, 
-      admin_phone2 = ?, 
-      role = ?, 
-      is_active = ?, 
-      created_at = ?, 
-      updated_at = ? 
+      admin_password = ?, 
+      admin_name = ?,
+      admin_tel = ?, 
+      admin_role = ?, 
+      admin_status = ?,
+      admin_business_name = ?,
+      updated_at = ?
     WHERE admin_id = ?;
   `,
       [
         // List all the fields that you wish to update
-        adminData.admin_name,
-        adminData.admin_password,
-        adminData.company_name,
-        adminData.company_address,
-        adminData.company_unique,
         adminData.admin_email,
-        adminData.admin_phone,
-        adminData.admin_phone2,
-        adminData.role,
-        adminData.is_active,
-        adminData.created_at,
+        adminData.admin_password,
+        adminData.admin_name,
+        adminData.admin_tel,
+        adminData.admin_role,
+        adminData.admin_status,
+        adminData.admin_business_name,
         adminData.updated_at,
         adminId, // This should be the last parameter as per the WHERE clause
       ]
@@ -101,5 +97,4 @@ module.exports = {
   findAdminByEmail,
   verifyAdminPassword,
   updateAdminData,
-  findAdminByCompanyNum,
 };

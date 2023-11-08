@@ -1,17 +1,18 @@
 -- 테이블 생성 SQL - cms_admins
 CREATE TABLE cms_admins
 (
-    `admin_idx`         INT UNSIGNED  NOT NULL  AUTO_INCREMENT,  -- 관리자 순번  
-    `admin_email`       VARCHAR(50)   NULL,                      -- 관리자 이메일
-    `admin_password`    VARCHAR(60)   NULL,                      -- 관리자 비밀번호
-    `admin_name`        VARCHAR(30)   NULL,                      -- 관리자 이름
-    `admin_role`        VARCHAR(20)   NULL,                      -- 관리자 역할 
-    `admin_status`      VARCHAR(20)   NULL,                      -- 관리자 상태 
-    `admin_created_at`  DATETIME      NULL      DEFAULT now(),   -- 관리자 등록일자 
-    `admin_updated_at`  DATETIME      NULL      DEFAULT now(),   -- 관리자 수정일자 
-    `admin_last_login`  DATETIME      NULL      DEFAULT now(),   -- 관리자 최종 로그인 
+    `admin_idx`            INT UNSIGNED  NOT NULL  AUTO_INCREMENT,  -- 관리자 순번  
+    `admin_email`          VARCHAR(50)   NULL,                      -- 관리자 이메일
+    `admin_password`       VARCHAR(60)   NULL,                      -- 관리자 비밀번호
+    `admin_name`           VARCHAR(30)   NULL,                      -- 관리자 이름
+    `admin_tel`            VARCHAR(20)   NULL,                      -- 관리자 전화번호
+    `admin_role`           VARCHAR(20)   NULL,                      -- 관리자 역할
+    `admin_status`         VARCHAR(20)   NULL,                      -- 관리자 상태
+    `admin_business_name`  VARCHAR(50)   NULL,                      -- 어린이집 이름  
+    `admin_created_at`     DATETIME      NULL      DEFAULT now(),   -- 관리자 등록일자 
+    `admin_updated_at`     DATETIME      NULL      DEFAULT now(),   -- 관리자 수정일자 
+    `admin_last_login`     DATETIME      NULL      DEFAULT now(),   -- 관리자 최종 로그인 
      PRIMARY KEY (admin_idx),
-     UNIQUE (admin_email)
 );
 
 -- 테이블 생성 SQL - cms_businesses
@@ -34,10 +35,11 @@ CREATE TABLE cms_businesses
 -- 테이블 생성 SQL - cms_url
 CREATE TABLE cms_url
 (
-    `url_idx`       INT UNSIGNED   NOT NULL  AUTO_INCREMENT,  -- 도메인 순번 
-    `url_addr`      VARCHAR(1000)  NULL,                      -- 도메인 주소 
-    `url_status`    CHAR(1)        NULL,                      -- 도메인 활성화 여부 
---  `business_idx`  INT UNSIGNED   NULL,                      -- 어린이집 순번 
+    `url_idx`          INT UNSIGNED   NOT NULL  AUTO_INCREMENT,        -- 도메인 순번 
+    `url_addr`         VARCHAR(1000)  NULL,                            -- 도메인 주소 
+    `url_status`       CHAR(1)        NULL,                            -- 도메인 활성화 여부 
+    `business_idx`     INT UNSIGNED   NULL,                            -- 어린이집 순번
+    `url_archived_at`  DATE           NULL      DEFAULT(DATE(NOW())),  -- 로그 날짜
      PRIMARY KEY (url_idx)
 );
 

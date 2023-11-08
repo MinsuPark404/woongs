@@ -7,12 +7,17 @@ const {
   getLoginLogs,
   loginAdmin,
   updateAdmin, // Import the updateAdmin function
-} = require('../../controllers/adminController');
+} = require('../controllers/adminController');
 
 // 사업자 등록
 router.post(
   '/register',
-  [check('admin_email').isEmail().withMessage('유효한 이메일을 입력해주세요.'), check('admin_password').isLength({ min: 8 }).withMessage('비밀번호는 8자 이상이어야 합니다.')],
+  [
+    check('admin_email').isEmail().withMessage('유효한 이메일을 입력해주세요.'),
+    check('admin_password')
+      .isLength({ min: 8 })
+      .withMessage('비밀번호는 8자 이상이어야 합니다.'),
+  ],
   createAdmin
 );
 

@@ -21,17 +21,18 @@ const createAdmin = asyncHandler(async (req, res) => {
     const adminData = req.body;
 
     // 이메일 중복 체크
-    const existingAdminEmail = await adminModel.findAdminByEmail(adminData.admin_email);
+    const existingAdminEmail = await adminModel.findAdminByEmail(
+      adminData.admin_email
+    );
     if (existingAdminEmail) {
       return res.status(409).json({ message: '이미 존재하는 이메일입니다.' });
     }
-    // 사업자번호 중복 체크
-    const existingAdminCompanyNum = await adminModel.findAdminByCompanyNum(adminData.company_unique);
-    if (existingAdminCompanyNum) {
-      return res.status(409).json({ message: '이미 존재하는 사업자번호입니다.' });
-    }
+
     // 비밀번호 해시
-    const hashedPassword = await bcrypt.hash(adminData.admin_password, saltRounds);
+    const hashedPassword = await bcrypt.hash(
+      adminData.admin_password,
+      saltRounds
+    );
     adminData.admin_password = hashedPassword; // 해시된 비밀번호로 대체
 
     // 관리자 데이터 추가
@@ -44,7 +45,9 @@ const createAdmin = asyncHandler(async (req, res) => {
   } catch (error) {
     // 에러 로깅
     console.error('Admin creation failed:', error);
-    return res.status(500).json({ message: '관리자 생성 중 오류가 발생했습니다.' });
+    return res
+      .status(500)
+      .json({ message: '관리자 생성 중 오류가 발생했습니다.' });
   }
 });
 
@@ -59,10 +62,16 @@ const loginAdmin = asyncHandler(async (req, res) => {
     // 관리자가 DB에 존재하는지 확인
     const admin = await adminModel.findAdminByEmail(admin_email);
     if (!admin) {
-      return res.status(401).json({ message: '아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.' });
+      return res.status(401).json({
+        message:
+          '아이디(로그인 전용 아이디) 또는 비밀번호를 잘못 입력했습니다.',
+      });
     }
     // 비밀번호 비교
-    const isMatch = await adminModel.verifyAdminPassword(admin_password, admin.admin_password);
+    const isMatch = await adminModel.verifyAdminPassword(
+      admin_password,
+      admin.admin_password
+    );
     if (isMatch) {
       // 비밀번호 일치
       return res.status(200).json({ message: '로그인 성공', admin });
@@ -101,7 +110,9 @@ const getLoginLogs = asyncHandler(async (req, res, next) => {
 });
 
 const businessList = asyncHandler(async (req, res) => {
-  const [admins] = await db.query('SELECT * FROM admins WHERE is_active = ?', [true]);
+  const [admins] = await db.query('SELECT * FROM admins WHERE is_active = ?', [
+    true,
+  ]);
   res.status(200).json(admins);
 });
 
@@ -115,10 +126,14 @@ const updateAdmin = asyncHandler(async (req, res) => {
   try {
     // ISO 8601 형식을 MySQL dateTime 형식으로 변환
     if (adminData.created_at) {
-      adminData.created_at = adminData.created_at.replace('T', ' ').slice(0, 19);
+      adminData.created_at = adminData.created_at
+        .replace('T', ' ')
+        .slice(0, 19);
     }
     if (adminData.updated_at) {
-      adminData.updated_at = adminData.updated_at.replace('T', ' ').slice(0, 19);
+      adminData.updated_at = adminData.updated_at
+        .replace('T', ' ')
+        .slice(0, 19);
     }
 
     // 관리자 데이터를 업데이트하는 모델 함수를 호출
@@ -138,7 +153,8 @@ const updateAdmin = asyncHandler(async (req, res) => {
     let errorMessage = '관리자 정보 업데이트 중 문제가 발생했습니다.';
     // 다양한 에러 타입에 따라 처리
     if (err.code === 'ER_ROW_IS_REFERENCED_2') {
-      errorMessage = '이 관리자는 현재 다른 데이터와 연관되어 있어서 업데이트할 수 없습니다.';
+      errorMessage =
+        '이 관리자는 현재 다른 데이터와 연관되어 있어서 업데이트할 수 없습니다.';
     }
     res.status(500).json({
       message: errorMessage,

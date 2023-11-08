@@ -1,5 +1,4 @@
 const express = require('express');
-const errorHandler = require('./middleware/errorHandler');
 const cors = require('cors');
 const path = require('path');
 
@@ -23,10 +22,8 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 
 // 라우터 미들웨어
-app.use('/api/admins', require('./routes/superAdmin/adminRoutes'));
+app.use('/api/admins', require('./routes/adminRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
-
-app.use(errorHandler);
 
 // 정적인 파일 관리
 app.use(express.static(path.join(__dirname, '../frontend', 'build')));
