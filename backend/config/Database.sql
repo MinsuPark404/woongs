@@ -27,9 +27,9 @@ CREATE TABLE cms_businesses
     `business_bno`         VARCHAR(20)    NULL,                      -- 어린이집 사업자번호
     `business_url`         VARCHAR(1000)  NULL,                      -- 어린이집 도메인 
     `business_created_at`  DATETIME       NULL      DEFAULT now(),   -- 어린이집 등록일자 
---  `admin_idx`            INT UNSIGNED   NULL,                      -- 관리자 순번 
+    `admin_idx`            INT UNSIGNED   NULL,                      -- 관리자 순번 
      PRIMARY KEY (business_idx),
-     UNIQUE (business_bno)
+--   UNIQUE (business_bno)
 );
 
 -- 테이블 생성 SQL - cms_url
