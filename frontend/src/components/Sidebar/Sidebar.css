@@ -1,47 +1,102 @@
 .sidebar {
-    width: 20%;
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-right: 1px solid #e0e0e0;
+    background-color: #fafafa;
+    color: #09313b;
+    min-height: 100vh;
+    /* 너비 트랜지션을 부드럽게 유지합니다 */
+    width: 20%; 
+    /* transition: width 0.2s ease; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 60px;
 }
+
+.sidebar.collapsed {
+    width: 120px; 
+}
+
+.sidebar-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+패스포트를 
 
 .menu-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .menu-list li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
     margin-bottom: 10px;
-    list-style: none;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: left;
-    background-color: #f9f9f9;
-    transition: background-color 0.3s, transform 0.1s;
+    border-radius: 4px;
+    /* background-color와 transform 트랜지션을 유지합니다 */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
 }
 
 .menu-list li:hover {
-    background-color: #e6e6e6;
+    background-color: #34495e;
 }
 
-.menu-list li:active {
-    transform: scale(0.95);
+.menu-list a {
+    color: inherit;
+    text-decoration: none;
+    width: 100%;
 }
 
-.notification-button {
-    background-color: #e0e0e0;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
+.menu-item {
+    display: block; 
+}
+
+.menu-item span {
+   
+    transition: visibility 0s, opacity 0.2s ease;
+    display: inline-block;
+    opacity: 1;
+    visibility: visible;
+    width: auto; 
+}
+
+/* 사이드바가 축소될 때 텍스트를 점차적으로 숨김 */
+.sidebar.collapsed .menu-item span {
+    opacity: 0;
+    visibility: hidden;
+    /* 가시성이 사라지기 전에 투명도가 먼저 변하도록 설정 */
+    transition: visibility 0s linear 0.2s, opacity 0.2s ease;
+    width: 0; /* 텍스트 너비를 0으로 만들어 안 보이게 함 */
+}
+.sidebar.expanded .menu-item span {
+    opacity: 1;
+    visibility: visible;
+    /* opacity가 나타나는데 0.3초의 지연을 줍니다. */
+    transition: visibility 0s linear 0.3s, opacity 0.2s ease 0.3s;
+    width: auto; /* 텍스트의 실제 너비로 복원 */
+}
+
+.sidebar-toggle {
     cursor: pointer;
-    margin-top: 20px;
+    padding: 10px;
+    background-color: #34495e;
+    text-align: center;
+    margin-bottom: 150px;
 }
 
-footer {
-    position: absolute;
-    bottom: 20px;
-    width: calc(20% - 40px);
-    text-align: center;
+.toggle-icon {
+    color: #ecf0f1;
+    font-size: 20px;
+}
+
+.menu-list li .fa-icon {
+    margin-right: 8px; /* 필요한 공간에 맞게 조정 */
 }
