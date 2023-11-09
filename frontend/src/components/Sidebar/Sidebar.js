@@ -1,38 +1,66 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserGear, faGlobe, faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import './Sidebar.css';
-import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
+    const [isExpanded, setIsExpanded] = useState(true);
     const navigate = useNavigate();
-    return (
-        <aside className="sidebar">
-            <ul className="menu-list">
-                <Link to="/admin" style={{ textDecoration: 'none', color: 'black' }}>
-                    <li>사업자 관리</li>
-                </Link>
+    const location = useLocation();
 
-                <br />
-                <Link to="/admin" style={{ textDecoration: 'none', color: 'black' }}>
-                    <li>메뉴2</li>
-                </Link>
-                <br />
-                <Link to="/admin" style={{ textDecoration: 'none', color: 'black' }}>
-                    <li>메뉴3</li>
-                </Link>
-                <br />
-                <Link to="/admin" style={{ textDecoration: 'none', color: 'black' }}>
-                    <li>메뉴4</li>
-                </Link>
-                <br />
-                <Link to="/admin" style={{ textDecoration: 'none', color: 'black' }}>
-                    <li>메뉴5</li>
-                </Link>
-            </ul>
-            <button className="notification-button">알림 받아보기</button>
-            <footer>
-                <p>admin_s: 회원관리자</p>
-            </footer>
+    useEffect(() => {
+        
+        const state = location.state;
+        
+        if (state?.isSidebarExpanded !== undefined) {
+            setIsExpanded(state.isSidebarExpanded);
+        }
+    }, [location]);
+
+    const toggleSidebar = () => {
+        setIsExpanded(!isExpanded);
+    };
+
+
+    const handleLinkClick = (path) => {
+        
+        if (!isExpanded) {
+            navigate(path, { state: { isSidebarExpanded: isExpanded } });
+        }else{
+            navigate(path, { state: { isSidebarExpanded: isExpanded } });
+        }
+    };
+
+    const sidebarClasses = isExpanded ? 'sidebar expanded' : 'sidebar collapsed';
+
+    return (
+        <aside className={sidebarClasses}>
+            <div className="sidebar-content">
+                <ul className="menu-list">
+                    {/* 메뉴 아이템들 */}
+                    <li className="menu-item" onClick={() => handleLinkClick('/admin')}>
+                        <FontAwesomeIcon className="fa-icon" icon={faUserGear} />
+                        {isExpanded && <span>사업자 관리</span>}
+                    </li>
+                    <br />
+                    <li className="menu-item" onClick={() => handleLinkClick('/domain')}>
+                        <FontAwesomeIcon className="fa-icon" icon={faGlobe} />
+                        {isExpanded && <span>도메인 관리</span>}
+                    </li>
+                    <br />
+                    <li className="menu-item" onClick={() => handleLinkClick('/main')}>
+                        <FontAwesomeIcon className="fa-icon" icon={faBullhorn} />
+                        {isExpanded && <span>홍보 페이지</span>}
+                    </li>
+                    <br />
+                    {/* 기타 링크 아이템들에도 같은 로직 적용 */}
+                </ul>
+            </div>
+            <div className="sidebar-toggle" onClick={toggleSidebar}>
+                <span className="toggle-icon">{isExpanded ? '◀' : '▶'}</span>
+            </div>
         </aside>
     );
 };
