@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React,{useEffect}from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserGear, faGlobe, faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import './Sidebar.css';
 
-const Sidebar = () => {
-    const [isExpanded, setIsExpanded] = useState(true);
+const Sidebar = ({ isExpanded, setIsExpanded }) => {
+    // Removed the useState declaration for isExpanded
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -32,6 +31,7 @@ const Sidebar = () => {
             navigate(path, { state: { isSidebarExpanded: isExpanded } });
         }
     };
+    
 
     const sidebarClasses = isExpanded ? 'sidebar expanded' : 'sidebar collapsed';
 
