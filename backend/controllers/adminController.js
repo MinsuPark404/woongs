@@ -53,7 +53,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
       !admin ||
       !(await bcrypt.compare(admin_password, admin.admin_password))
     ) {
-      await cmsLogModel.logLoginAttempt(admin, 'F', req.ip, false);
+      await cmsLogModel.logAuthAttempt(admin, 'F', req.ip, false);
       return res.status(401).json({ message: '인증 정보가 잘못되었습니다.' });
     }
 
@@ -63,7 +63,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    await cmsLogModel.logLoginAttempt(admin, 'T', req.ip, true);
+    await cmsLogModel.logAuthAttempt(admin, 'T', req.ip, true);
 
     return res.status(200).json({
       message: '로그인 성공!',
@@ -138,23 +138,20 @@ const updateAdmin = asyncHandler(async (req, res) => {
   }
 });
 
-// @로그인 로그 조회
-const getLoginLogs = asyncHandler(async (req, res, next) => {
-  const sql = 'SELECT * FROM login_logs ORDER BY login_time DESC';
-  db.query(sql, (err, results) => {
-    if (err) {
-      // 에러를 next 함수에 전달
-      return next(err);
-    }
-    if (results.length === 0) {
-      // 로그인 로그가 없을 경우 오류를 생성하여 next 함수에 전달
-      const error = new Error('No login logs found');
-      res.statusCode = 404; // 상태 코드를 404로 설정
-      return next(error);
-    }
-    // 로그인 로그를 JSON 형태로 응답
-    res.status(200).json({ message: '로그인 로그 조회', results });
-  });
+// @관리자 로그아웃
+// @Endpoint POST /api/admins/logout
+// @access admin_s, admin_c
+const logoutAdmin = asyncHandler(async (req, res) => {
+  try {
+    const adminId = req.body.admin_idx;
+    console.log('로그아웃 관리자 id: ', req.body);
+    await cmsLogModel.logAuthAttempt(adminId, 'T', req.ip, true);
+    res.status(200).json({ message: '로그아웃 되었습니다.' });
+  } catch (error) {
+    await cmsLogModel.logAuthAttempt(admin, 'F', req.ip, false);
+    console.error('Logout failed:', error);
+    res.status(500).json({ message: '로그아웃 처리 중 문제가 발생했습니다.' });
+  }
 });
 
 // @어린이집 등록
@@ -177,11 +174,31 @@ const createBusiness = asyncHandler(async (req, res) => {
   }
 });
 
+// @관리자 로그 조회
+// @Endpoint GET /api/admins/logs
+// @access admin_s
+const adminLogs = asyncHandler(async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const [logs] = await cmsLogModel.findAll({ page, limit });
+    // 로그 조회 결과 응답
+    res.json({
+      success: true,
+      data: logs,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 module.exports = {
   businessList,
   createAdmin,
   loginAdmin,
-  getLoginLogs,
   updateAdmin,
   createBusiness,
+  adminLogs,
+  logoutAdmin,
 };

@@ -1,5 +1,5 @@
 const db = require('../config/dbConnMysql');
-const queries = require('./adminQueries');
+const queries = require('./_adminQueries');
 
 // 관리자 정보 등록
 const createAdmin = async (adminData) => {
