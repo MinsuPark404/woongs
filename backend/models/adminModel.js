@@ -1,91 +1,90 @@
 const db = require('../config/dbConnMysql');
 const queries = require('./adminQueries');
 
-// 관리자 등록
+// 관리자 정보 등록
 const createAdmin = async (adminData) => {
-  const {admin_email,admin_password,admin_name,admin_tel,admin_role, admin_status,admin_business_name} = adminData;
-  const results = await db.query(queries.createAdminQuery, [admin_email, admin_password, admin_name,admin_tel, admin_role, admin_status,admin_business_name]);
-  return results[0];
-};
-
-const findAdminByEmail = async (admin_email) => {
-  const conn = await db.getConnection();
   try {
-    const [results] = await conn.query(
-      `SELECT * FROM cms_admins WHERE admin_email = ?`,
-      [admin_email]
-    );
-    return results.length > 0 ? results[0] : null;
-  } catch (error) {
-    throw error; // 데이터베이스 쿼리 오류를 던짐
-  } finally {
-    conn.release(); // 항상 연결 해제
-  }
-};
-
-// const findAdminByCompanyNum = async (company_unique) => {
-//   const conn = await db.getConnection();
-//   try {
-//     const [results] = await conn.query(
-//       `SELECT * FROM cms_admins WHERE company_unique = ?`,
-//       [company_unique]
-//     );
-//     return results.length > 0 ? results[0] : null;
-//   } catch (error) {
-//     throw error; // 데이터베이스 쿼리 오류를 던짐
-//   } finally {
-//     conn.release(); // 항상 연결 해제
-//   }
-// };
-
-const verifyAdminPassword = async (inputPassword, adminPassword) => {
-  if (inputPassword === adminPassword) {
-    return true;
-  }
-  return false;
-};
-
-const updateAdminData = async (adminId, adminData) => {
-  const conn = await db.getConnection();
-  try {
-    const results = await conn.query(
-      `
-    UPDATE admins 
-    SET
-      admin_email = ?, 
-      admin_password = ?, 
-      admin_name = ?,
-      admin_tel = ?, 
-      admin_role = ?, 
-      admin_status = ?,
-      admin_business_name = ?,
-      updated_at = ?
-    WHERE admin_id = ?;
-  `,
-      [
-        // List all the fields that you wish to update
-        adminData.admin_email,
-        adminData.admin_password,
-        adminData.admin_name,
-        adminData.admin_tel,
-        adminData.admin_role,
-        adminData.admin_status,
-        adminData.admin_business_name,
-        adminData.updated_at,
-        adminId, // This should be the last parameter as per the WHERE clause
-      ]
-    );
+    console.log('adminData:', adminData);
+    const { admin_email, admin_password, admin_name, admin_tel, admin_role, admin_status, admin_business_name } = adminData;
+    const params = [admin_email, admin_password, admin_name, admin_tel, admin_role, admin_status, admin_business_name];
+    const results = await db.query(queries.createAdminQuery, params);
     return results[0];
   } catch (error) {
     throw error;
-  } finally {
-    conn.release();
+  }
+};
+
+// 관리자 이메일 조회
+const findAdminByEmail = async (admin_email) => {
+  try {
+    console.log('admin_email: ', admin_email);
+    const results = await db.query(queries.loginAdminQuery, [admin_email]);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 관리자 업데이트
+const updateAdminData = async (adminId, adminData) => {
+  try {
+    console.log('adminId: ', adminId, 'adminData: ', adminData);
+    const { admin_email, admin_password, admin_name, admin_tel, admin_role, admin_status, admin_business_name, updated_at } = adminData;
+    const results = await db.query(queries.updateAdminQuery, [admin_email, admin_password, admin_name, admin_tel, admin_role, admin_status, admin_business_name, updated_at, adminId]);
+    return results[0];
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 관리자 정보 조회
+const getAlladmins = async () => {
+  try {
+    const results = await db.query(queries.getAlladminsQuery);
+    return results[0];
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 관리자 정보 삭제
+const deleteAdmin = async (adminId) => {
+  try {
+    console.log('adminId:', adminId);
+    const results = await db.query(queries.deleteAdminQuery, [adminId]);
+    return results[0];
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 특정 관리자 조회
+const getAdminById = async (id) => {
+  try {
+    const results = await db.query(queries.getAdminByIdQuery, [id]);
+    return results[0];
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 어린이집 정보 등록
+const createBusiness = async (businessData) => {
+  try {
+    const { business_name, business_admin, business_tel, business_addr1, business_addr2, business_bno, business_url } = businessData;
+    const results = await db.query(queries.createBusinessQuery, [business_name, business_admin, business_tel, business_addr1, business_addr2, business_bno, business_url]);
+    return results[0];
+  } catch (error) {
+    throw error;
   }
 };
 
 module.exports = {
   createAdmin,
   findAdminByEmail,
-  verifyAdminPassword,
   updateAdminData,
+  getAlladmins,
+  deleteAdmin,
+  getAdminById,
+  createBusiness,
 };
