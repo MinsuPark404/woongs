@@ -1,190 +1,235 @@
 /* 판 */
 .admin-panel {
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 10px;
-    
-  }
-  
-  .admin-panel h2 {
-    margin-bottom: 10px;
-  }
-  
-  .admin-panel ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .admin-panel li {
-    margin-bottom: 10px;
-  }
-  
-  .admin-panel button {
-    margin-left: 10px;
-    padding: 5px 10px;
-    border: none;
-    background-color: #ff6666;
-    color: white;
-    border-radius: 5px;
-  }
-  
-  .admin-panel button:hover {
-    background-color: #ff3333;
-  }
-  .main-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 20px;
-    width: 80%;
-    height: 100%;
-}
-.main-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100vh;
-}
-.admin-panel {
-  height: 100%; /* 높이를 100%로 설정 */
-  width: 100%;
-  margin: 0; /* 기본 마진 제거 */
+  background-color: #f4f4f4;
   padding: 20px;
-  border: 1px solid #ccc;
-  display: flex;
-  flex-direction: column; /* 컬럼 방향으로 정렬 */
+  border-radius: 10px;
+  
   
 }
 
 .admin-panel h2 {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .admin-panel ul {
   list-style-type: none;
   padding: 0;
-  display: flex;
-  flex-direction: row; /* 행 방향으로 항목 정렬 */
-  flex-wrap: wrap; /* 항목이 너무 많으면 다음 줄로 넘어가도록 설정 */
-  gap: 3px; /* 항목 사이의 간격 설정 */
 }
 
 .admin-panel li {
-  flex: 0; 
-  min-width: calc(23% - 10px); 
-  padding: 10px;
-  border: 1px solid #ccc;
-  cursor: pointer;
-  text-align: center; 
+  margin-bottom: 10px;
+}
+
+.admin-panel button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #ff6666;
+  color: white;
+  border-radius: 5px;
+}
+
+.admin-panel button:hover {
+  background-color: #ff3333;
+}
+.main-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px;
+  width: 80%;
+  height: 100%;
+  margin-top: 60px;
+  margin-left: 350px;
+}
+.main-container {
+  display: flex;
+  flex-direction: column;
+  /* margin-left: 5%; */
+  width: 100%;
+  height: 100vh;
+}
+.admin-panel {
+height: 100%; /* 높이를 100%로 설정 */
+width: 100%;
+margin: 0; /* 기본 마진 제거 */
+padding: 20px;
+border: 1px solid #ccc;
+display: flex;
+flex-direction: column; /* 컬럼 방향으로 정렬 */
+
+}
+
+.admin-panel h2 {
+margin-bottom: 20px;
+}
+
+.admin-panel ul {
+list-style-type: none;
+padding: 0;
+display: flex;
+flex-direction: row; /* 행 방향으로 항목 정렬 */
+flex-wrap: wrap; /* 항목이 너무 많으면 다음 줄로 넘어가도록 설정 */
+gap: 3px; /* 항목 사이의 간격 설정 */
+}
+
+.admin-panel li {
+flex: 0; 
+min-width: calc(23% - 10px); 
+padding: 10px;
+border: 1px solid #ccc;
+cursor: pointer;
+text-align: center; 
 }
 
 /* .admin-panel li:hover {
-  background-color: #f0f0f0;
+background-color: #f0f0f0;
 } */
 li {
-  cursor: pointer;
-  /* 탭에 대한 기본 스타일 */
+cursor: pointer;
+/* 탭에 대한 기본 스타일 */
 }
 
 /* 활성화된 탭 스타일 */
 li.active {
-  background-color: #4CAF50;
-  color: white;
-  /* 활성화된 탭에 대한 스타일 */
+background-color: #4CAF50;
+color: white;
+/* 활성화된 탭에 대한 스타일 */
 }
 /* 판 */
 
 /* 사업자등록 */
 .register-business {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
+max-width: 600px;
+margin: 0 auto;
+padding: 20px;
 }
 
 .register-business h2 {
-  text-align: center;
+text-align: center;
 }
 
 .register-business form {
-  display: flex;
-  flex-direction: column;
+display: flex;
+flex-direction: column;
 }
 
 .register-business label {
-  margin-bottom: 15px;
+margin-bottom: 15px;
 }
 
 .register-business input {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
+width: 100%;
+padding: 8px;
+box-sizing: border-box;
 }
 
 .register-business button {
-  padding: 10px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+padding: 10px;
+background-color: #4caf50;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
 }
 
 .register-business button:hover {
-  background-color: #45a049;
+background-color: #45a049;
 }
 /* 사업자등록 */
 
 /* 검색창 */
 .search-box {
-  margin-bottom: 20px;
+margin-bottom: 20px;
 }
 
 .search-input {
-  width: 20%;
-  padding: 10px 15px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+width: 20%;
+padding: 10px 15px;
+font-size: 16px;
+border: 1px solid #ddd;
+border-radius: 4px;
+box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .search-input:focus {
-  outline: none;
-  border-color: #4a90e2;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(74, 144, 226, 0.5);
+outline: none;
+border-color: #4a90e2;
+box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(74, 144, 226, 0.5);
 }
 /* 검색창 */
 /* 사업자목록 */
 .business-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 2px;
+width: 100%;
+border-collapse: collapse;
+margin-top: 2px;
 }
 
 .business-table th,
 .business-table td {
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: left;
+padding: 10px;
+border: 1px solid #ddd;
+text-align: left;
 }
 
 .business-table th {
-  background-color: #f4f4f4;
+background-color: #f4f4f4;
 }
 
 .business-table tr:nth-child(even) {
-  background-color: #f9f9f9;
+background-color: #f9f9f9;
 }
 
 .business-table tr:hover {
-  background-color: #f1f1f1;
-  cursor: pointer;
+background-color: #f1f1f1;
+cursor: pointer;
 }
 .table-container {
-  max-height: 75%;
-  max-width: 100%;
-  overflow-y: auto;
-  margin-bottom: 20px;
+max-height: 75%;
+max-width: 100%;
+overflow-y: auto;
+margin-bottom: 20px;
 }
 
 /* 사업자목록 */
+.filters {
+display: flex;
+flex-wrap: wrap;
+gap: 20px;
+margin-bottom: 20px;
+}
+
+.filterLabel {
+flex-grow: 1;
+min-width: 200px;
+}
+
+.filterInput {
+width: 60%;
+}
+
+.buttons {
+display: flex;
+justify-content: flex-end;
+gap: 10px;
+margin-bottom: 20px;
+}
+
+.tableContainer {
+overflow-x: auto;
+}
+
+.table {
+width: 100%;
+border-collapse: collapse;
+}
+
+.table th, .table td {
+border: 1px solid #ddd;
+padding: 8px;
+text-align: left;
+}
+
+.table th {
+background-color: #f2f2f2;
+}

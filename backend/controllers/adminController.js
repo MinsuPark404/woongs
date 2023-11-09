@@ -1,8 +1,10 @@
 const adminModel = require('../models/adminModel');
+const cmsLogModel = require('../models/cmsLogModel');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const db = require('../config/dbConnMysql');
+const jwt = require('jsonwebtoken');
 
 // @관리자 등록
 // @Endpoint POST /api/admins/register
@@ -44,36 +46,36 @@ const createAdmin = asyncHandler(async (req, res) => {
 const loginAdmin = asyncHandler(async (req, res) => {
   try {
     const { admin_email, admin_password } = req.body;
-
-    // 이메일로 관리자 찾기
     const adminData = await adminModel.findAdminByEmail(admin_email);
     const admin = adminData.length > 0 ? adminData[0] : null;
-    // console.log('관리자 비밀번호', admin[0].admin_password);
-    // 관리자가 존재하지 않거나, 비밀번호가 맞지 않으면 오류 메시지 전송
-    if (!admin) {
+
+    if (
+      !admin ||
+      !(await bcrypt.compare(admin_password, admin.admin_password))
+    ) {
+      await cmsLogModel.logLoginAttempt(admin, 'F', req.ip, false);
       return res.status(401).json({ message: '인증 정보가 잘못되었습니다.' });
     }
 
-    // bcrypt.compare로 입력된 비밀번호와 해시된 비밀번호 비교
-    const passwordMatch = await bcrypt.compare(
-      admin_password,
-      admin[0].admin_password
+    const token = jwt.sign(
+      { id: admin.admin_idx },
+      process.env.JWT_SECRET || '1234',
+      { expiresIn: '1h' }
     );
 
-    // 비밀번호가 일치하면 로그인 성공 처리
-    if (passwordMatch) {
-      // 토큰 발급 등의 로그인 성공 처리 로직을 여기에 작성합니다.
-      // 예: JWT 토큰 발급
-      return res.status(200).json({
-        message: '로그인 성공!',
-        // 토큰과 관리자 정보 전송 (중요 정보는 제외하고 전송)
-      });
-    } else {
-      // 비밀번호 불일치
-      return res.status(401).json({ message: '비밀번호가 틀렸습니다.' });
-    }
+    await cmsLogModel.logLoginAttempt(admin, 'T', req.ip, true);
+
+    return res.status(200).json({
+      message: '로그인 성공!',
+      admin: {
+        id: admin.admin_idx,
+        email: admin.admin_email,
+        name: admin.admin_name,
+        role: admin.admin_role,
+      },
+      token,
+    });
   } catch (error) {
-    // 에러 로깅
     console.error('Admin login failed:', error);
     return res
       .status(500)
