@@ -98,12 +98,14 @@ CREATE TABLE cms_menu
 -- 테이블 생성 SQL - cms_log
 CREATE TABLE cms_log
 (
-    `cms_log_idx`  INT UNSIGNED  NOT NULL  AUTO_INCREMENT,  -- 고객관리 로그인 
-    `logged_at`    DATETIME      NULL      DEFAULT now(),   -- 로그인 날짜
-    `log_info`     VARCHAR(20)   NULL,                      -- 로그인 정보 
-    `log_ip`       VARCHAR(20)   NULL,                      -- 로그인 아이피 
-    `logouted_at`  DATETIME      NULL      DEFAULT now(),   -- 로그아웃 날짜 
---  `admin_idx`    INT UNSIGNED  NULL,                      -- 관리자 순번
+    `cms_log_idx`    INT UNSIGNED  NOT NULL  AUTO_INCREMENT,  -- 고객관리 로그인
+    `business_name`  VARCHAR(20)   NULL,                      -- 어린이집 이름
+    `admin_name`     VARCHAR(20)   NULL,                      -- 관리자 이름
+    `logged_at`      DATETIME      NULL      DEFAULT now(),   -- 로그인 날짜
+    `log_info`       VARCHAR(20)   NULL,                      -- 로그인 정보 
+    `log_ip`         VARCHAR(20)   NULL,                      -- 로그인 아이피 
+    `logouted_at`    DATETIME      NULL      DEFAULT now(),   -- 로그아웃 날짜 
+    `admin_idx`      INT UNSIGNED  NULL,                      -- 관리자 순번
      PRIMARY KEY (cms_log_idx)
 );
 
