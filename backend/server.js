@@ -34,7 +34,7 @@ app.use(express.json());
 
 // 라우터 미들웨어
 app.use('/api/admins', require('./routes/adminRoutes'));
-// app.use('/api/cmsLog', require('./routes/cmsLogRoutes'));
+// app.use('/api/cmslog', require('./routes/cmsLogRoutes'));
 
 // 정적인 파일 관리
 app.use(express.static(path.join(__dirname, '../frontend', 'build')));

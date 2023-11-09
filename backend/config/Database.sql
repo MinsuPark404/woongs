@@ -102,7 +102,7 @@ CREATE TABLE cms_log
     `business_name`  VARCHAR(20)   NULL,                      -- 어린이집 이름
     `admin_name`     VARCHAR(20)   NULL,                      -- 관리자 이름
     `logged_at`      DATETIME      NULL      DEFAULT now(),   -- 로그인 날짜
-    `log_info`       VARCHAR(20)   NULL,                      -- 로그인 정보 
+    `log_info`       VARCHAR(20)   NULL,                      -- 로그인 성공 여부 
     `log_ip`         VARCHAR(20)   NULL,                      -- 로그인 아이피 
     `logouted_at`    DATETIME      NULL      DEFAULT now(),   -- 로그아웃 날짜 
     `admin_idx`      INT UNSIGNED  NULL,                      -- 관리자 순번
