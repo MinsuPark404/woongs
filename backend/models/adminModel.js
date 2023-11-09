@@ -34,7 +34,7 @@ const createAdmin = async (adminData) => {
 const findAdminByEmail = async (admin_email) => {
   try {
     console.log('admin_email: ', admin_email);
-    const results = await db.query(queries.loginAdminQuery, [admin_email]);
+    const [results] = await db.query(queries.loginAdminQuery, [admin_email]);
     console.log('results : ', results);
     return results;
   } catch (error) {
@@ -76,8 +76,18 @@ const updateAdminData = async (adminId, adminData) => {
 // 관리자 정보 조회
 const getAlladmins = async () => {
   try {
-    const results = await db.query(queries.getAlladminsQuery);
-    return results[0];
+    const [results] = await db.query(queries.getAlladminsQuery);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 특정 관리자 로그인 기록 조회
+const getAdminLoginLogs = async (id) => {
+  try {
+    const [results] = await db.query(`SELECT * FROM cms_log`, [id]);
+    return results;
   } catch (error) {
     throw error;
   }
@@ -120,6 +130,7 @@ module.exports = {
   findAdminByEmail,
   updateAdminData,
   getAlladmins,
+  getAdminLoginLogs,
   // deleteAdmin,
   // getAdminById,
   // createBusiness,
