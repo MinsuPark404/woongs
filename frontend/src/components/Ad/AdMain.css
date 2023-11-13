@@ -1,0 +1,149 @@
+.drop-zone {
+    min-height: 100%;
+    min-width: 80%;
+    background-color: #f0f8ff; /* Light blue background */
+    border: 3px dashed #007bff; /* Dashed border with a blue color */
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    margin: 20px;
+    position: relative;
+}
+
+.drop-zone-section {
+    border: 2px dashed #ccc;
+    margin: 10px;
+    padding: 10px;
+    min-height: 100px;
+}
+
+.drop-zone-section.header {
+    background-color: #f0f8ff; /* light blue for header */
+}
+
+.drop-zone-section.banner {
+    background-color: #fff0f0; /* light red for banner */
+}
+
+.drop-zone-section.description {
+    background-color: #f0fff0; /* light green for description */
+}
+
+
+.drop-zone.can-drop {
+    background-color: #e3f2fd; /* Slightly darker blue when an item can be dropped */
+}
+
+.drop-zone.is-over {
+    background-color: #bbdefb; /* Even darker blue when an item is over the zone */
+}
+
+.drop-zone:after {
+    /* content: 'Drop components here'; */
+    color: #007bff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    font-weight: bold;
+}
+.draggable-component {
+    border: 1px solid #d3d3d3;
+    background-color: #ffffff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    cursor: grab;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.draggable-component.is-dragging {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transform: scale(1.1);
+    cursor: grabbing;
+}
+
+.draggable-text {
+    font-size: 16px;
+    color: #333;
+    text-align: center;
+}
+
+.draggable-button button {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.draggable-button button:hover {
+    background-color: #0056b3;
+}
+
+.draggable-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+.main-content {
+    display: flex;
+    height: calc(100vh - 60px); /* Adjust the height as needed */
+    padding: 20px;
+}
+
+.drag-components-container {
+    flex: 1; /* Takes up 20% of the space */
+    padding: 10px;
+    border-right: 2px solid #d3d3d3; /* Separator line */
+    overflow-y: auto; /* For scrolling if there are many components */
+}
+
+.drop-zone-container {
+    flex: 4; /* Takes up 80% of the space */
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.dropped-component {
+    position: relative;
+    padding: 10px;
+}
+
+.dropped-component .button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.btn:active {
+    background-color: #004291;
+}

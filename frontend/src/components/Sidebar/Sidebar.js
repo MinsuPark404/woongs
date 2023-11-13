@@ -50,7 +50,7 @@ const Sidebar = ({ isExpanded, setIsExpanded }) => {
                         {isExpanded && <span>도메인 관리</span>}
                     </li>
                     <br />
-                    <li className="menu-item" onClick={() => handleLinkClick('/main')}>
+                    <li className="menu-item" onClick={() => handleLinkClick('/ad')}>
                         <FontAwesomeIcon className="fa-icon" icon={faBullhorn} />
                         {isExpanded && <span>홍보 페이지</span>}
                     </li>
