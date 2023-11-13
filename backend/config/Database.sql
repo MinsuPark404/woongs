@@ -91,7 +91,7 @@ CREATE TABLE cms_menu
     `menu_detail`      JSON          NULL,                      -- 메뉴 내용을 담고있는 JSON 파일
     `menu_created_at`  DATETIME      NULL      DEFAULT now(),   -- 메뉴 등록일자 
     `menu_updated_at`  DATETIME      NULL      DEFAULT now(),   -- 메뉴 수정일자 
---  `url_idx`          INT UNSIGNED  NULL,                      -- 도메인 순번 
+    `url_idx`          INT UNSIGNED  NULL,                      -- 도메인 순번 
      PRIMARY KEY (menu_idx)
 );
 

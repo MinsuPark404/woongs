@@ -1,11 +1,12 @@
 const db = require('../config/dbConnMysql');
+const { cmsLogQueries } = require('./Queries');
 
 // 로그인 정보 추가
 const create = async (log_info, log_ip) => {
-  const results = await db.query(
-    `INSERT INTO cms_log (log_info, log_ip) VALUES (?, ?)`,
-    [log_info, log_ip]
-  );
+  const results = await db.query(cmsLogQueries.createLogQuery, [
+    log_info,
+    log_ip,
+  ]);
   return results;
 };
 
@@ -20,14 +21,14 @@ const logAuthAttempt = async (admin, logInfo, ip) => {
     logouted_at: null,
     admin_idx: admin?.admin_idx,
   };
-  const results = await db.query('INSERT INTO cms_log SET ?', params);
+  const results = await db.query(cmsLogQueries.logAuthAttemptQuery, params);
   return results;
 };
 
 // 모든 로그인 정보 조회
 const findAll = async ({ page, limit }) => {
   const offset = (page - 1) * limit;
-  const results = await db.query('SELECT * FROM cms_log LIMIT ? OFFSET ?', [
+  const results = await db.query(cmsLogQueries.findAllLogsQuery, [
     limit,
     offset,
   ]);

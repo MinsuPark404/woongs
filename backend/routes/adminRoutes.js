@@ -3,10 +3,8 @@ const router = express.Router();
 const {
   businessList,
   createAdmin,
-  getLoginLogs,
   loginAdmin,
   updateAdmin,
-  createBusiness,
   adminLogs,
   logoutAdmin,
 } = require('../controllers/adminController');
@@ -25,9 +23,6 @@ router.put('/update/:id', updateAdmin);
 
 // 로그아웃
 router.post('/logout', logoutAdmin);
-
-// 어린이집 등록
-router.post('/businesses', createBusiness);
 
 // 관리자 로그 조회
 router.get('/logs', adminLogs);

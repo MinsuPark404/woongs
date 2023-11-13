@@ -1,10 +1,11 @@
 const db = require('../config/dbConnMysql');
-const queries = require('./_adminQueries');
+const queries = require('../SQL/adminQueries');
 
 // 관리자 정보 등록
 const createAdmin = async (adminData) => {
   try {
     console.log('adminData:', adminData);
+    console.log('query:', adminQueries);
     const {
       admin_email,
       admin_password,
@@ -30,7 +31,7 @@ const createAdmin = async (adminData) => {
   }
 };
 
-// 관리자 이메일 조회
+// 이메일를 통해 관리자 조회
 const findAdminByEmail = async (admin_email) => {
   try {
     console.log('admin_email: ', admin_email);
@@ -93,32 +94,21 @@ const getAdminLoginLogs = async (id) => {
   }
 };
 
-// // 관리자 정보 삭제
-// const deleteAdmin = async (adminId) => {
-//   try {
-//     console.log('adminId:', adminId);
-//     const results = await db.query(queries.deleteAdminQuery, [adminId]);
-//     return results[0];
-//   } catch (error) {
-//     throw error;
-//   }
-// };
+// 관리자 정보 삭제
+const deleteAdmin = async (adminId) => {
+  try {
+    console.log('adminId:', adminId);
+    const results = await db.query(queries.deleteAdminQuery, [adminId]);
+    return results[0];
+  } catch (error) {
+    throw error;
+  }
+};
 
 // // 특정 관리자 조회
 // const getAdminById = async (id) => {
 //   try {
 //     const results = await db.query(queries.getAdminByIdQuery, [id]);
-//     return results[0];
-//   } catch (error) {
-//     throw error;
-//   }
-// };
-
-// // 어린이집 정보 등록
-// const createBusiness = async (businessData) => {
-//   try {
-//     const { business_name, business_admin, business_tel, business_addr1, business_addr2, business_bno, business_url } = businessData;
-//     const results = await db.query(queries.createBusinessQuery, [business_name, business_admin, business_tel, business_addr1, business_addr2, business_bno, business_url]);
 //     return results[0];
 //   } catch (error) {
 //     throw error;
@@ -131,7 +121,6 @@ module.exports = {
   updateAdminData,
   getAlladmins,
   getAdminLoginLogs,
-  // deleteAdmin,
+  deleteAdmin,
   // getAdminById,
-  // createBusiness,
 };
