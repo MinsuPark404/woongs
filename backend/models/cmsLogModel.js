@@ -1,5 +1,5 @@
 const db = require('../config/dbConnMysql');
-const { cmsLogQueries } = require('./Queries');
+const { cmsLogQueries } = require('./_Queries');
 
 // 로그인 정보 추가
 const create = async (log_info, log_ip) => {

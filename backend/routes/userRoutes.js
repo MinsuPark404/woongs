@@ -1,34 +1,36 @@
-// 사용자 관련 API
 const express = require('express');
 const router = express.Router();
-const mysql = require('mysql2');
-const { getAdmins } = require('../controllers/adminController');
+const {
+  create,
+  findAll,
+  findByUser,
+  update,
+  remove,
+  loginUser,
+} = require('../controllers/userController');
 
-const connectDb = require('../config/dbConnMysql');
+// 어린이집 교사 등록
+router.post('/', create);
 
-// 회원 등록
-router.route('/register').post((req, res) => {
-  res.status(200).json({ message: '회원 가입' });
-});
+// 어린이집 교사 조회
+router.get('/', findAll);
 
-// 사용자 로그인
-router.route('/login').post((req, res) => {
-  res.status(200).json({ message: `사용자 로그인` });
-});
+// 어린이집 특정 교사 조회
+router.get('/:id', findByUser);
 
-// 사용자 정보 조회
-router.route('/:userId').get((req, res) => {
-  res.status(200).json({ message: `사용자 정보 조회` });
-});
+// 어린이집 교사 로그인
+router.post('/login', loginUser);
 
-// 사용자 정보 변경
-router.route('/:userId').put((req, res) => {
-  res.status(200).json({ message: `사용자 정보 변경` });
-});
+// 어린이집 교사 업데이트
+router.put('/:id', update);
 
-// 회원 탈퇴
-router.route('/:userId').delete((req, res) => {
-  res.status(200).json({ message: `회원 탈퇴` });
-});
+// 어린이집 교사 로그아웃
+router.post('/logout');
+
+// 어린이집 교사 삭제
+router.delete('/:id', remove);
+
+// 어린이집 교사 로그
+router.get('/logs');
 
 module.exports = router;

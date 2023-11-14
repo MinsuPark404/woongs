@@ -1,10 +1,9 @@
 const db = require('../config/dbConnMysql');
+const { userQueries } = require('./_Queries');
 
 const createUser = async (userData) => {
   try {
-    const query =
-      'INSERT INTO cms_users (user_email, user_password, user_name, user_tel, user_role) VALUES (?, ?, ?, ?, ?)';
-    const results = await db.query(query, [
+    const results = await db.query(userQueries.createUserQuery, [
       userData.user_email,
       userData.user_password,
       userData.user_name,
@@ -20,8 +19,7 @@ const createUser = async (userData) => {
 
 const getUserById = async (userId) => {
   try {
-    const query = 'SELECT * FROM cms_users WHERE user_idx = ?';
-    const results = await db.query(query, [userId]);
+    const [results] = await db.query(userQueries.getUserByIdQuery, [userId]);
     return results;
   } catch (error) {
     console.error('Get User By ID Error:', error);
@@ -29,11 +27,19 @@ const getUserById = async (userId) => {
   }
 };
 
+// 직원 정보 조회
+const getAllUsers = async () => {
+  try {
+    const [results] = await db.query(userQueries.getAllUsersQuery);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const updateUser = async (userId, userData) => {
   try {
-    const query =
-      'UPDATE cms_users SET user_email = ?, user_password = ?, user_name = ?, user_tel = ?, user_role = ? WHERE user_idx = ?';
-    const results = await db.query(query, [
+    const results = await db.query(userQueries.updateUserQuery, [
       userData.user_email,
       userData.user_password,
       userData.user_name,
@@ -50,8 +56,7 @@ const updateUser = async (userId, userData) => {
 
 const deleteUser = async (userId) => {
   try {
-    const query = 'DELETE FROM cms_users WHERE user_idx = ?';
-    const results = await db.query(query, [userId]);
+    const results = await db.query(userQueries.deleteUserQuery, [userId]);
     return results;
   } catch (error) {
     console.error('Delete User Error:', error);
@@ -59,9 +64,23 @@ const deleteUser = async (userId) => {
   }
 };
 
+// 이메일를 통해 직원 조회
+const findUserByEmail = async (user_email) => {
+  try {
+    console.log('user_email: ', user_email);
+    const [results] = await db.query(userQueries.loginUserQuery, [user_email]);
+    console.log('results : ', results);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   createUser,
+  getAllUsers,
   getUserById,
   updateUser,
   deleteUser,
+  findUserByEmail,
 };

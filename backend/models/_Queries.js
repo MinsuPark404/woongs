@@ -10,7 +10,7 @@ const adminQueries = {
   // 관리자 삭제
   deleteAdminQuery: `DELETE FROM cms_admin WHERE admin_id = ?`,
   // 어린이집 등록 쿼리문
-  createBusinessQuery: `INSERT INTO cms_businesses (business_name, business_admin, business_tel, business_addr1, business_addr2, business_bno, business_url) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+  // createBusinessQuery: `INSERT INTO cms_businesses (business_name, business_admin, business_tel, business_addr1, business_addr2, business_bno, business_url) VALUES (?, ?, ?, ?, ?, ?, ?)`,
   // 특정 관리자 id 조회 쿼리문
   getAdminByIdQuery: `SELECT * FROM cms_admin WHERE admin_id = ?`,
 };
@@ -59,6 +59,10 @@ const userQueries = {
   getUserByIdQuery: `SELECT * FROM cms_users WHERE user_idx = ?`,
   updateUserQuery: `UPDATE cms_users SET user_email = ?, user_password = ?, user_name = ?, user_tel = ?, user_role = ? WHERE user_idx = ?`,
   deleteUserQuery: `DELETE FROM cms_users WHERE user_idx = ?`,
+  // 직원 로그인 쿼리문
+  loginUserQuery: `SELECT * FROM cms_users WHERE user_email = ?`,
+  // 직원 조회 쿼리문
+  getAllUsersQuery: `SELECT * FROM cms_users`,
 };
 
 const videoQueries = {

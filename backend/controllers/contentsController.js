@@ -7,12 +7,12 @@ const createContent = asyncHandler(async (req, res) => {
     const contentData = req.body;
     const result = await contentsModel.createContent(contentData);
     res.status(201).json({
-      message: 'Content successfully created',
+      message: '컨텐츠 생성 성공',
       contentId: result.insertId,
     });
   } catch (error) {
-    console.error('Create Content Error:', error);
-    res.status(500).json({ message: 'Error creating content' });
+    console.error('컨텐츠 생성 중 오류:', error);
+    res.status(500).json({ message: '컨텐츠 생성 중에 오류 발생' });
   }
 });
 
@@ -23,12 +23,12 @@ const createContent = asyncHandler(async (req, res) => {
 //     const contentId = req.params.id;
 //     const result = await contentsModel.getContentById(contentId);
 //     if (result.length === 0) {
-//       return res.status(404).json({ message: 'Content not found' });
+//       return res.status(404).json({ message: '컨텐츠를 찾을 수 없음' });
 //     }
 //     res.status(200).json({ content: result[0] });
 //   } catch (error) {
-//     console.error('Get Content By ID Error:', error);
-//     res.status(500).json({ message: 'Error retrieving content' });
+//     console.error('컨텐츠 ID 오류:', error);
+//     res.status(500).json({ message: '컨텐츠를 찾던 중 오류 발생' });
 //   }
 // });
 
@@ -41,12 +41,12 @@ const updateContent = asyncHandler(async (req, res) => {
     if (result.affectedRows === 0) {
       return res
         .status(404)
-        .json({ message: 'Content not found or no update needed' });
+        .json({ message: '컨텐츠를 찾을 수 없거나 업데이트가 필요 없습니다' });
     }
-    res.status(200).json({ message: 'Content successfully updated' });
+    res.status(200).json({ message: '컨텐츠가 성공적으로 업데이트되었습니다' });
   } catch (error) {
-    console.error('Update Content Error:', error);
-    res.status(500).json({ message: 'Error updating content' });
+    console.error('컨텐츠 업데이트 오류:', error);
+    res.status(500).json({ message: '컨텐츠 업데이트 중 오류 발생' });
   }
 });
 
@@ -56,12 +56,12 @@ const deleteContent = asyncHandler(async (req, res) => {
     const contentId = req.params.id;
     const result = await contentsModel.deleteContent(contentId);
     if (result.affectedRows === 0) {
-      return res.status(404).json({ message: 'Content not found' });
+      return res.status(404).json({ message: '컨텐츠를 찾을 수 없습니다' });
     }
-    res.status(200).json({ message: 'Content successfully deleted' });
+    res.status(200).json({ message: '컨텐츠가 성공적으로 삭제되었습니다' });
   } catch (error) {
-    console.error('Delete Content Error:', error);
-    res.status(500).json({ message: 'Error deleting content' });
+    console.error('컨텐츠 삭제 오류:', error);
+    res.status(500).json({ message: '컨텐츠 삭제 중 오류 발생' });
   }
 });
 

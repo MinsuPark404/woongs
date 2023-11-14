@@ -1,5 +1,6 @@
 const db = require('../config/dbConnMysql');
-const queries = require('../SQL/adminQueries');
+const { adminQueries } = require('./_Queries');
+// const queries = require('../SQL/adminQueries');
 
 // 관리자 정보 등록
 const createAdmin = async (adminData) => {
@@ -24,7 +25,7 @@ const createAdmin = async (adminData) => {
       admin_status,
       admin_business_name,
     ];
-    const results = await db.query(queries.createAdminQuery, params);
+    const results = await db.query(adminQueries.createAdminQuery, params);
     return results[0];
   } catch (error) {
     throw error;
@@ -35,7 +36,9 @@ const createAdmin = async (adminData) => {
 const findAdminByEmail = async (admin_email) => {
   try {
     console.log('admin_email: ', admin_email);
-    const [results] = await db.query(queries.loginAdminQuery, [admin_email]);
+    const [results] = await db.query(adminQueries.loginAdminQuery, [
+      admin_email,
+    ]);
     console.log('results : ', results);
     return results;
   } catch (error) {
@@ -55,9 +58,8 @@ const updateAdminData = async (adminId, adminData) => {
       admin_role,
       admin_status,
       admin_business_name,
-      updated_at,
     } = adminData;
-    const results = await db.query(queries.updateAdminQuery, [
+    const results = await db.query(adminQueries.updateAdminQuery, [
       admin_email,
       admin_password,
       admin_name,
@@ -65,7 +67,6 @@ const updateAdminData = async (adminId, adminData) => {
       admin_role,
       admin_status,
       admin_business_name,
-      updated_at,
       adminId,
     ]);
     return results[0];
@@ -77,7 +78,7 @@ const updateAdminData = async (adminId, adminData) => {
 // 관리자 정보 조회
 const getAlladmins = async () => {
   try {
-    const [results] = await db.query(queries.getAlladminsQuery);
+    const [results] = await db.query(adminQueries.getAlladminsQuery);
     return results;
   } catch (error) {
     throw error;
@@ -98,7 +99,7 @@ const getAdminLoginLogs = async (id) => {
 const deleteAdmin = async (adminId) => {
   try {
     console.log('adminId:', adminId);
-    const results = await db.query(queries.deleteAdminQuery, [adminId]);
+    const results = await db.query(adminQueries.deleteAdminQuery, [adminId]);
     return results[0];
   } catch (error) {
     throw error;
@@ -108,7 +109,7 @@ const deleteAdmin = async (adminId) => {
 // // 특정 관리자 조회
 // const getAdminById = async (id) => {
 //   try {
-//     const results = await db.query(queries.getAdminByIdQuery, [id]);
+//     const results = await db.query(adminQueries.getAdminByIdQuery, [id]);
 //     return results[0];
 //   } catch (error) {
 //     throw error;

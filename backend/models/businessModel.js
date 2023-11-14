@@ -1,5 +1,5 @@
 const db = require('../config/dbConnMysql');
-const { BusinessQueries } = require('./Queries');
+const { BusinessQueries } = require('./_Queries');
 
 // 어린이집 정보를 데이터베이스에 추가하는 메소드
 const createBusiness = async (params) => {

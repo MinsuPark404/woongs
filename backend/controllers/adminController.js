@@ -73,6 +73,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
         name: admin.admin_name,
         role: admin.admin_role,
       },
+      cookie: res.getHeader('Set-Cookie'),
     });
   } catch (error) {
     console.error('Admin login failed:', error);
@@ -98,20 +99,12 @@ const businessList = asyncHandler(async (req, res) => {
 });
 
 // @관리자 정보 업데이트
-// @Endpoint PUT /api/admins/:id
+// @Endpoint PUT /api/admins/update/:id
 // @access admin_s
 const updateAdmin = asyncHandler(async (req, res) => {
   const adminId = req.params.id; // URL 경로에서 관리자 ID 추출
   const adminData = req.body; // 요청 본문에서 관리자 데이터 추출
   try {
-    // // ISO 8601 형식을 MySQL dateTime 형식으로 변환
-    // if (adminData.created_at) {
-    //   adminData.created_at = adminData.created_at.replace('T', ' ').slice(0, 19);
-    // }
-    // if (adminData.updated_at) {
-    //   adminData.updated_at = adminData.updated_at.replace('T', ' ').slice(0, 19);
-    // }
-
     // 관리자 데이터를 업데이트하는 모델 함수를 호출
     const result = await adminModel.updateAdminData(adminId, adminData);
     if (result.affectedRows > 0) {
@@ -147,13 +140,37 @@ const logoutAdmin = asyncHandler(async (req, res) => {
     const adminId = req.body.admin_idx;
     console.log('로그아웃 관리자 id: ', req.body);
     await cmsLogModel.logAuthAttempt(adminId, 'T', req.ip, true);
-    res.status(200).json({ message: '로그아웃 되었습니다.' });
+
+    // 세션 파일 스토어에서 세션 삭제
+    req.session.destroy(function (err) {
+      if (err) {
+        console.error('세션 삭제 중 오류 발생:', err);
+      } else {
+        // 세션 쿠키 삭제
+        res.clearCookie('connect.sid');
+
+        res.status(200).json({ message: '로그아웃 되었습니다.' });
+      }
+    });
   } catch (error) {
     await cmsLogModel.logAuthAttempt(admin, 'F', req.ip, false);
     console.error('Logout failed:', error);
     res.status(500).json({ message: '로그아웃 처리 중 문제가 발생했습니다.' });
   }
 });
+
+// const logoutAdmin = asyncHandler(async (req, res) => {
+//   try {
+//     const adminId = req.body.admin_idx;
+//     console.log('로그아웃 관리자 id: ', req.body);
+//     await cmsLogModel.logAuthAttempt(adminId, 'T', req.ip, true);
+//     res.status(200).json({ message: '로그아웃 되었습니다.' });
+//   } catch (error) {
+//     await cmsLogModel.logAuthAttempt(admin, 'F', req.ip, false);
+//     console.error('Logout failed:', error);
+//     res.status(500).json({ message: '로그아웃 처리 중 문제가 발생했습니다.' });
+//   }
+// });
 
 // @관리자 로그 조회
 // @Endpoint GET /api/admins/logs
