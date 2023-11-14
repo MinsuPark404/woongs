@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(
   session({
     store: new FileStore(), // 파일 시스템에 세션 데이터를 저장
-    secret: '1234', // 세션 암호화에 사용될 키
+    secret: process.env.SESSION_SECRET, // 세션 암호화에 사용될 키
     resave: false, // 세션을 항상 저장할지 정하는 값 (false 권장)
     saveUninitialized: false, // 세션을 초기화하지 않고 저장할지 정하는 값 (false 권장)
     cookie: {
@@ -28,7 +28,7 @@ app.use(
 const connectDb = require('./config/dbConnMysql');
 app.set('db', connectDb);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 app.use(express.json());
 
