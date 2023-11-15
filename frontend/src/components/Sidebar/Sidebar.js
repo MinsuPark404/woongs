@@ -57,10 +57,12 @@ const Sidebar = ({ isExpanded, setIsExpanded }) => {
                     <br />
                     {/* 기타 링크 아이템들에도 같은 로직 적용 */}
                 </ul>
-            </div>
-            <div className="sidebar-toggle" onClick={toggleSidebar}>
+
+                <div className="sidebar-toggle" onClick={toggleSidebar}>
                 <span className="toggle-icon">{isExpanded ? '◀' : '▶'}</span>
             </div>
+            </div>
+            
         </aside>
     );
 };
