@@ -30,7 +30,7 @@
   .admin-panel button:hover {
     background-color: #ff3333;
   }
-  .main-content {
+  /* .main-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -39,7 +39,7 @@
     height: 100%;
     margin-top: 60px;
     margin-left: 350px;
-  }
+  } */
   .main-container {
     display: flex;
     flex-direction: column;
