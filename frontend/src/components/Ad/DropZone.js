@@ -1,116 +1,96 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useDrop, useDrag } from 'react-dnd';
+import DraggableButton from './DraggableButton';
+import DraggableImage from './DraggableImage';
+import DraggableTextBlock from './DraggableTextBlock';
 
-const DropZone = () => {
-    // Header sub-sections
-    const [headerLeftComponents, setHeaderLeftComponents] = useState([]);
-    const [headerRightComponents, setHeaderRightComponents] = useState([]);
 
-    // Banner sub-sections
-    const [bannerTopComponents, setBannerTopComponents] = useState([]);
-    const [bannerBottomComponents, setBannerBottomComponents] = useState([]);
 
-    // Description components
-    const [descriptionComponents, setDescriptionComponents] = useState([]);
-    
-    const moveComponent = useCallback((dragIndex, hoverIndex, components, setComponentsFunc) => {
-        const newComponents = [...components];
-        const dragged = newComponents[dragIndex];
-        newComponents.splice(dragIndex, 1);
-        newComponents.splice(hoverIndex, 0, dragged);
-        setComponentsFunc(newComponents);
-    }, []);
-    const deleteComponent = (setComponentsFunc, index) => {
-        setComponentsFunc(prev => prev.filter((_, i) => i !== index));
+const DraggableComponent = ({ id, type, position, onMove }) => {
+
+    const [, drag] = useDrag(() => ({
+        type: 'widget',
+        item: { id, type } // 여기에 type을 추가
+    }), [id, type]);
+
+    const style = {
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+        position: 'absolute'
     };
 
-    // Drop logic for header left
-    const [, headerLeftDrop] = useDrop(() => ({
+    const Component = getComponentByType(type); // 타입에 따라 컴포넌트를 선택합니다
+
+    return <div ref={drag} style={style} onMouseMove={(e) => onMove(id, e)}><Component /></div>;
+};
+
+const getComponentByType = (type) => {
+    switch (type) {
+        case 'text':
+            return DraggableTextBlock;
+        case 'button':
+            return DraggableButton;
+        case 'image':
+            return DraggableImage;
+        default:
+            // 기본값 또는 오류 처리
+            return () => <div>Unknown component type: {type}</div>;
+    }
+};
+
+
+
+const DropZone = () => {
+    const [components, setComponents] = useState([]);
+
+    // 드래그된 컴포넌트의 위치를 업데이트하는 함수
+    const updateComponentPosition = useCallback((id, newPosition) => {
+        setComponents(prevComponents => prevComponents.map(comp =>
+            comp.id === id ? { ...comp, position: newPosition } : comp
+        ));
+    }, []);
+
+    const [, drop] = useDrop(() => ({
         accept: 'widget',
         drop: (item, monitor) => {
-            if (item && item.create) {
-                setHeaderLeftComponents(prev => [...prev, item.create]);
+            const clientOffset = monitor.getClientOffset();
+            if (clientOffset) {
+                const dropZoneRect = document.querySelector('.drop-zone').getBoundingClientRect();
+                const newPosition = {
+                    x: clientOffset.x - dropZoneRect.left,
+                    y: clientOffset.y - dropZoneRect.top,
+                };
+
+                // 새로운 컴포넌트를 추가하거나 기존 컴포넌트의 위치를 업데이트
+                setComponents(prevComponents => {
+                    const existingComponent = prevComponents.find(comp => comp.id === item.id);
+                    if (existingComponent) {
+                        return prevComponents.map(comp =>
+                            comp.id === item.id ? { ...comp, position: newPosition } : comp
+                        );
+                    } else {
+                        return [...prevComponents, {
+                            id: item.id,
+                            type: item.type,
+                            position: newPosition
+                        }];
+                    }
+                });
             }
         }
-    }));
-
-    // Drop logic for header right
-    const [, headerRightDrop] = useDrop(() => ({
-        accept: 'widget',
-        drop: (item, monitor) => {
-            if (item && item.create) {
-                setHeaderRightComponents(prev => [...prev, item.create]);
-            }
-        }
-    }));
-
-    // Drop logic for banner top
-    const [, bannerTopDrop] = useDrop(() => ({
-        accept: 'widget',
-        drop: (item, monitor) => {
-            if (item && item.create) {
-                setBannerTopComponents(prev => [...prev, item.create]);
-            }
-        }
-    }));
-
-    // Drop logic for banner bottom
-    const [, bannerBottomDrop] = useDrop(() => ({
-        accept: 'widget',
-        drop: (item, monitor) => {
-            if (item && item.create) {
-                setBannerBottomComponents(prev => [...prev, item.create]);
-            }
-        }
-    }));
-
-    // Drop logic for description remains unchanged
-    // ...
+    }), [updateComponentPosition]);
 
     return (
-        <div className="drop-zone">
-            {/* Header Sub-Sections */}
-            <div className="header-section">
-                <div ref={headerLeftDrop} className="drop-zone-section header-left">
-                    {headerLeftComponents.map((Component, index) => (
-                        <div key={index} className="dropped-component">
-                            <Component />
-                            <button className = 'button' onClick={() => deleteComponent(setHeaderLeftComponents, index)}>Delete</button>
-                        </div>
-                    ))}
-                </div>
-                <div ref={headerRightDrop} className="drop-zone-section header-right">
-                    {headerRightComponents.map((Component, index) => (
-                        <div key={index} className="dropped-component">
-                            <Component />
-                            <button className = 'button' onClick={() => deleteComponent(setHeaderRightComponents, index)}>Delete</button>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* Banner Sub-Sections */}
-            <div className="banner-section">
-                <div ref={bannerTopDrop} className="drop-zone-section banner-top">
-                    {bannerTopComponents.map((Component, index) => (
-                        <div key={index} className="dropped-component">
-                            <Component />
-                            <button className = 'button' onClick={() => deleteComponent(setBannerTopComponents, index)}>Delete</button>
-                        </div>
-                    ))}
-                </div>
-                <div ref={bannerBottomDrop} className="drop-zone-section banner-bottom">
-                    {bannerBottomComponents.map((Component, index) => (
-                        <div key={index} className="dropped-component">
-                            <Component />
-                            <button className = 'button' onClick={() => deleteComponent(setBannerBottomComponents, index)}>Delete</button>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {/* Description Section */}
-            {/* ... */}
+        <div ref={drop} className="drop-zone" style={{ position: 'relative', width: '100%', height: '100%' }}>
+            {components.map((comp) => (
+                <DraggableComponent
+                    key={comp.id}
+                    id={comp.id}
+                    type={comp.type}
+                    position={comp.position}
+                    onMove={updateComponentPosition}
+                />
+            ))}
         </div>
     );
 };

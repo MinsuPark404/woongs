@@ -10,6 +10,7 @@ header {
     height: 60px;
     /* display: flex;
     position: absolute; or absolute, depending on your layout */
+    
     top: 0;
     left: 0;
     z-index: 1010; /* Higher z-index to ensure header is above the sidebar */
