@@ -11,7 +11,7 @@ CREATE TABLE cms_admins
     `admin_business_name`  VARCHAR(50)   NULL,                      -- 어린이집 이름  
     `admin_created_at`     DATETIME      NULL      DEFAULT now(),   -- 관리자 등록일자 
     `admin_updated_at`     DATETIME      NULL      DEFAULT now(),   -- 관리자 수정일자 
-    `admin_last_login`     DATETIME      NULL      DEFAULT now(),   -- 관리자 최종 로그인 
+    `admin_last_login`     DATETIME      NULL      DEFAULT now(),   -- 관리자 최종 로그인
      PRIMARY KEY (admin_idx)
 );
 
@@ -29,7 +29,6 @@ CREATE TABLE cms_businesses
     `business_created_at`  DATETIME       NULL      DEFAULT now(),   -- 어린이집 등록일자 
     `admin_idx`            INT UNSIGNED   NULL,                      -- 관리자 순번 
      PRIMARY KEY (business_idx),
---   UNIQUE (business_bno)
 );
 
 -- 테이블 생성 SQL - cms_url
@@ -63,14 +62,14 @@ CREATE TABLE cms_users
 -- 테이블 생성 SQL - cms_videos
 CREATE TABLE cms_videos
 (
-    `video_idx`          INT UNSIGNED   NOT NULL  AUTO_INCREMENT,  -- 비디오 순번 
-    `video_name`         VARCHAR(50)    NULL,                      -- 비디오 이름 
-    `video_path`         VARCHAR(1000)  NULL,                      -- 비디오 경로 
-    `video_recoded_at`   DATETIME       NULL      DEFAULT now(),   -- 비디오 촬영일자 
-    `video_archived_at`  DATETIME       NULL      DEFAULT now(),   -- 비디오 보관일자
-    `video_created_at`   DATETIME       NULL      DEFAULT now(),   -- 비디오 등록일자 
---  `business_idx`       INT UNSIGNED   NULL,                      -- 어린이집 순번
-     PRIMARY KEY (video_idx)
+    `video_idx`          INT UNSIGNED   NOT NULL  AUTO_INCREMENT,  -- 비디오 순번
+    `video_name`         VARCHAR(50)    NULL,                      -- 비디오 이름
+    `video_path`         VARCHAR(1000)  NULL,                      -- 비디오 경로
+    `video_recoded_at`   DATETIME       NULL,                      -- 비디오 촬영일자
+    `video_archived_at`  DATETIME       NULL,					   -- 비디오 보관일자
+    `video_created_at`   DATETIME       NULL      DEFAULT now(),   -- 비디오 등록일자
+    `business_idx`       INT			NULL,                      -- 어린이집 순번
+    PRIMARY KEY (video_idx)
 );
 
 -- 테이블 생성 SQL - cms_url_log
@@ -120,3 +119,15 @@ CREATE TABLE cms_contents
 --  `url_idx`             INT UNSIGNED  NULL,                      -- 도메인 순번 
      PRIMARY KEY (content_seq)
 )
+
+-- 테이블 생성 SQL - anomaly_detection
+CREATE TABLE anomaly_detection
+(
+    `detection_idx`                  INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+    `video_idx`           INT           NOT NULL, -- cms_videos 테이블의 비디오 순번 참조
+    `detected_at`         DATETIME      NOT NULL, -- 이상 탐지된 날짜 및 시간
+    `type`                VARCHAR(100)  NOT NULL, -- 이상 탐지 유형 (예: 움직임, 소리 등)
+    `details`             TEXT,                    -- 이상 탐지에 대한 추가 세부 사항
+    `is_notified`         BOOLEAN       NOT NULL DEFAULT FALSE, -- 알림 발송 여부
+    PRIMARY KEY (detection_idx)
+);
