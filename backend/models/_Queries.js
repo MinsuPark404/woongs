@@ -33,6 +33,7 @@ const cmsLogQueries = {
   deleteLogQuery: `DELETE FROM cms_log WHERE cms_log_idx = ?`,
 };
 
+//TODO 추후 수정 필요
 const contentsQueries = {
   createContentQuery: `INSERT INTO cms_contents (content_detail, business_name, content_created_at, content_updated_at) VALUES (?, ?, ?, ?)`,
   getContentByIdQuery: `SELECT * FROM cms_contents WHERE content_seq = ?`,
@@ -40,6 +41,7 @@ const contentsQueries = {
   deleteContentQuery: `DELETE FROM cms_contents WHERE content_seq = ?`,
 };
 
+//TODO 추후 수정 필요
 const menuQueries = {
   createMenuQuery: `INSERT INTO cms_menu (menu_detail, menu_created_at, menu_updated_at) VALUES (?, ?, ?)`,
   getMenuByIdQuery: `SELECT * FROM cms_menu WHERE menu_idx = ?`,
@@ -47,6 +49,7 @@ const menuQueries = {
   deleteMenuQuery: `DELETE FROM cms_menu WHERE menu_idx = ?`,
 };
 
+//TODO 추후 수정 필요
 const urlQueries = {
   createUrlQuery: `INSERT INTO cms_url (url_addr, url_status, business_idx, url_archived_at) VALUES (?, ?, ?, ?)`,
   getUrlByIdQuery: `SELECT * FROM cms_url WHERE url_idx = ?`,
@@ -65,6 +68,7 @@ const userQueries = {
   getAllUsersQuery: `SELECT * FROM cms_users`,
 };
 
+//TODO 추후 수정 필요
 const videoQueries = {
   createVideoQuery: `INSERT INTO cms_videos (video_name, video_path, video_recoded_at, video_archived_at, video_created_at) VALUES (?, ?, ?, ?, ?)`,
   getVideoByIdQuery: `SELECT * FROM cms_videos WHERE video_idx = ?`,
