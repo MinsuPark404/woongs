@@ -40,17 +40,17 @@ const Sidebar = ({ isExpanded, setIsExpanded }) => {
             <div className="sidebar-content">
                 <ul className="menu-list">
                     {/* 메뉴 아이템들 */}
-                    <li className="menu-item" onClick={() => handleLinkClick('/admin')}>
+                    <li className="menu-item" onClick={() => handleLinkClick('/main/admin')}>
                         <FontAwesomeIcon className="fa-icon" icon={faUserGear} />
                         {isExpanded && <span>사업자 관리</span>}
                     </li>
                     <br />
-                    <li className="menu-item" onClick={() => handleLinkClick('/domain')}>
+                    <li className="menu-item" onClick={() => handleLinkClick('/main/domain')}>
                         <FontAwesomeIcon className="fa-icon" icon={faGlobe} />
                         {isExpanded && <span>도메인 관리</span>}
                     </li>
                     <br />
-                    <li className="menu-item" onClick={() => handleLinkClick('/ad')}>
+                    <li className="menu-item" onClick={() => handleLinkClick('/main/ad')}>
                         <FontAwesomeIcon className="fa-icon" icon={faBullhorn} />
                         {isExpanded && <span>홍보 페이지</span>}
                     </li>

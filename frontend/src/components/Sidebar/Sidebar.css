@@ -5,14 +5,14 @@
     /* 너비 트랜지션을 부드럽게 유지합니다 */
     width: 20%; 
     /* transition: width 0.2s ease; */
-    position: fixed;
+    /* position: fixed; */
     top: 0;
     left: 0;
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-top: 60px;
+
 }
 
 .sidebar.collapsed {
@@ -60,7 +60,6 @@
 }
 
 .menu-item span {
-   
     transition: visibility 0s, opacity 0.2s ease;
     display: inline-block;
     opacity: 1;
