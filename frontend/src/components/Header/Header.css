@@ -5,11 +5,11 @@
     height: 100vh;
     
 }
-
 header {
     width: 100%;
     height: 60px;
-    position: fixed; /* or absolute, depending on your layout */
+    /* display: flex;
+    position: absolute; or absolute, depending on your layout */
     top: 0;
     left: 0;
     z-index: 1010; /* Higher z-index to ensure header is above the sidebar */

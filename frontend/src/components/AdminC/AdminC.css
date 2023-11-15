@@ -3,23 +3,17 @@
   background-color: #f4f4f4;
   padding: 20px;
   border-radius: 10px;
-  
-  
 }
-
 .admin-panel h2 {
   margin-bottom: 10px;
 }
-
 .admin-panel ul {
   list-style-type: none;
   padding: 0;
 }
-
 .admin-panel li {
   margin-bottom: 10px;
 }
-
 .admin-panel button {
   margin-left: 10px;
   padding: 5px 10px;

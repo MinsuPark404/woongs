@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { useDrag } from 'react-dnd';
 import './AdMain.css';
@@ -13,9 +11,11 @@ const DraggableButton = () => {
     }));
 
     return (
-        <div ref={dragRef} className={`draggable-component ${isDragging ? 'is-dragging' : ''}`}>
-            <button className='btn'>1231231</button>
-        </div>
+        <>
+            <span ref={dragRef} className={`draggable-component ${isDragging ? 'is-dragging' : ''}`}>
+                <button className='btn'>1번 메뉴</button>
+            </span>
+        </>       
     );
 };
 

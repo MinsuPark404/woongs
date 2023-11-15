@@ -50,12 +50,12 @@
     font-weight: bold;
 }
 .draggable-component {
-    border: 1px solid #d3d3d3;
+    /* border: 1px solid #d3d3d3;
     background-color: #ffffff;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); */
     cursor: grab;
     transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
@@ -92,12 +92,6 @@
     height: auto;
     border-radius: 4px;
 }
-.main-content {
-    display: flex;
-    height: calc(100vh - 60px); /* Adjust the height as needed */
-    padding: 20px;
-}
-
 .drag-components-container {
     flex: 1; /* Takes up 20% of the space */
     padding: 10px;
@@ -112,7 +106,6 @@
     justify-content: center;
     align-items: center;
 }
-
 
 .dropped-component {
     position: relative;
@@ -146,4 +139,9 @@
 
 .btn:active {
     background-color: #004291;
+}
+.content-container {
+    padding: 20px;
+    margin: 0;
+    width: 100%;
 }
