@@ -8,12 +8,13 @@ const {
   adminLogs,
   logoutAdmin,
 } = require('../controllers/adminController');
+const verifyAdminAccess = require('../middleware/auth');
 
 // 사업자 등록
 router.post('/register', createAdmin);
 
 // 사업자 조회
-router.get('/list', businessList);
+router.get('/list', verifyAdminAccess, businessList);
 
 // 로그인
 router.post('/login', loginAdmin);

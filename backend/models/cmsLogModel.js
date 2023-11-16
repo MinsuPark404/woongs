@@ -35,4 +35,9 @@ const findAll = async ({ page, limit }) => {
   return results;
 };
 
+// const findAll = async () => {
+//   const [results] = await db.query(`SELECT * FROM cms_log`);
+//   return results;
+// };
+
 module.exports = { logAuthAttempt, create, findAll };

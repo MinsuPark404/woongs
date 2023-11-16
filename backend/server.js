@@ -4,7 +4,7 @@ const path = require('path');
 const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const FileStore = require('session-file-store')(session);
+// const FileStore = require('session-file-store')(session);
 
 const app = express();
 app.use(cors());
@@ -12,12 +12,12 @@ app.use(bodyParser.json());
 
 app.use(
   session({
-    store: new FileStore(), // 파일 시스템에 세션 데이터를 저장
+    // store: new FileStore(), // 파일 시스템에 세션 데이터를 저장
     secret: process.env.SESSION_SECRET, // 세션 암호화에 사용될 키
     resave: false, // 세션을 항상 저장할지 정하는 값 (false 권장)
-    saveUninitialized: false, // 세션을 초기화하지 않고 저장할지 정하는 값 (false 권장)
+    saveUninitialized: true, // 세션을 초기화하지 않고 저장할지 정하는 값 (false 권장)
     cookie: {
-      httpOnly: false, // 클라이언트 JavaScript가 쿠키를 볼 수 없도록 함
+      httpOnly: true, // 클라이언트 JavaScript가 쿠키를 볼 수 없도록 함
       secure: false, // HTTPS를 통해서만 쿠키가 전송되도록 함
       maxAge: 600000, // 쿠키의 생존 기간(예: 10분)
     },
@@ -36,14 +36,13 @@ app.use(express.json());
 app.use('/api/admins', require('./routes/adminRoutes'));
 app.use('/api/businesses', require('./routes/businessRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/videos', require('./routes/videoRoutes'));
 // app.use('/api/cmslog', require('./routes/cmsLogRoutes'));
 
 // 정적인 파일 관리
-app.use(express.static(path.join(__dirname, '../frontend', 'bilud')));
+app.use(express.static(path.join(__dirname, '../frontend', 'build')));
 
 app.use('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend', 'bilud', 'index.html'));
+  res.sendFile(path.join(__dirname, '../frontend', 'build', 'index.html'));
 });
 
 app.listen(port, () => {

@@ -31,7 +31,7 @@ const createAdmin = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     // 에러 로깅
-    console.error('Admin creation failed:', error);
+    console.error('관리자 생성 실패:', error);
     return res
       .status(500)
       .json({ message: '관리자 생성 중 오류가 발생했습니다.' });
@@ -89,6 +89,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 const businessList = asyncHandler(async (req, res) => {
   try {
     const admins = await adminModel.getAlladmins();
+    console.log('두번쨰:', admins);
     res.status(200).json(admins);
   } catch (error) {
     console.error('관리자 목록 조회 실패', error);
@@ -158,19 +159,6 @@ const logoutAdmin = asyncHandler(async (req, res) => {
     res.status(500).json({ message: '로그아웃 처리 중 문제가 발생했습니다.' });
   }
 });
-
-// const logoutAdmin = asyncHandler(async (req, res) => {
-//   try {
-//     const adminId = req.body.admin_idx;
-//     console.log('로그아웃 관리자 id: ', req.body);
-//     await cmsLogModel.logAuthAttempt(adminId, 'T', req.ip, true);
-//     res.status(200).json({ message: '로그아웃 되었습니다.' });
-//   } catch (error) {
-//     await cmsLogModel.logAuthAttempt(admin, 'F', req.ip, false);
-//     console.error('Logout failed:', error);
-//     res.status(500).json({ message: '로그아웃 처리 중 문제가 발생했습니다.' });
-//   }
-// });
 
 // @관리자 로그 조회
 // @Endpoint GET /api/admins/logs

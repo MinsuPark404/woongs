@@ -59,6 +59,7 @@ CREATE TABLE cms_users
      PRIMARY KEY (user_idx)
 );
 
+-- CCTV 영상을 네트워크로 받아서 중앙 로컬의 각 폴더에 저장되었다는 가정
 -- 테이블 생성 SQL - cms_videos
 CREATE TABLE cms_videos
 (
@@ -68,7 +69,7 @@ CREATE TABLE cms_videos
     `video_recoded_at`   DATETIME       NULL,                      -- 비디오 촬영일자
     `video_archived_at`  DATETIME       NULL,					   -- 비디오 보관일자
     `video_created_at`   DATETIME       NULL      DEFAULT now(),   -- 비디오 등록일자
-    `business_idx`       INT			NULL,                      -- 어린이집 순번
+    `business_bno`       INT			NULL,                      -- 어린이집 사업자 번호
     PRIMARY KEY (video_idx)
 );
 
@@ -123,11 +124,20 @@ CREATE TABLE cms_contents
 -- 테이블 생성 SQL - anomaly_detection
 CREATE TABLE anomaly_detection
 (
-    `detection_idx`                  INT UNSIGNED  NOT NULL AUTO_INCREMENT,
-    `video_idx`           INT           NOT NULL, -- cms_videos 테이블의 비디오 순번 참조
-    `detected_at`         DATETIME      NOT NULL, -- 이상 탐지된 날짜 및 시간
-    `type`                VARCHAR(100)  NOT NULL, -- 이상 탐지 유형 (예: 움직임, 소리 등)
+    `detection_idx`                  INT UNSIGNED  NULL AUTO_INCREMENT,
+    `video_idx`           INT           NULL, -- cms_videos 테이블의 비디오 순번 참조
+    `detected_at`         DATETIME      NULL, -- 이상 탐지된 날짜 및 시간
+    `type`                VARCHAR(100)  NULL, -- 이상 탐지 유형 (예: 움직임, 소리 등)
     `details`             TEXT,                    -- 이상 탐지에 대한 추가 세부 사항
-    `is_notified`         BOOLEAN       NOT NULL DEFAULT FALSE, -- 알림 발송 여부
+    `is_notified`         BOOLEAN       NULL DEFAULT FALSE, -- 알림 발송 여부
     PRIMARY KEY (detection_idx)
+);
+
+CREATE TABLE daily_visits (
+    date DATE PRIMARY KEY,
+    count INT DEFAULT 0
+);
+
+CREATE TABLE total_visits (
+    count INT
 );
