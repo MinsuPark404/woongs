@@ -1,11 +1,11 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect,useCallback } from 'react';
 import { useDrop, useDrag } from 'react-dnd';
 import DraggableButton from './DraggableButton';
 import DraggableImage from './DraggableImage';
 import DraggableTextBlock from './DraggableTextBlock';
 import { v4 as uuidv4 } from 'uuid';
 import { getEmptyImage } from 'react-dnd-html5-backend';
-
+import { useMutation } from 'react-query';
 const getComponentByType = (type) => {
     switch (type) {
         case 'text': return DraggableTextBlock;
@@ -14,8 +14,18 @@ const getComponentByType = (type) => {
         default: return () => <div>Unknown component type: {type}</div>;
     }
 };
+const useDraggable = (id, type) => {
+    
+    const [isActive, setIsActive] = useState(false);
+    const [isDragging, setIsDragging] = useState(false);
 
-const DraggableComponent = ({ id, type, position, onDelete }) => {
+    // Drag-related functions and effects
+
+    return { isActive, setIsActive, isDragging, setIsDragging };
+};
+
+const DraggableComponent = ({ id, type, position, onDelete}) => {
+    const { isActive, setIsActive, isDragging, setIsDragging } = useDraggable(id, type);
     const [state, setState] = useState({ isActive: false, isDragging: false });
 
     const [, drag, preview] = useDrag(() => ({
@@ -42,10 +52,12 @@ const DraggableComponent = ({ id, type, position, onDelete }) => {
     const Component = getComponentByType(type);
 
     return (
-        <div id={id} ref={drag} style={style} onClick={() => setState({ ...state, isActive: !state.isActive })}>
-            <Component />
-            {state.isActive && (
-                <button onClick={(e) => { e.stopPropagation(); onDelete(id); }} style={{ marginTop: '5px' }}>Delete</button>
+        <div id={id} ref={drag} style={style} onClick={() => setIsActive(!isActive)}>
+            <Component id={id} />
+            {isActive && (
+                <button onClick={(e) => { e.stopPropagation(); onDelete(id); }}>
+                    Delete
+                </button>
             )}
         </div>
     );
@@ -60,7 +72,10 @@ const DropZone = () => {
             const clientOffset = monitor.getClientOffset();
             if (clientOffset) {
                 const dropZoneRect = document.querySelector('.drop-zone').getBoundingClientRect();
-                const newPosition = { x: clientOffset.x - dropZoneRect.left, y: clientOffset.y - dropZoneRect.top };
+                const newPosition = { 
+                    x: clientOffset.x - dropZoneRect.left, 
+                    y: clientOffset.y - dropZoneRect.top 
+                };
     
                 setComponents(prevComponents => {
                     const existingComponent = prevComponents.find(comp => comp.id === item.id);
@@ -75,14 +90,17 @@ const DropZone = () => {
             }
         }
     }));
+    const handleDelete = useCallback((id) => {
+        setComponents(prev => prev.filter(c => c.id !== id));
+    }, []);
 
     return (
-        <div ref={drop} className="drop-zone" style={{ position: 'relative', width: '100%', height: '100%' }}>
+        <div ref={drop} className="drop-zone">
             {components.map(comp => (
                 <DraggableComponent
                     key={comp.id}
                     {...comp}
-                    onDelete={() => setComponents(prev => prev.filter(c => c.id !== comp.id))}
+                    onDelete={handleDelete}
                 />
             ))}
         </div>
