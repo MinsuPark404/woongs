@@ -68,7 +68,6 @@ const userQueries = {
   getAllUsersQuery: `SELECT * FROM cms_users`,
 };
 
-//TODO 추후 수정 필요
 const videoQueries = {
   createVideoQuery: `INSERT INTO cms_videos (video_name, video_path, video_recoded_at, video_archived_at, video_created_at) VALUES (?, ?, ?, ?, ?)`,
   getVideoByIdQuery: `SELECT * FROM cms_videos WHERE video_idx = ?`,
