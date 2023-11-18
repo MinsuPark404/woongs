@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './AdminC.css'; 
-import axios from 'axios';
-
+import axios from '../../axios';
 
 const RegisterAdmin = () => {
   
@@ -34,7 +33,7 @@ const RegisterAdmin = () => {
     };
   
     try {
-      const response = await axios.post('http://localhost:5000/api/admins/register', adminData);
+      const response = await axios.post('/api/admins/register', adminData);
   
       
       setAdminInfo({

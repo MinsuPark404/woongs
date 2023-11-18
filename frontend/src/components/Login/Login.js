@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../../axios';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
@@ -13,12 +14,15 @@ function Login() {
     e.preventDefault();
     setMessage(''); // 이전 메시지 초기화
     try {
-      const response = await axios.post('http://localhost:5000/api/admins/login', {
+      const response = await axios.post('/api/admins/login', {
         admin_email: username,
         admin_password: password,
       });
       // 서버가 성공 메시지를 반환하면 메인 페이지로 네비게이트
       setMessage(response.data.message);
+      // 로그인 성공시 session데이터 요청후 데이터 저장
+      const sessionData = await axios.post('/api/admins/sessiondata');
+      console.log('sessionData', sessionData);
       navigate('/main');
     } catch (error) {
       // 에러 처리 개선

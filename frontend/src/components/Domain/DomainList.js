@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
 // import Modal from './Modal';
+import axios from '../../axios';
 
 // fetchBusinesses 함수는 백엔드 API를 호출하여 사업자 목록을 가져옵니다.
 const fetchBusinesses = async () => {
-  const response = await fetch('http://localhost:5000/api/admins/list'); // 기본적으로 GET 요청
-  if (!response.ok) {
+  // const response = await fetch('http://localhost:5000/api/admins/list'); // 기본적으로 GET 요청
+  // if (!response.ok) {
+  //   throw new Error('사업자 목록을 불러오는데 실패했습니다.');
+  // }
+  // const data = await response.json();
+  // return data;
+  try {
+    const response = await axios.get('/api/admins/list');
+    return response.data;
+  } catch (error) {
     throw new Error('사업자 목록을 불러오는데 실패했습니다.');
   }
-  const data = await response.json();
-  return data;
 };
 
 const DomainList = () => {

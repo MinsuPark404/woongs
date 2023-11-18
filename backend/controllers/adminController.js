@@ -179,6 +179,26 @@ const adminLogs = asyncHandler(async (req, res) => {
   }
 });
 
+const getSessionData = asyncHandler(async (req, res) => {
+  console.log('(getSessionData) called : ', req.session);
+  try {
+    const sessionData = req.session.admin;
+    if (sessionData) {
+      res.status(200).json({
+        message: '세션 정보가 존재합니다.',
+        admin: sessionData,
+      });
+    } else {
+      res.status(404).json({
+        message: '세션 정보가 존재하지 않습니다.',
+      });
+    }
+  } catch (error) {
+    console.error('세션 정보 조회 실패', error);
+    res.status(500).json({ message: '세션 정보 조회 중 오류가 발생했습니다.' });
+  }
+});
+
 module.exports = {
   businessList,
   createAdmin,
@@ -186,4 +206,5 @@ module.exports = {
   updateAdmin,
   adminLogs,
   logoutAdmin,
+  getSessionData
 };

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './AdminC.css';
+import axios from '../../axios';
+
 const LogManager = () => {
 
   const [searchFilters, setSearchFilters] = useState({
@@ -8,25 +10,21 @@ const LogManager = () => {
     startDate: '',
     endDate: ''
   });
-
-
   const [logs, setLogs] = useState([]);
-
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setSearchFilters({ ...searchFilters, [name]: value });
   };
 
-
   const handleSearch = async () => {
     console.log('검색 실행:', searchFilters);
-    const response = await fetch('http://localhost:5000/api/admins/???');
-    if (!response.ok) {
+    try {
+      const response = await axios.get('/api/admins/???');
+      return response.data;
+    } catch (error) {
       throw new Error('로그를 불러오는데 실패함');
     }
-    const data = await response.json();
-    return data;
   };
 
 

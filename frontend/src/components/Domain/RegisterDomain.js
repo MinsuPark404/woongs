@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Domain.css'; 
-import axios from 'axios';
-
+// import axios from 'axios';
+import axios from '../../axios';
 
 const RegisterDomain = () => {
   
@@ -34,7 +34,7 @@ const RegisterDomain = () => {
     };
   
     try {
-      const response = await axios.post('http://localhost:5000/api/admins/register', adminData);
+      const response = await axios.post('/api/admins/register', adminData);
   
       
       setAdminInfo({

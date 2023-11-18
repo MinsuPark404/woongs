@@ -7,6 +7,7 @@ const {
   updateAdmin,
   adminLogs,
   logoutAdmin,
+  getSessionData,
 } = require('../controllers/adminController');
 const verifyAdminAccess = require('../middleware/auth');
 
@@ -14,7 +15,7 @@ const verifyAdminAccess = require('../middleware/auth');
 router.post('/register', createAdmin);
 
 // 사업자 조회
-router.get('/list', verifyAdminAccess, businessList);
+router.get('/list', businessList);
 
 // 로그인
 router.post('/login', loginAdmin);
@@ -28,4 +29,8 @@ router.post('/logout', logoutAdmin);
 // 관리자 로그 조회
 router.get('/logs', adminLogs);
 
+// 세션 데이터 조회
+router.post('/sessiondata', getSessionData);
+
 module.exports = router;
+
