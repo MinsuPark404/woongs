@@ -1,0 +1,10 @@
+modelx_cli_config:
+  debug:
+    name: modelx-debugger
+    rtsp_source: 0
+    fps_source: 15.
+    fps_underbound: 10.
+    pedes_report_thresh: 10.0
+    frame_scaling: True
+    ad_shutdown_timer: [0, 0]
+    dynamic_fps: True

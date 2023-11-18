@@ -1,0 +1,13 @@
+
+weights_path: C:/Users/content6/Desktop/yolov8_pose/yolov8_weights//pth/yolov8s-pose.pth
+model_name: yolov8
+model_size: s   # n, s, m, l, x
+model_task: pose  # NOTE  # detect, segment, pose
+input_size: 640  # NOTE
+flexible: false 
+device: cuda:0
+conf_thresh: 0.5  # NOTE
+nms_thresh: 0.6
+max_det: 300
+bbox_expand_ratio: 1.0  # NOTE
+mask_container_size: 256  # segmentation
