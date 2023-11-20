@@ -12,3 +12,5 @@ const {
 // router.get('/', LoginLogListAll);
 
 //TODO : 나중에 구상
+
+module.exports = router;
