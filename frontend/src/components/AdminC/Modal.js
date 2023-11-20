@@ -7,6 +7,7 @@ const Modal = ({ isOpen, close, admin, updateAdmin }) => {
   useEffect(() => {
     if (admin) {
       setEditAdmin(admin);
+      console.log("editAdmin",admin);
     }
   }, [admin]);
 
@@ -18,6 +19,7 @@ const Modal = ({ isOpen, close, admin, updateAdmin }) => {
   };
 
   const handleSubmit = (e) => {
+    console.log("editAdmin",editAdmin);
     e.preventDefault();
     updateAdmin(editAdmin);
     close();
@@ -86,8 +88,8 @@ const Modal = ({ isOpen, close, admin, updateAdmin }) => {
                   value={editAdmin.role}
                   onChange={handleChange}
                 >
-                  <option value="선생님">선생님</option>
-                  <option value="관리자">관리자</option>
+                  <option value="admin_e">선생님</option>
+                  <option value="admin_c">관리자</option>
                   {/* Add more roles as needed */}
                 </select>
               </div>

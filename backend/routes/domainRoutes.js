@@ -27,16 +27,15 @@ router.get('/', async (req, res) => {
 });
 
 // 도메인 등록
-router.post('/', async (req, res) => {
+router.post('/register', async (req, res) => {
   try {
     const { url_addr, url_status ,business_bno, url_created_at, url_period_at } = req.body;
     const query = `
       INSERT INTO cms_url (url_addr, url_status, business_bno, url_created_at, url_period_at)
       VALUES (?, ?, ?, ?, ?);
     `;
-
-    
     const [results] = await db.query(query, [url_addr, url_status, business_bno, url_created_at, url_period_at]);
+    console.log("result : ",results);
     res.status(200).json(results);
   } catch (err) {
     console.log(err);

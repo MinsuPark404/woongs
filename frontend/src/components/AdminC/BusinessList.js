@@ -6,6 +6,7 @@ import axios from '../../axios';
 const fetchBusinesses = async () => {
   try {
     const response = await axios.get('/api/admins/list');
+    console.log("ADMIN LIST",response.data);
     return response.data;
   } catch (error) {
     throw new Error('사업자 목록을 불러오는데 실패했습니다.');
@@ -19,8 +20,9 @@ const BusinessList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   
   const updateAdmin = async (updatedAdmin) => {
+    console.log("updatedAdmin",updatedAdmin);
     try {
-      const response = await axios.put(`/api/admins/update/${updatedAdmin.admin_id}`, updatedAdmin);
+      const response = await axios.put(`/api/admins/update/${updatedAdmin.admin_idx}`, updatedAdmin);
       console.log(response);
       setBusinesses((prevBusinesses) =>
         prevBusinesses.map((admin) =>
@@ -83,6 +85,9 @@ const BusinessList = () => {
               <tr>
                 <th>사업자 이름</th>
                 <th>어린이집 이름</th>
+                <th>전화번호</th>
+                <th>이메일</th>
+                <th>권한</th>
               </tr>
             </thead>
             <tbody>
@@ -90,6 +95,9 @@ const BusinessList = () => {
                 <tr key={admin.admin_id} onClick={() => openModal(admin)}>
                   <td>{admin.admin_name}</td>
                   <td>{admin.admin_business_name}</td>
+                  <td>{admin.admin_tel}</td>
+                  <td>{admin.admin_email}</td>
+                  <td>{admin.admin_role}</td>
                 </tr>
               ))}
             </tbody>

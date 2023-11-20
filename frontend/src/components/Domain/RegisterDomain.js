@@ -12,7 +12,7 @@ const RegisterDomain = () => {
     url_status: '',
     business_bno: '',
     url_archived_at: '',
-    url_period: '',
+    url_period_at: '',
   });
   const toggleStatus = () => {
     setUrlInfo({
@@ -35,7 +35,7 @@ const RegisterDomain = () => {
       ...urlInfo,
     };
     try {
-      const res = await axios.post('/api/domains', adminData);
+      const res = await axios.post('/api/domains/register', adminData);
       console.log(res);
     } catch (err) {
       console.log(err.response);
@@ -97,16 +97,16 @@ const RegisterDomain = () => {
       <div className="form-group">
         <label htmlFor="url_period">도메인 만료기한</label>
         <input
-          type="input"
-          id="url_period"
-          name="url_period"
-          value={urlInfo.url_period}
+          type="date"
+          id="url_period_at"
+          name="url_period_at"
+          value={urlInfo.url_period_at}
           onChange={handleChange}
           required
         />
       </div>
       <div className='button-box'>
-        <button type="submit" className='button-reg' onClick={handleSubmit}>등록</button>
+        <button className='button-reg' onClick={handleSubmit}>등록</button>
       </div>
       {message && <p className="message">{message}</p>}
     </form>
