@@ -3,15 +3,24 @@ import './Domain.css';
 // import axios from 'axios';
 import axios from '../../axios';
 
+
 const RegisterDomain = () => {
   
   const [urlInfo, setUrlInfo] = useState({
     // url_idx: '',
     url_addr: '',
     url_status: '',
-    business_idx: '',
+    business_bno: '',
     url_archived_at: '',
+    url_period: '',
   });
+  const toggleStatus = () => {
+    setUrlInfo({
+      ...urlInfo,
+      url_status: urlInfo.url_status === '활성화' ? '비활성화' : '활성화',
+    });
+  };
+
   const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
@@ -20,28 +29,20 @@ const RegisterDomain = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     setMessage('');
-  
     const adminData = {
       ...urlInfo,
     };
-  
-    // try {
-    //   // const response = await axios.post('/api/admins/register', adminData);
-    //   // alert('가입됨!');
-    //   // console.log(response.data)
-    // } catch (error) {
-    //   if (error.response) {
-    //     setMessage(error.response.data.message);
-    //   } else if (error.request) {
-    //     setMessage('No response received. Check your network connection.');
-    //   } else {
-    //     setMessage('Error: ' + error.message);
-    //   }
-    //   console.error('Registration error', error);
-    // }
+    try {
+      const res = await axios.post('/api/domains', adminData);
+      console.log(res);
+    } catch (err) {
+      console.log(err.response);
+      setMessage(err.response.data.message);
+    }
   };
+ 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
     setUrlInfo({ ...urlInfo, [name]: checked });
@@ -50,8 +51,9 @@ const RegisterDomain = () => {
     console.log('도메인 등록', urlInfo);
   },[urlInfo]);
   return (
-  <div className="register-domain">
+    <div>
     <h2>도메인 등록</h2>
+  <div className="register-domain">
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="url_addr">도메인 주소</label>
@@ -66,21 +68,17 @@ const RegisterDomain = () => {
       </div>
       <div className="form-group">
         <label htmlFor="url_status">도메인 상태</label>
-        <input
-          type="checkbox"
-          id="url_status"
-          name="url_status"
-          checked={urlInfo.url_status}
-          onChange={handleCheckboxChange}
-        />
+        <button type="button" className='button-status' onClick={toggleStatus}>
+        {urlInfo.url_status === '활성화' ? '비활성화' : '활성화'}
+      </button>
       </div>
       <div className="form-group">
-        <label htmlFor="business_idx">사업자 번호</label>
+        <label htmlFor="business_bno">사업자 번호</label>
         <input
           type="text"
-          id="business_idx"
-          name="business_idx"
-          value={urlInfo.business_idx}
+          id="business_bno"
+          name="business_bno"
+          value={urlInfo.business_bno}
           onChange={handleChange}
           required
         />
@@ -96,9 +94,23 @@ const RegisterDomain = () => {
           required
         />
       </div>
-      <button type="submit">등록</button>
+      <div className="form-group">
+        <label htmlFor="url_period">도메인 만료기한</label>
+        <input
+          type="input"
+          id="url_period"
+          name="url_period"
+          value={urlInfo.url_period}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className='button-box'>
+        <button type="submit" className='button-reg' onClick={handleSubmit}>등록</button>
+      </div>
       {message && <p className="message">{message}</p>}
     </form>
+  </div>
   </div>
   
   );
