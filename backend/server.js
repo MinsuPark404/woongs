@@ -39,6 +39,7 @@ app.use('/api/admins', require('./routes/adminRoutes'));
 app.use('/api/businesses', require('./routes/businessRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/domains', require('./routes/domainRoutes'));
+app.use('/api/children', require('./routes/childRoutes'));
 // app.use('/api/cmslog', require('./routes/cmsLogRoutes'));
 
 // 정적인 파일 관리
