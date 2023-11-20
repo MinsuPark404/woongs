@@ -39,8 +39,10 @@ CREATE TABLE cms_url
     `url_status`       CHAR(1)        NULL,                            -- 도메인 활성화 여부 
     `business_idx`     INT UNSIGNED   NULL,                            -- 어린이집 순번(동시에 무슨 어린이집인지 같이)스칼라쿼리
     `url_archived_at`  DATE           NULL      DEFAULT(DATE(NOW())),  -- 로그 날짜
+    'url_period'       VARCHAR(20)    NULL,                            -- 도메인 유효기간  
      PRIMARY KEY (url_idx)
 );
+
 
 -- 테이블 생성 SQL - cms_users
 CREATE TABLE cms_users
