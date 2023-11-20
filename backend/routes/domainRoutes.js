@@ -9,23 +9,8 @@ router.get('/', async (req, res) => {
     const query = `
       SELECT cms_url.*, cms_businesses.*
       FROM cms_url
-      LEFT JOIN cms_businesses ON cms_url.business_idx = cms_businesses.business_idx;
+      LEFT JOIN cms_businesses ON cms_url.business_bno = cms_businesses.business_bno;
     `;
-  //   const query = `
-  //   SELECT 
-  //     cms_url.*,
-  //     cms_businesses.business_name,
-  //     cms_businesses.business_admin,
-  //     cms_businesses.business_tel,
-  //     cms_businesses.business_addr1,
-  //     cms_businesses.business_addr2,
-  //     cms_businesses.business_bno,
-  //     cms_businesses.business_url,
-  //     cms_businesses.business_created_at,
-  //     cms_businesses.admin_idx
-  //   FROM cms_url
-  //   LEFT JOIN cms_businesses ON cms_url.business_idx = cms_businesses.business_idx;
-  // `;
     const [results] = await db.query(query);
     res.status(200).json(results);
   } catch (err) {
@@ -37,12 +22,14 @@ router.get('/', async (req, res) => {
 // 도메인 등록
 router.post('/', async (req, res) => {
   try {
-    const { url_addr, url_status ,business_idx, url_archived_at, url_period } = req.body;
+    const { url_addr, url_status ,business_bno, url_archived_at, url_period } = req.body;
     const query = `
-      INSERT INTO cms_url (url_addr, url_status, business_idx, url_archived_at, url_period)
+      INSERT INTO cms_url (url_addr, url_status, business_bno, url_archived_at, url_period)
       VALUES (?, ?, ?, ?, ?);
     `;
-    const [results] = await db.query(query, [url_addr, url_status, business_idx, url_archived_at, url_period]);
+
+    
+    const [results] = await db.query(query, [url_addr, url_status, business_bno, url_archived_at, url_period]);
     res.status(200).json(results);
   } catch (err) {
     console.log(err);
