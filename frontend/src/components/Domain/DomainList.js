@@ -2,114 +2,79 @@ import React, { useState, useEffect } from 'react';
 // import Modal from './Modal';
 import axios from '../../axios';
 
-// fetchBusinesses 함수는 백엔드 API를 호출하여 사업자 목록을 가져옵니다.
-const fetchBusinesses = async () => {
-  // const response = await fetch('http://localhost:5000/api/admins/list'); // 기본적으로 GET 요청
-  // if (!response.ok) {
-  //   throw new Error('사업자 목록을 불러오는데 실패했습니다.');
-  // }
-  // const data = await response.json();
-  // return data;
-  try {
-    const response = await axios.get('/api/admins/list');
-    return response.data;
-  } catch (error) {
-    throw new Error('사업자 목록을 불러오는데 실패했습니다.');
-  }
-};
 
 const DomainList = () => {
-  const [businesses, setBusinesses] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedAdmin, setSelectedAdmin] = useState(null);
+  const [domains, setDomains] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const updateAdmin = async (updatedAdmin) => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/admins/update/${updatedAdmin.admin_id}`, {
-        method: 'PUT', // 업데이트는 보통 PUT 요청을 사용합니다.
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedAdmin), // 변경된 객체를 JSON으로 변환하여 전송
-      });
-
-      if (!response.ok) {
-        throw new Error('관리자 정보 업데이트에 실패했습니다.');
-      }
-
-      const result = await response.json();
-
-      // 성공적으로 업데이트되었다면, UI에도 반영
-      setBusinesses((prevBusinesses) =>
-        prevBusinesses.map((admin) =>
-          admin.admin_id === updatedAdmin.admin_id ? { ...admin, ...updatedAdmin } : admin
-        )
-      );
-    } catch (error) {
-      console.error('업데이트 중 에러가 발생했습니다:', error);
-      // 적절한 에러 처리 로직을 구현해야 합니다. 예를 들면, 사용자에게 에러 메시지를 보여주는 것 등
-    }
-  };
-  
-
 
   useEffect(() => {
-    const loadBusinesses = async () => {
-      try {
-        const adminsData = await fetchBusinesses();
-        setBusinesses(adminsData); // 관리자 데이터를 상태로 설정
-      } catch (error) {
-        console.error('사업자 목록을 불러오는데 실패했습니다.', error);
-      }
-    };
-
-    loadBusinesses();
+    console.log('도메인 리스트 조회');
+    setDomains([
+      {
+        url_idx: 1,
+        url_addr: 'www.kin1.com',
+        url_status: 'T',
+        business_idx: '1',
+        url_archived_at: '2023.01.01',
+      },
+      {
+        url_idx: 2,
+        url_addr: 'www.kin2.com',
+        url_status: 'T',
+        business_idx: '1',
+        url_archived_at: '2023.01.01',
+      },
+      {
+        url_idx: 3,
+        url_addr: 'www.kin3.com',
+        url_status: 'T',
+        business_idx: '1',
+        url_archived_at: '2023.01.01',
+      },
+    ]);
   }, []);
 
-  const openModal = (admin) => {
-    setSelectedAdmin(admin);
-    setIsModalOpen(true);
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredBusinesses = businesses.filter((admin) =>
-    admin.admin_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (admin.admin_phone && admin.admin_phone.includes(searchTerm))
-  );
+  const filterDomains = (domains) => {
+    return domains.filter((domain) =>
+      domain.url_addr.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  };
 
-
-
+  const filteredDomains = filterDomains(domains);
   return (
     <div>
-      <h2>사업자 목록</h2>
+      <h2>도메인 목록</h2>
       <div className="search-box">
         <input
           className="search-input"
           type="text"
           placeholder="사업자 검색..."
-          value={searchTerm}
+          // value={searchTerm}
           onChange={handleSearchChange}
         />
       </div>
       <div className="table-container">
-        {filteredBusinesses.length > 0 ? (
+        {filteredDomains.length > 0 ? (
           <table className="business-table">
             <thead>
               <tr>
-                <th>사업자 이름</th>
-                <th>어린이집 이름</th>
+                <th>도메인 주소</th>
+                <th>도메인 상태</th>
+                <th>도메인 소유자</th>
+                <th>도메인 만료일</th>
               </tr>
             </thead>
             <tbody>
-              {filteredBusinesses.map((admin) => (
-                <tr key={admin.admin_id} onClick={() => openModal(admin)}>
-                  <td>{admin.admin_name}</td>
-                  <td>{admin.admin_business_name}</td>
+              {filteredDomains.map((domains) => (
+                <tr key={domains.url_idx}>
+                  <td>{domains.url_addr}</td>
+                  <td>{domains.url_status}</td>
+                  <td>{domains.business_idx}</td>
+                  <td>{domains.url_archived_at}</td>
                 </tr>
               ))}
             </tbody>

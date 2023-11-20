@@ -2,16 +2,18 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Main from './components/Main';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Domain from './components/Domain/List';
 import Dashboard from './components/Dashboard/Main';
 import AdminC from './components/AdminC/List';
 import Ad from './components/Ad/AdMain';
-const queryClient = new QueryClient();
+import store from './store';
+import { Provider } from 'react-redux';
+
 function App() {
+  const storeData = store
   return (
     <div>
-    <QueryClientProvider client={queryClient}>
+      <Provider store={storeData}>
         <Routes>
           <Route path="/main" element={<Main />}>
               <Route path="" element={<Dashboard />} />
@@ -21,7 +23,7 @@ function App() {
             </Route>
           <Route path="/" element={<Login />} />
         </Routes>
-    </QueryClientProvider>
+      </Provider>
     </div>
   );
 }
