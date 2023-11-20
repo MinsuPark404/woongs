@@ -81,14 +81,6 @@ footer {
     text-align: center;
 }
 
-/* main-content styles */
-/* .main-content {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 20px;
-    width: 80%;
-} */
 .sidebar-n-contents {
     display: flex;
     flex-direction: row;

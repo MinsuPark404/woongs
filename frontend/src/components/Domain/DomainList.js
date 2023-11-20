@@ -12,7 +12,7 @@ const DomainList = () => {
     console.log('도메인 리스트 조회');
     const fetchData = async () => {
       const data = await axios.get('/api/domains');
-      // console.log(data.data);
+      console.log(data.data);
       setDomains(data.data);
     };
     fetchData();
@@ -69,8 +69,8 @@ const DomainList = () => {
                   <td>{domains.url_addr}</td>
                   <td>{domains.url_status}</td>
                   <td>{domains.business_name}</td>
-                  <td>{domains.url_period}</td>
-                  <td>{remainDate(domains.url_period)}</td>
+                  <td>{domains.url_period_at}</td>
+                  <td>{remainDate(domains.url_period_at)}</td>
                 </tr>
               ))}
             </tbody>

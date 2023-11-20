@@ -120,9 +120,9 @@ footer {
 }
 
 /* Adding unique styles to each post */
-.post1 { background-color: #f4f4f4; }
-.post2 { background-color: #f4f4f4; }
-.post3 { background-color: #f4f4f4; }
-.post4 { background-color: #f4f4f4; }
-.post5 { background-color: #f4f4f4; }
+.main-container .post1 { background-color: #b5b5b5; }
+.main-container .post2 { background-color: #b5b5b5; }
+.main-container .post3 { background-color: #b5b5b5; }
+.main-container .post4 { background-color: #b5b5b5; }
+.main-container .post5 { background-color: #b5b5b5; }
 
