@@ -3,13 +3,15 @@ import React, { useState } from 'react';
 import axios from '../../axios';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.user);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage(''); // 이전 메시지 초기화
@@ -23,6 +25,15 @@ function Login() {
       // 로그인 성공시 session데이터 요청후 데이터 저장
       const sessionData = await axios.post('/api/admins/sessiondata');
       console.log('sessionData', sessionData);
+      dispatch({
+        type: 'LOGIN',
+        name: sessionData.data.admin.name,
+        email: sessionData.data.admin.email,
+        id: sessionData.data.admin.id,
+        roll: sessionData.data.admin.role,
+      });
+      // redux에 저장된 데이터 확인
+      console.log('redux', data)
       navigate('/main');
     } catch (error) {
       // 에러 처리 개선
