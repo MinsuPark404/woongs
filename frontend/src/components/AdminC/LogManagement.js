@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AdminC.css';
 import axios from '../../axios';
 
@@ -7,35 +7,33 @@ const LogManager = () => {
   const [searchFilters, setSearchFilters] = useState({
     logInfo: '',
     logIp: '',
-    startDate: '',
-    endDate: ''
+    logDate: '',
+    logOutDate: ''
   });
   const [logs, setLogs] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('/api/admins/logs');
+        console.log(response.data.data);
+        setLogs(response.data.data);
+      } catch (error) {
+        console.error('데이터를 불러오는데 실패했습니다:', error);
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setSearchFilters({ ...searchFilters, [name]: value });
   };
 
-  const handleSearch = async () => {
-    console.log('검색 실행:', searchFilters);
-    try {
-      const response = await axios.get('/api/admins/???');
-      return response.data;
-    } catch (error) {
-      throw new Error('로그를 불러오는데 실패함');
-    }
+  const handleSearch = () => {
+
   };
 
-
-  const handleReset = () => {
-    setSearchFilters({
-      logInfo: '',
-      logIp: '',
-      startDate: '',
-      endDate: ''
-    });
-  };
 
   return (
 
@@ -63,7 +61,7 @@ const LogManager = () => {
           />
         </label>
         <label>
-          로그인 날짜 시작:
+          로그 날짜 시작:
           <input
             type="date"
             name="startDate"
@@ -72,7 +70,7 @@ const LogManager = () => {
           />
         </label>
         <label>
-          로그인 날짜 끝:
+          로그 날짜 끝:
           <input
             type="date"
             name="endDate"
@@ -93,7 +91,7 @@ const LogManager = () => {
           <thead>
             <tr>
               <th>로그 인덱스</th>
-              <th>로그인 날짜</th>
+              <th>로그 날짜</th>
               <th>로그 정보</th>
               <th>로그 IP</th>
               <th>로그아웃 날짜</th>

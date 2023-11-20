@@ -83,7 +83,6 @@ const DomainList = () => {
           <p>검색 결과가 없습니다.</p>
         )}
       </div>
-      {/* <Modal isOpen={isModalOpen} close={closeModal} admin={selectedAdmin} updateAdmin={updateAdmin} /> */}
     </div>
   );
 };
