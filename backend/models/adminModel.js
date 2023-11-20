@@ -6,7 +6,7 @@ const { adminQueries } = require('./_Queries');
 const createAdmin = async (adminData) => {
   try {
     console.log('adminData:', adminData);
-    console.log('query:', adminQueries);
+    // console.log('query:', adminQueries);
     const {
       admin_email,
       admin_password,
@@ -14,7 +14,7 @@ const createAdmin = async (adminData) => {
       admin_tel,
       admin_role,
       admin_status,
-      admin_business_name,
+      business_bno,
     } = adminData;
     const params = [
       admin_email,
@@ -23,7 +23,7 @@ const createAdmin = async (adminData) => {
       admin_tel,
       admin_role,
       admin_status,
-      admin_business_name,
+      business_bno,
     ];
     const results = await db.query(adminQueries.createAdminQuery, params);
     return results[0];
@@ -57,7 +57,7 @@ const updateAdminData = async (adminId, adminData) => {
       admin_tel,
       admin_role,
       admin_status,
-      admin_business_name,
+      business_bno,
       admin_updated_at,
     } = adminData;
     const results = await db.query(adminQueries.updateAdminQuery, [
@@ -67,7 +67,7 @@ const updateAdminData = async (adminId, adminData) => {
       admin_tel,
       admin_role,
       admin_status,
-      admin_business_name,
+      business_bno,
       admin_updated_at,
       adminId,
     ]);
