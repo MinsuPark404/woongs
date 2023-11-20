@@ -2,13 +2,17 @@ const adminQueries = {
   // 관리자 등록 쿼리문
   createAdminQuery: `INSERT INTO cms_admins (admin_email, admin_password, admin_name, admin_tel, admin_role, admin_status, business_bno) VALUES (?, ?, ?, ?, ?, ?, ?)`,
   // 관리자 로그인 쿼리문
-  loginAdminQuery: `SELECT * FROM cms_admins WHERE admin_email = ?`,
+  loginAdminQuery: `SELECT a.*, 
+                      (SELECT b.business_name 
+                      FROM cms_businesses b 
+                      WHERE b.business_bno = a.business_bno) AS business_name
+                    FROM cms_admins a WHERE admin_email = ?;`,
   // 관리자 조회 쿼리문
   // getAlladminsQuery: `SELECT * FROM cms_admins`,
   getAlladminsQuery: `SELECT a.*, 
                         (SELECT b.business_name 
                         FROM cms_businesses b 
-                        WHERE b.admin_idx = a.admin_idx) AS business_name
+                        WHERE b.business_bno = a.business_bno) AS business_name
                       FROM cms_admins a;`,
 
   // 관리자 정보 수정(Update) 쿼리문

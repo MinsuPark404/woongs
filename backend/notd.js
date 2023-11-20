@@ -1,4 +1,5 @@
-`{
+`
+{
   "admin_email": "admin",
   "admin_password": "123",
   "admin_name": "관리자",
@@ -195,4 +196,5 @@
   "admin_role": "admin_c",
   "admin_status": 1,
   "business_bno": "098-76-56726"
-}`
+}
+`
