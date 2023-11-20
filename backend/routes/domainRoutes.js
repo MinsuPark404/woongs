@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
 });
 
 // 도메인 등록
-router.post('/', async (req, res) => {
+router.post('/register', async (req, res) => {
   try {
     const { url_addr, url_status ,business_bno, url_created_at, url_period_at } = req.body;
     const query = `
