@@ -58,6 +58,7 @@ const updateAdminData = async (adminId, adminData) => {
       admin_role,
       admin_status,
       admin_business_name,
+      admin_updated_at,
     } = adminData;
     const results = await db.query(adminQueries.updateAdminQuery, [
       admin_email,
@@ -67,6 +68,7 @@ const updateAdminData = async (adminId, adminData) => {
       admin_role,
       admin_status,
       admin_business_name,
+      admin_updated_at,
       adminId,
     ]);
     return results[0];

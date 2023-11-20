@@ -6,7 +6,7 @@ const adminQueries = {
   // 관리자 조회 쿼리문
   getAlladminsQuery: `SELECT * FROM cms_admins`,
   // 관리자 정보 수정(Update) 쿼리문
-  updateAdminQuery: `UPDATE cms_admins SET admin_email = ?, admin_password = ?, admin_name = ?, admin_tel = ?, admin_role = ?, admin_status = ?, admin_business_name = ?, updated_at = ? WHERE admin_idx = ?`,
+  updateAdminQuery: `UPDATE cms_admins SET admin_email = ?, admin_password = ?, admin_name = ?, admin_tel = ?, admin_role = ?, admin_status = ?, admin_business_name = ?, admin_updated_at = ? WHERE admin_idx = ?`,
   // 관리자 삭제
   deleteAdminQuery: `DELETE FROM cms_admin WHERE admin_id = ?`,
   // 어린이집 등록 쿼리문
