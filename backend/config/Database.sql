@@ -145,8 +145,6 @@ CREATE TABLE children (
     `business_bno`      VARCHAR(20)   NULL,                     -- 원생이 속한 어린이집 사업자 번호
     `child_created_at`  DATETIME      NULL DEFAULT NOW(),       -- 원생 정보 생성(등록) 날짜 및 시간
     `child_updated_at`  DATETIME      NULL DEFAULT NOW(),       -- 원생 정보 업데이트 날짜 및 시간
-    -- 어린이 고유식별자 추가(출석 연결)
-    
     PRIMARY KEY (child_idx)
 );
 
@@ -157,6 +155,7 @@ CREATE TABLE child_attendance (
     `attendance_date`   DATE          NULL,                     -- 출석 날짜
     `attendance_status` VARCHAR(10)   NULL,                     -- 출석 상태 ('출석', '결석' 등)
     `attendance_time`   TIME          NULL,                     -- 원생 출석 시간
+    `business_bno`      VARCHAR(20)   NULL,                     -- 원생이 속한 어린이집 사업자 번호
     PRIMARY KEY (attendance_idx)
 );
 

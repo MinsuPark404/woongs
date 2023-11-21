@@ -62,6 +62,8 @@ const loginAdmin = asyncHandler(async (req, res) => {
     };
     console.log('세션 정보', req.session.admin);
 
+    req.session.businessBno = admin.business_bno;
+
     await cmsLogModel.logAuthAttempt(admin, 'T', req.ip, true);
 
     return res.status(200).json({
@@ -205,5 +207,5 @@ module.exports = {
   updateAdmin,
   adminLogs,
   logoutAdmin,
-  getSessionData
+  getSessionData,
 };
