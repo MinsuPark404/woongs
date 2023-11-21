@@ -309,9 +309,9 @@ button:hover {
   cursor: pointer;
 }
 
-.button-status.inactive {
-  background-color: red;
-}
+/* .button-status.inactive {
+  background-color: #e7e7e7;
+} */
 
 /* 활성화/비활성화 버튼 호버 스타일 */
 .button-status:hover {

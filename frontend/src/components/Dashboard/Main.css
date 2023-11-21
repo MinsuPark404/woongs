@@ -31,40 +31,6 @@ h1 {
     display: flex;
     flex-grow: 1;
 }
-
-/* sidebar styles */
-.sidebar {
-    width: 20%;
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-right: 1px solid #e0e0e0;
-}
-
-.menu-list {
-    list-style: none;
-    padding: 0;
-}
-
-.menu-list li {
-    margin-bottom: 10px;
-    list-style: none;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: left;
-    background-color: #f9f9f9;
-    transition: background-color 0.3s, transform 0.1s;
-}
-
-.menu-list li:hover {
-    background-color: #e6e6e6;
-}
-
-.menu-list li:active {
-    transform: scale(0.95);
-}
-
 .notification-button {
     background-color: #e0e0e0;
     padding: 8px 12px;

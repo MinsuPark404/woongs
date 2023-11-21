@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import './AdminC.css';
 import RegisterBusiness from './RegisterBusiness';
 import BusinessList from './BusinessList';
-import PermissionManagement from './PermissionManagement';
 import LogManagement from './LogManagement';
 
 const List = () => {
-  const [items] = useState(['사업자 등록', '사업자 목록', '권한 관리', '로그 관리']);
+  const [items] = useState(['사업자 등록', '사업자 목록', '로그 관리']);
   const [activeItem, setActiveItem] = useState(items[0]); // 기본적으로 첫 번째 항목을 활성화
 
   const handleClick = (item) => {
@@ -14,7 +13,7 @@ const List = () => {
   };
 
   return (
-    <div className="admin-panel">
+    <div>
       <ul>
         {items.map((item, index) => (
           <li 
@@ -28,7 +27,7 @@ const List = () => {
       </ul>
       {activeItem === '사업자 등록' && <RegisterBusiness />}
       {activeItem === '사업자 목록' && <BusinessList />}
-      {activeItem === '권한 관리' && <PermissionManagement />}
+      {/* {activeItem === '권한 관리' && <PermissionManagement />} */}
       {activeItem === '로그 관리' && <LogManagement />}
     </div>
   );

@@ -9,18 +9,26 @@ const RegisterDomain = () => {
   const [urlInfo, setUrlInfo] = useState({
     // url_idx: '',
     url_addr: '',
-    url_status: '',
+    url_status: '활성화',
     business_bno: '',
     url_archived_at: '',
     url_period_at: '',
   });
+  const buttonRef = React.useRef();
   const toggleStatus = () => {
     setUrlInfo({
       ...urlInfo,
-      url_status: urlInfo.url_status === '활성화' ? '비활성화' : '활성화',
+      url_status: urlInfo.url_status === '비활성화' ? '활성화' : '비활성화',
     });
   };
-
+  // 버튼이 비활성화 상테일때 tomato 색
+  useEffect(() => {
+    if (urlInfo.url_status === '비활성화') {
+      buttonRef.current.style.backgroundColor = 'tomato';
+    } else {
+      buttonRef.current.style.backgroundColor = '#4CAF50';
+    }
+  }, [urlInfo.url_status]);
   const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
@@ -42,11 +50,7 @@ const RegisterDomain = () => {
       setMessage(err.response.data.message);
     }
   };
- 
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    setUrlInfo({ ...urlInfo, [name]: checked });
-  };
+
   useEffect(() => {
     console.log('도메인 등록', urlInfo);
   },[urlInfo]);
@@ -68,8 +72,8 @@ const RegisterDomain = () => {
       </div>
       <div className="form-group">
         <label htmlFor="url_status">도메인 상태</label>
-        <button type="button" className='button-status' onClick={toggleStatus}>
-        {urlInfo.url_status === '활성화' ? '비활성화' : '활성화'}
+        <button type="button" className='button-status' onClick={toggleStatus} ref={buttonRef}>
+        {urlInfo.url_status === '활성화' ? '활성화' : '비활성화'}
       </button>
       </div>
       <div className="form-group">

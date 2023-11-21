@@ -94,7 +94,7 @@ const BusinessList = () => {
               {filteredBusinesses.map((admin) => (
                 <tr key={admin.admin_id} onClick={() => openModal(admin)}>
                   <td>{admin.admin_name}</td>
-                  <td>{admin.admin_business_name}</td>
+                  <td>{admin.business_name}</td>
                   <td>{admin.admin_tel}</td>
                   <td>{admin.admin_email}</td>
                   <td>{admin.admin_role}</td>
