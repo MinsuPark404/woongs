@@ -12,7 +12,7 @@ const List = () => {
   };
 
   return (
-    <div className="admin-panel">
+    <div>
       <ul>
         {items.map((item, index) => (
           <li 

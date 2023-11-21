@@ -2,10 +2,9 @@
     background-color: #fafafa;
     color: #09313b;
     min-height: 100vh;
-    /* 너비 트랜지션을 부드럽게 유지합니다 */
     width: 20%; 
-    /* transition: width 0.2s ease; */
-    /* position: fixed; */
+    /* min-width: 15%; */
+    transition: width 0.2s ease;
     top: 0;
     left: 0;
     overflow-x: hidden;
@@ -35,11 +34,10 @@
 .menu-list li {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     padding: 15px 20px;
     margin-bottom: 10px;
     border-radius: 4px;
-    /* background-color와 transform 트랜지션을 유지합니다 */
     transition: background-color 0.3s ease, transform 0.3s ease;
     line-height: 1.5;
     letter-spacing: 0.5px;
@@ -71,9 +69,8 @@
 .sidebar.collapsed .menu-item span {
     opacity: 0;
     visibility: hidden;
-    /* 가시성이 사라지기 전에 투명도가 먼저 변하도록 설정 */
-    transition: visibility 0s linear 0.2s, opacity 0.2s ease;
     width: 0; /* 텍스트 너비를 0으로 만들어 안 보이게 함 */
+    transition: visibility 0s linear 0.2s, opacity 0.2s ease;
 }
 .sidebar.expanded .menu-item span {
     opacity: 1;
@@ -97,5 +94,22 @@
 }
 
 .menu-list li .fa-icon {
-    margin-right: 8px; /* 필요한 공간에 맞게 조정 */
+    padding: 8px; /* 필요한 공간에 맞게 조정 */
+}
+.fa-icon {
+    width: 30%; 
+    margin: 8px;
+    width: auto;
+    flex: none; 
+    
+}
+
+.menu-item span {
+    flex: 1; /* 텍스트가 나머지 공간 차지 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    transition: visibility 0s, opacity 0.2s ease;
+    display: inline-block;
+    opacity: 1;
+    visibility: visible;
+
 }

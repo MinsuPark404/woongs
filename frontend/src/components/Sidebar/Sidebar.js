@@ -1,7 +1,7 @@
 import React,{useEffect}from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserGear, faGlobe, faBullhorn } from '@fortawesome/free-solid-svg-icons';
+import { faUserGear, faGlobe, faBullhorn, faQuestionCircle, faUser, faVideo, faChild } from '@fortawesome/free-solid-svg-icons';
 import './Sidebar.css';
 
 const Sidebar = ({ isExpanded, setIsExpanded }) => {
@@ -34,6 +34,21 @@ const Sidebar = ({ isExpanded, setIsExpanded }) => {
     
 
     const sidebarClasses = isExpanded ? 'sidebar expanded' : 'sidebar collapsed';
+    // 만약 화면이 1100px 이하로 줄어들면 사이드바가 접히도록 설정 아니면 펼쳐지도록 설정
+    useEffect(() => {
+        const mediaQuery = window.matchMedia('(max-width: 1100px)');
+        const listener = () => {
+            if (mediaQuery.matches) {
+                setIsExpanded(false);
+            } else {
+                setIsExpanded(true);
+            }
+        };
+        mediaQuery.addEventListener('change', listener);
+        return () => {
+            mediaQuery.removeEventListener('change', listener);
+        };
+    }, [setIsExpanded]);
 
     return (
         <aside className={sidebarClasses}>
@@ -55,9 +70,32 @@ const Sidebar = ({ isExpanded, setIsExpanded }) => {
                         {isExpanded && <span>홍보 페이지</span>}
                     </li>
                     <br />
-                    {/* 기타 링크 아이템들에도 같은 로직 적용 */}
+                    <li className="menu-item" onClick={() => handleLinkClick('/main/videos')}>
+                        <FontAwesomeIcon className="fa-icon" icon={faVideo} />
+                        {isExpanded && <span>CCTV 관리</span>}
+                    </li>
+                    <br />
+                    {/* 직원관리 */}
+                    <li className="menu-item" onClick={() => handleLinkClick('/main/employee')}>
+                        <FontAwesomeIcon className="fa-icon" icon={faUser} />
+                        {isExpanded && <span>직원 관리</span>}
+                    </li>
+                    <br />
+                    {/* 원생관리 */}
+                    <li className="menu-item" onClick={() => handleLinkClick('/main/student')}>
+                        <FontAwesomeIcon className="fa-icon" icon={faChild} />
+                        {isExpanded && <span>원생 관리</span>}
+                    </li>
+                    <br />
+                    {/* 문의하기 */}
+                    <li className="menu-item" onClick={() => handleLinkClick('/main/contact')}>
+                        <FontAwesomeIcon className="fa-icon" icon={faQuestionCircle} />
+                        {isExpanded && <span>문의하기</span>}
+                    </li>
+                    <br />
+                        
                 </ul>
-
+                <br />
                 <div className="sidebar-toggle" onClick={toggleSidebar}>
                 <span className="toggle-icon">{isExpanded ? '◀' : '▶'}</span>
             </div>

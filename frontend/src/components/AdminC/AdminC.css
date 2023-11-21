@@ -23,9 +23,6 @@
   border-radius: 5px;
 }
 
-.admin-panel button:hover {
-  background-color: #ff3333;
-}
 .main-content {
   display: flex;
   flex-wrap: wrap;
