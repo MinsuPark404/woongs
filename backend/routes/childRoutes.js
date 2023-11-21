@@ -4,9 +4,10 @@ const router = express.Router();
 const db = require('../config/dbConnMysql');
 
 // 원생 등록 API
-router.post('/register', async (req, res) => {
-  console.log('원생 등록 body:', req.body);
-  const { child_name, child_age, child_gender, business_bno } = req.body;
+router.post('/:businessBno', async (req, res) => {
+  const { child_name, child_age, child_gender } = req.body;
+  const business_bno = req.params.businessBno;
+
   try {
     const sql = `INSERT INTO children (child_name, child_age, child_gender, business_bno) VALUES (?, ?, ?, ?)`;
     const [results] = await db.query(sql, [
@@ -26,7 +27,7 @@ router.post('/register', async (req, res) => {
 });
 
 // 원생 정보 조회
-router.get('/', async (req, res) => {
+router.get('/:businessBno', async (req, res) => {
   try {
     const sql = `SELECT * FROM children`;
     const [results] = await db.query(sql);

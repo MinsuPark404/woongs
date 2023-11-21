@@ -59,10 +59,9 @@ const loginAdmin = asyncHandler(async (req, res) => {
       email: admin.admin_email,
       name: admin.admin_name,
       role: admin.admin_role, // 슈퍼관리자 = 'admin_s' 또는 사업자 = 'admin_c'
+      bno: admin.business_bno,
     };
     console.log('세션 정보', req.session.admin);
-
-    req.session.businessBno = admin.business_bno;
 
     await cmsLogModel.logAuthAttempt(admin, 'T', req.ip, true);
 
@@ -90,7 +89,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 const businessList = asyncHandler(async (req, res) => {
   try {
     const admins = await adminModel.getAlladmins();
-    console.log('두번쨰:', admins);
+    // console.log('두번쨰:', admins);
     res.status(200).json(admins);
   } catch (error) {
     console.error('관리자 목록 조회 실패', error);
