@@ -3,13 +3,7 @@ const { userQueries } = require('./_Queries');
 
 const createUser = async (userData) => {
   try {
-    const results = await db.query(userQueries.createUserQuery, [
-      userData.user_email,
-      userData.user_password,
-      userData.user_name,
-      userData.user_tel,
-      userData.user_role,
-    ]);
+    const results = await db.query(userQueries.createUserQuery, [userData.user_email, userData.user_password, userData.user_name, userData.user_tel, userData.user_role]);
     return results;
   } catch (error) {
     console.error('Create User Error:', error);
@@ -39,14 +33,7 @@ const getAllUsers = async () => {
 
 const updateUser = async (userId, userData) => {
   try {
-    const results = await db.query(userQueries.updateUserQuery, [
-      userData.user_email,
-      userData.user_password,
-      userData.user_name,
-      userData.user_tel,
-      userData.user_role,
-      userId,
-    ]);
+    const results = await db.query(userQueries.updateUserQuery, [userData.user_email, userData.user_password, userData.user_name, userData.user_tel, userData.user_role, userId]);
     return results;
   } catch (error) {
     console.error('Update User Error:', error);
@@ -69,7 +56,6 @@ const findUserByEmail = async (user_email) => {
   try {
     console.log('user_email: ', user_email);
     const [results] = await db.query(userQueries.loginUserQuery, [user_email]);
-    console.log('results : ', results);
     return results;
   } catch (error) {
     throw error;

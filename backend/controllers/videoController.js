@@ -8,7 +8,7 @@ const createVideo = asyncHandler(async (req, res) => {
   try {
     // 클라이언트(플라스크측) -> 서버로 비디오 데이터 전송
     const videoData = req.body;
-    console.log(videoData);
+    // console.log(videoData);
     await videoModel.createVideo(videoData);
     res.status(201).json({ message: '비디오 등록 성공' });
   } catch (error) {

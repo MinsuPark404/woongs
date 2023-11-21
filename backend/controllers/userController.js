@@ -8,19 +8,14 @@ const saltRounds = 10;
 const create = asyncHandler(async (req, res) => {
   try {
     const userData = req.body;
-    console.log('요청body: ', userData);
+    // console.log('요청body: ', userData);
     // 이메일 중복 체크
-    const existingUserEmail = await userModel.findUserByEmail(
-      userData.user_email
-    );
+    const existingUserEmail = await userModel.findUserByEmail(userData.user_email);
     if (existingUserEmail.length > 0) {
       return res.status(409).json({ message: '이미 존재하는 이메일입니다.' });
     }
     // 비밀번호 해시
-    const hashedPassword = await bcrypt.hash(
-      userData.user_password,
-      saltRounds
-    );
+    const hashedPassword = await bcrypt.hash(userData.user_password, saltRounds);
     userData.user_password = hashedPassword; // 해시된 비밀번호로 대체
     // 관리자 데이터 추가
     const newUser = await userModel.createUser(userData);
@@ -31,9 +26,7 @@ const create = asyncHandler(async (req, res) => {
   } catch (error) {
     // 에러 로깅
     console.error('user creation failed:', error);
-    return res
-      .status(500)
-      .json({ message: '관리자 생성 중 오류가 발생했습니다.' });
+    return res.status(500).json({ message: '관리자 생성 중 오류가 발생했습니다.' });
   }
 });
 
@@ -87,7 +80,7 @@ const loginUser = asyncHandler(async (req, res) => {
       name: user.user_name,
       role: user.user_role,
     };
-    console.log('세션 정보', req.session.user);
+    // console.log('세션 정보', req.session.user);
 
     await cmsLogModel.logAuthAttempt(user, 'T', req.ip, true);
 
@@ -102,9 +95,7 @@ const loginUser = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     console.error('User login failed:', error);
-    return res
-      .status(500)
-      .json({ message: '로그인 처리 중 오류가 발생했습니다.' });
+    return res.status(500).json({ message: '로그인 처리 중 오류가 발생했습니다.' });
   }
 });
 

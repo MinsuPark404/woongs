@@ -1,5 +1,5 @@
 const db = require('../config/dbConnMysql');
-const { contentsQueries } = require('./Queries');
+const { contentsQueries } = require('./_Queries');
 
 const createContent = async (contentData) => {
   try {

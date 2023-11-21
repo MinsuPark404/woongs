@@ -7,7 +7,7 @@ const businessModel = require('../models/businessModel');
 const createBusiness = asyncHandler(async (req, res) => {
   try {
     const businessData = req.body;
-    console.log(businessData);
+    // console.log(businessData);
     const createdBusiness = await businessModel.createBusiness(businessData);
     return res.status(201).json({
       message: '사업체 생성 성공',
@@ -15,9 +15,7 @@ const createBusiness = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     console.error('사업체 생성 실패', error);
-    return res
-      .status(500)
-      .json({ message: '사업체 생성 중 오류가 발생했습니다.' });
+    return res.status(500).json({ message: '사업체 생성 중 오류가 발생했습니다.' });
   }
 });
 
@@ -28,19 +26,14 @@ const updateBusiness = asyncHandler(async (req, res) => {
   try {
     const businessId = req.params.id;
     const businessData = req.body;
-    const updatedBusiness = await businessModel.updateBusiness(
-      businessId,
-      businessData
-    );
+    const updatedBusiness = await businessModel.updateBusiness(businessId, businessData);
     return res.status(200).json({
       message: '사업체 정보 수정 성공',
       business: updatedBusiness,
     });
   } catch (error) {
     console.error('사업체 정보 수정 실패', error);
-    return res
-      .status(500)
-      .json({ message: '사업체 정보 수정 중 오류가 발생했습니다.' });
+    return res.status(500).json({ message: '사업체 정보 수정 중 오류가 발생했습니다.' });
   }
 });
 
@@ -57,9 +50,7 @@ const deleteBusiness = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     console.error('사업체 정보 삭제 실패', error);
-    return res
-      .status(500)
-      .json({ message: '사업체 정보 삭제 중 오류가 발생했습니다.' });
+    return res.status(500).json({ message: '사업체 정보 삭제 중 오류가 발생했습니다.' });
   }
 });
 
