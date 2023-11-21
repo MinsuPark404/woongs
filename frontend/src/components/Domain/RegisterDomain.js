@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import './Domain.css'; 
+import { TextField, Button, FormControl, Switch, Paper, Typography, InputLabel, Select, MenuItem } from '@mui/material';
+import './Domain.css'
 // import axios from 'axios';
 import axios from '../../axios';
 
@@ -14,21 +15,12 @@ const RegisterDomain = () => {
     url_archived_at: '',
     url_period_at: '',
   });
-  const buttonRef = React.useRef();
   const toggleStatus = () => {
     setUrlInfo({
       ...urlInfo,
       url_status: urlInfo.url_status === '비활성화' ? '활성화' : '비활성화',
     });
   };
-  // 버튼이 비활성화 상테일때 tomato 색
-  useEffect(() => {
-    if (urlInfo.url_status === '비활성화') {
-      buttonRef.current.style.backgroundColor = 'tomato';
-    } else {
-      buttonRef.current.style.backgroundColor = '#4CAF50';
-    }
-  }, [urlInfo.url_status]);
   const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
@@ -54,69 +46,72 @@ const RegisterDomain = () => {
   useEffect(() => {
     console.log('도메인 등록', urlInfo);
   },[urlInfo]);
+
   return (
-    <div>
-    <h2>도메인 등록</h2>
-  <div className="register-domain">
-    <form onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="url_addr">도메인 주소</label>
-        <input
+    <>
+    <br></br>
+    <br></br>
+    <Paper style={{ padding: 20, margin: 'auto', maxWidth: 500 }}>
+      <Typography variant="h6" style={{ marginBottom: 20 }}>도메인 등록</Typography>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <TextField
+          label="도메인 주소"
           type="text"
-          id="url_addr"
           name="url_addr"
           value={urlInfo.url_addr}
           onChange={handleChange}
           required
+          fullWidth
         />
-      </div>
-      <div className="form-group">
-        <label htmlFor="url_status">도메인 상태</label>
-        <button type="button" className='button-status' onClick={toggleStatus} ref={buttonRef}>
-        {urlInfo.url_status === '활성화' ? '활성화' : '비활성화'}
-      </button>
-      </div>
-      <div className="form-group">
-        <label htmlFor="business_bno">사업자 번호</label>
-        <input
+        <FormControl fullWidth>
+          <InputLabel>도메인 상태</InputLabel>
+          <Select
+            value={urlInfo.url_status}
+            name="url_status"
+            onChange={handleChange}
+            label="도메인 상태"
+          >
+            <MenuItem value="활성화">활성화</MenuItem>
+            <MenuItem value="비활성화">비활성화</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField
+          label="사업자 번호"
           type="text"
-          id="business_bno"
           name="business_bno"
           value={urlInfo.business_bno}
           onChange={handleChange}
           required
+          fullWidth
         />
-      </div>
-      <div className="form-group">
-        <label htmlFor="url_archived_at">도메인 등록일</label>
-        <input
+        <TextField
+          label="도메인 등록일"
           type="date"
-          id="url_archived_at"
           name="url_archived_at"
           value={urlInfo.url_archived_at}
           onChange={handleChange}
           required
+          fullWidth
+          InputLabelProps={{ shrink: true }}
         />
-      </div>
-      <div className="form-group">
-        <label htmlFor="url_period">도메인 만료기한</label>
-        <input
+        <TextField
+          label="도메인 만료기한"
           type="date"
-          id="url_period_at"
           name="url_period_at"
           value={urlInfo.url_period_at}
           onChange={handleChange}
           required
+          fullWidth
+          InputLabelProps={{ shrink: true }}
         />
-      </div>
-      <div className='button-box'>
-        <button className='button-reg' onClick={handleSubmit}>등록</button>
-      </div>
-      {message && <p className="message">{message}</p>}
-    </form>
-  </div>
-  </div>
-  
+        <Button type="submit" variant="contained" color="primary" fullWidth>
+          등록
+        </Button>
+      </form>
+    </Paper>
+    <br></br>
+    <br></br>
+    </>
   );
 };
 

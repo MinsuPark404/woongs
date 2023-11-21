@@ -1,95 +1,106 @@
 import React, { useState, useEffect } from 'react';
-// import Modal from './Modal';
 import axios from '../../axios';
-
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, Typography, TablePagination, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 const DomainList = () => {
   const [domains, setDomains] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [searchType, setSearchType] = useState('domain');
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
   useEffect(() => {
     console.log('도메인 리스트 조회');
     const fetchData = async () => {
       const data = await axios.get('/api/domains');
-      console.log(data.data);
       setDomains(data.data);
     };
     fetchData();
   }, []);
 
+  const handleSearchTypeChange = (event) => {
+    setSearchType(event.target.value);
+  };
+
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
   };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   const filterDomains = (domains) => {
-    return domains
-      .filter((domain) =>
-        domain.url_addr.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    return domains.filter((domain) => {
+      const valueToFilter = searchType === 'domain' ? domain.url_addr : domain.business_name;
+      return valueToFilter?.toLowerCase().includes(searchTerm.toLowerCase());
+    });
   };
-  const remainDate = (url_period) =>{
-    const today = new Date();
-    const expireDate = new Date(url_period);
-    const remainTime = expireDate.getTime() - today.getTime();
-    const remainDay = Math.floor(remainTime / (1000 * 60 * 60 * 24));
-    return remainDay;
-  }
+
   const filteredDomains = filterDomains(domains);
+
   return (
-    <div>
-      <h2>도메인 목록</h2>
-      <div className="search-box">
-        <input
-          className="search-input"
-          type="text"
-          placeholder="사업자 검색..."
-          // value={searchTerm}
+    <Paper style={{ padding: 20, marginTop: 20 }}>
+      <Typography variant="h6">도메인 목록</Typography>
+      <br/>
+      <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 20 }}>
+        <FormControl variant="outlined" style={{ minWidth: 120 }}>
+          <InputLabel id="search-type-label">검색 유형</InputLabel>
+          <Select
+            labelId="search-type-label"
+            id="search-type"
+            value={searchType}
+            onChange={handleSearchTypeChange}
+            label="검색 유형"
+          >
+            <MenuItem value="domain">도메인</MenuItem>
+            <MenuItem value="business">사업자</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField
+          label="검색"
+          variant="outlined"
+          value={searchTerm}
           onChange={handleSearchChange}
+          fullWidth
         />
       </div>
-      <div className="table-container">
-        {filteredDomains.length > 0 ? (
-          <table className="business-table">
-            <thead>
-              <tr>
-                <th>도메인 주소</th>
-                <th>도메인 상태</th>
-                <th>도메인 소유자</th>
-                <th>도메인 만료일</th>
-                <th>도메인 남은 날자(Day)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredDomains.map((domains) => (
-                <tr key={domains.url_idx}>
-                  <td>{domains.url_addr}</td>
-                  <td>{domains.url_status}</td>
-                  <td>{domains.business_name}</td>
-                  <td>{domains.url_period_at}</td>
-                  <td>{remainDate(domains.url_period_at)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p>검색 결과가 없습니다.</p>
-        )}
-        
-      </div>
-      <div className="pagination">
-        {[...Array(Math.ceil(domains.length / itemsPerPage)).keys()].map(
-          (page) => (
-            <button key={page + 1} onClick={() => handlePageChange(page + 1)}>
-              {page + 1}
-            </button>
-          )
-        )}
-      </div>
-    </div>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>도메인 주소</TableCell>
+              <TableCell>도메인 상태</TableCell>
+              <TableCell>도메인 소유자</TableCell>
+              <TableCell>도메인 만료일</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredDomains.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((domain, index) => (
+              <TableRow key={index}>
+                <TableCell>{domain.url_addr}</TableCell>
+                <TableCell>{domain.url_status}</TableCell>
+                <TableCell>{domain.business_name}</TableCell>
+                <TableCell>{domain.url_period_at}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        component="div"
+        count={filteredDomains.length}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </Paper>
   );
 };
 

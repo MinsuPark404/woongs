@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from './Modal';
 import axios from '../../axios';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, Button, TablePagination  } from '@mui/material';
 
 // fetchBusinesses 함수는 백엔드 API를 호출하여 사업자 목록을 가져옵니다.
 const fetchBusinesses = async () => {
@@ -48,11 +49,23 @@ const BusinessList = () => {
     loadBusinesses();
   }, []);
 
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0); // 페이지 번호를 다시 0으로 리셋
+  };
   const openModal = (admin) => {
     setSelectedAdmin(admin);
     setIsModalOpen(true);
   };
   const closeModal = () => {
+    console.log("closeModal");
     setIsModalOpen(false);
   };
   const handleSearchChange = (event) => {
@@ -67,47 +80,63 @@ const BusinessList = () => {
 
 
   return (
-    <div>
-      <h2>사업자 목록</h2>
-      <div className="search-box">
-        <input
-          className="search-input"
-          type="text"
-          placeholder="사업자 검색..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-      </div>
-      <div className="table-container">
-        {filteredBusinesses.length > 0 ? (
-          <table className="business-table">
-            <thead>
-              <tr>
-                <th>사업자 이름</th>
-                <th>어린이집 이름</th>
-                <th>전화번호</th>
-                <th>이메일</th>
-                <th>권한</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredBusinesses.map((admin) => (
-                <tr key={admin.admin_id} onClick={() => openModal(admin)}>
-                  <td>{admin.admin_name}</td>
-                  <td>{admin.business_name}</td>
-                  <td>{admin.admin_tel}</td>
-                  <td>{admin.admin_email}</td>
-                  <td>{admin.admin_role}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p>검색 결과가 없습니다.</p>
-        )}
-      </div>
-      <Modal isOpen={isModalOpen} close={closeModal} admin={selectedAdmin} updateAdmin={updateAdmin} />
-    </div>
+    <Paper>
+    <h2>사업자 목록</h2>
+    <TextField
+        label="사업자 검색"
+        variant="outlined"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        style={{ marginBottom: 20 }}
+    />
+    <TableContainer>
+    <Table>
+        <TableHead>
+            <TableRow style={{backgroundColor: '#f5f5f5'}}>
+                {/* 테이블 헤더 */}
+                <TableCell style={{ fontWeight: 'bold', color: '#333' }}>사업자 이름</TableCell>
+                <TableCell style={{ fontWeight: 'bold', color: '#333' }}>어린이집 이름</TableCell>
+                <TableCell style={{ fontWeight: 'bold', color: '#333' }}>전화번호</TableCell>
+                <TableCell style={{ fontWeight: 'bold', color: '#333' }}>이메일</TableCell>
+                <TableCell style={{ fontWeight: 'bold', color: '#333' }}>권한</TableCell>
+                <TableCell style={{ fontWeight: 'bold', color: '#333' }}>수정</TableCell>
+            </TableRow>
+        </TableHead>
+        <TableBody>
+            {filteredBusinesses
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((admin) => (
+                <TableRow key={admin.admin_id}>
+                    {/* 테이블 데이터 셀 */}
+                    <TableCell>{admin.admin_name}</TableCell>
+                    <TableCell>{admin.business_name}</TableCell>
+                    <TableCell>{admin.admin_tel}</TableCell>
+                    <TableCell>{admin.admin_email}</TableCell>
+                    <TableCell>{admin.admin_role}</TableCell>
+                    <TableCell>
+                        <Button variant="text" color="primary" onClick={() => openModal(admin)}>수정</Button>
+                    </TableCell>
+                </TableRow>
+            ))}
+        </TableBody>
+    </Table>
+    </TableContainer>
+    <TablePagination
+        component="div"
+        count={filteredBusinesses.length}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+
+    <Modal
+        isOpen={isModalOpen}
+        close={closeModal}
+        admin={selectedAdmin}
+        updateAdmin={updateAdmin}
+    />
+</Paper>
   );
 };
 

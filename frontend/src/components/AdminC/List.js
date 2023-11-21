@@ -1,35 +1,45 @@
 import React, { useState } from 'react';
-import './AdminC.css';
+import { Tabs, Tab, Box, Paper, Typography } from '@mui/material';
 import RegisterBusiness from './RegisterBusiness';
 import BusinessList from './BusinessList';
 import LogManagement from './LogManagement';
 
 const List = () => {
-  const [items] = useState(['사업자 등록', '사업자 목록', '로그 관리']);
-  const [activeItem, setActiveItem] = useState(items[0]); // 기본적으로 첫 번째 항목을 활성화
+  const [activeTab, setActiveTab] = useState(0);
 
-  const handleClick = (item) => {
-    setActiveItem(item); // 현재 클릭된 항목으로 activeItem 상태를 설정
+  const handleChange = (event, newValue) => {
+    setActiveTab(newValue);
   };
 
   return (
-    <div>
-      <ul>
-        {items.map((item, index) => (
-          <li 
-            key={index} 
-            className={activeItem === item ? 'active' : ''} // 현재 활성화된 항목에 대해 'active' 클래스를 추가
-            onClick={() => handleClick(item)}
-          >
-            {item}
-          </li>
-        ))}
-      </ul>
-      {activeItem === '사업자 등록' && <RegisterBusiness />}
-      {activeItem === '사업자 목록' && <BusinessList />}
-      {/* {activeItem === '권한 관리' && <PermissionManagement />} */}
-      {activeItem === '로그 관리' && <LogManagement />}
-    </div>
+    <Paper sx={{ width: '100%' }}>
+      <Typography variant="h6" sx={{ marginBottom: 2 }}>사업자 관리</Typography>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs
+          value={activeTab}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth" // 탭을 넓게 분포
+          aria-label="admin tabs"
+          sx={{
+            '.MuiTab-root:hover': { // 탭 버튼 호버 스타일
+              backgroundColor: '#1976d2', // 호버시 배경색
+              color: '#fff', // 호버시 글자색
+            }
+          }}
+        >
+          <Tab label="사업자 등록" />
+          <Tab label="사업자 목록" />
+          <Tab label="로그 관리" />
+        </Tabs>
+      </Box>
+      <Box sx={{ p: 3 }}>
+        {activeTab === 0 && <RegisterBusiness />}
+        {activeTab === 1 && <BusinessList />}
+        {activeTab === 2 && <LogManagement />}
+      </Box>
+    </Paper>
   );
 };
 

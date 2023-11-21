@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './AdminC.css';
+import { Container, TextField, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import axios from '../../axios';
 
 const LogManager = () => {
@@ -33,91 +33,92 @@ const LogManager = () => {
   const handleSearch = () => {
 
   };
+  const handleReset = () => {
+      
+    }
 
 
   return (
-
-    <div className='container'>
-
-      <h2 className='header'>로그 관리</h2>
-      <div className='filters'>
-        <label className='filterLabel'>
-          로그 ID:
-          <input
+    <Container maxWidth="lg">
+      <Typography variant="h4" style={{ margin: '20px 0' }}>로그 관리</Typography>
+      <Paper style={{ padding: 20, marginBottom: 20 }}>
+        <div style={{ display: 'flex', gap: '20px', marginBottom: 20 }}>
+          <TextField
+            label="로그 ID"
             type="text"
             name="logInfo"
-            className='filterInput'
             value={searchFilters.logInfo}
             onChange={handleFilterChange}
+            variant="outlined"
+            fullWidth
           />
-        </label>
-        <label>
-          로그 IP:
-          <input
+          <TextField
+            label="로그 IP"
             type="text"
             name="logIp"
             value={searchFilters.logIp}
             onChange={handleFilterChange}
+            variant="outlined"
+            fullWidth
           />
-        </label>
-        <label>
-          로그 날짜 시작:
-          <input
+          <TextField
+            label="로그 날짜 시작"
             type="date"
             name="startDate"
             value={searchFilters.startDate}
             onChange={handleFilterChange}
+            variant="outlined"
+            fullWidth
+            InputLabelProps={{ shrink: true }}
           />
-        </label>
-        <label>
-          로그 날짜 끝:
-          <input
+          <TextField
+            label="로그 날짜 끝"
             type="date"
             name="endDate"
             value={searchFilters.endDate}
             onChange={handleFilterChange}
+            variant="outlined"
+            fullWidth
+            InputLabelProps={{ shrink: true }}
           />
-        </label>
-        <div className='buttons'>
-          <button onClick='handleSearch'>검색</button>
-          <button onClick='handleReset'>초기화</button>
         </div>
-      </div>
-      <div className='tableContainer'>
-        <h3>로그 목록</h3>
-        <table className='table'>
-
-
-          <thead>
-            <tr>
-              <th>로그 인덱스</th>
-              <th>로그 날짜</th>
-              <th>로그 정보</th>
-              <th>로그 IP</th>
-              <th>로그아웃 날짜</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <Button variant="contained" color="primary" onClick={handleSearch}>검색</Button>
+          <Button variant="outlined" onClick={handleReset}>초기화</Button>
+        </div>
+      </Paper>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>로그 인덱스</TableCell>
+              <TableCell>로그 날짜</TableCell>
+              <TableCell>로그 정보</TableCell>
+              <TableCell>로그 IP</TableCell>
+              <TableCell>로그아웃 날짜</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
             {logs.length === 0 ? (
-              <tr>
-                <td colSpan="5">로그 정보가 없다!</td>
-              </tr>
+              <TableRow>
+                <TableCell colSpan="5">로그 정보가 없습니다.</TableCell>
+              </TableRow>
             ) : (
               logs.map((log, index) => (
-                <tr key={index}>
-                  <td>{log.cms_log_idx}</td>
-                  <td>{log.logged_at}</td>
-                  <td>{log.log_info}</td>
-                  <td>{log.log_ip}</td>
-                  <td>{log.logouted_at}</td>
-                </tr>
+                <TableRow key={index}>
+                  <TableCell>{log.cms_log_idx}</TableCell>
+                  <TableCell>{log.logged_at}</TableCell>
+                  <TableCell>{log.log_info}</TableCell>
+                  <TableCell>{log.log_ip}</TableCell>
+                  <TableCell>{log.logouted_at}</TableCell>
+                </TableRow>
               ))
             )}
-          </tbody>
-        </table>
-      </div>
-    </div>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Container>
   );
-};
+              };
 
 export default LogManager;

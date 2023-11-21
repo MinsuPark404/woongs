@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AdminC.css'; 
+import { TextField, FormControlLabel, Checkbox, Button, Container, Paper, Typography } from '@mui/material';
 import axios from '../../axios';
 
 const RegisterAdmin = () => {
@@ -69,104 +69,94 @@ const RegisterAdmin = () => {
   };
 
   return (
-    <div className="register-business">
-      <h2>Register Admin</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Admin Name:
-          <input
+    <Container component="main" maxWidth="sm">
+      <Paper style={{ padding: 20, marginTop: 20 }}>
+        <Typography variant="h5" style={{ marginBottom: 20 }}>Register Admin</Typography>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <TextField
+            label="Admin Name"
             type="text"
             name="admin_name"
             value={adminInfo.admin_name}
             onChange={handleChange}
+            fullWidth
           />
-        </label>
-        <label>
-          Admin Password:
-          <input
+          <TextField
+            label="Admin Password"
             type="password"
             name="admin_password"
             value={adminInfo.admin_password}
             onChange={handleChange}
+            fullWidth
           />
-        </label>
-        <label>
-          Company Name:
-          <input
+          <TextField
+            label="Company Name"
             type="text"
             name="company_name"
             value={adminInfo.company_name}
             onChange={handleChange}
+            fullWidth
           />
-        </label>
-        <label>
-          Company Address:
-          <input
+          <TextField
+            label="Company Address"
             type="text"
             name="company_address"
             value={adminInfo.company_address}
             onChange={handleChange}
+            fullWidth
           />
-        </label>
-        <label>
-          Company Unique Number:
-          <input
+          <TextField
+            label="Company Unique Number"
             type="text"
             name="company_unique"
             value={adminInfo.company_unique}
             onChange={handleChange}
+            fullWidth
           />
-        </label>
-        <label>
-          Admin Email:
-          <input
+          <TextField
+            label="Admin Email"
             type="email"
             name="admin_email"
             value={adminInfo.admin_email}
             onChange={handleChange}
+            fullWidth
           />
-        </label>
-        <label>
-          Admin Phone:
-          <input
+          <TextField
+            label="Admin Phone"
             type="tel"
             name="admin_phone"
             pattern="[0-9]{11}"
             value={adminInfo.admin_phone}
             onChange={handleChange}
+            fullWidth
           />
-        </label>
-        <label>
-          Secondary Admin Phone:
-          <input
+          <TextField
+            label="Secondary Admin Phone"
             type="tel"
             name="admin_phone2"
             pattern="[0-9]{11}"
             value={adminInfo.admin_phone2}
             onChange={handleChange}
+            fullWidth
           />
-        </label>
-        <label>
-          Role:
-          <input
+          <TextField
+            label="Role"
             type="text"
             name="role"
             value={adminInfo.role}
             onChange={handleChange}
+            fullWidth
           />
-        </label>
-        <label>
-          Is Active:
-          <input
-            type="checkbox"
-            name="is_active"
-            checked={adminInfo.is_active}
-            onChange={handleCheckboxChange}
+          <FormControlLabel
+            control={<Checkbox checked={adminInfo.is_active} onChange={handleCheckboxChange} name="is_active" />}
+            label="Is Active"
           />
-        </label>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+          <Button type="submit" variant="contained" color="primary" fullWidth>
+            Submit
+          </Button>
+        </form>
+      </Paper>
+    </Container>
   );
 };
 
