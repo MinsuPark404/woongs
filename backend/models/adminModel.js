@@ -52,23 +52,15 @@ const updateAdminData = async (adminId, adminData) => {
     console.log('adminId: ', adminId, 'adminData: ', adminData);
     const {
       admin_email,
-      admin_password,
       admin_name,
-      admin_tel,
       admin_role,
       admin_status,
-      business_bno,
-      admin_updated_at,
     } = adminData;
     const results = await db.query(adminQueries.updateAdminQuery, [
       admin_email,
-      admin_password,
       admin_name,
-      admin_tel,
       admin_role,
       admin_status,
-      business_bno,
-      admin_updated_at,
       adminId,
     ]);
     return results[0];

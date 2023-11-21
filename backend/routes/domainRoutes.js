@@ -6,18 +6,26 @@ const db = require('../config/dbConnMysql');
 router.get('/', async (req, res) => {
   try {
     console.log("도메인 api 연결됨");
+    // const query = `
+    //   SELECT cms_url.*,
+    //   cms_businesses.business_name,
+    //   cms_businesses.business_admin,
+    //   cms_businesses.business_tel,
+    //   cms_businesses.business_addr1,
+    //   cms_businesses.business_addr2,
+    //   cms_businesses.business_created_at,
+    //   cms_businesses.admin_idx
+    //   FROM cms_url
+    //   LEFT JOIN cms_businesses ON cms_url.business_bno = cms_businesses.business_bno;
+    // `;
     const query = `
-      SELECT cms_url.*,
-      cms_businesses.business_name,
-      cms_businesses.business_admin,
-      cms_businesses.business_tel,
-      cms_businesses.business_addr1,
-      cms_businesses.business_addr2,
-      cms_businesses.business_created_at,
-      cms_businesses.admin_idx
-      FROM cms_url
-      LEFT JOIN cms_businesses ON cms_url.business_bno = cms_businesses.business_bno;
-    `;
+    SELECT url_addr,
+       url_status,
+       b.business_name,
+       DATE_FORMAT(url_period_at, '%Y-%m-%d') AS url_period_at
+    FROM cms_url u
+    LEFT JOIN cms_businesses b ON u.business_bno = b.business_bno;
+  `;
     const [results] = await db.query(query);
     res.status(200).json(results);
   } catch (err) {

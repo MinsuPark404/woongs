@@ -8,7 +8,7 @@ CREATE TABLE cms_admins
     `admin_tel`            VARCHAR(20)   NULL,                      -- 관리자 전화번호
     `admin_role`           VARCHAR(20)   NULL,                      -- 관리자 역할
     `admin_status`         VARCHAR(20)   NULL,                      -- 관리자 상태
-    -- `admin_business_name`  VARCHAR(50)   NULL,                      -- 어린이집 이름  
+    -- `admin_business_name`  VARCHAR(50)   NULL,                      -- 어린이집 이름
     `business_bno`         VARCHAR(20)    NULL,                     -- 어린이집 사업자번호 
     `admin_created_at`     DATETIME      NULL      DEFAULT now(),   -- 관리자 등록일자 
     `admin_updated_at`     DATETIME      NULL      DEFAULT now(),   -- 관리자 수정일자 
@@ -72,7 +72,7 @@ CREATE TABLE cms_videos
     `video_recoded_at`   DATETIME       NULL,                      -- 비디오 촬영일자
     `video_archived_at`  DATETIME       NULL,					   -- 비디오 보관일자
     `video_created_at`   DATETIME       NULL      DEFAULT now(),   -- 비디오 등록일자
-    `business_bno`       INT			NULL,                      -- 어린이집 사업자 번호
+    `business_bno`       VARCHAR(20)    NULL,                      -- 어린이집 사업자 번호
     PRIMARY KEY (video_idx)
 );
 
@@ -127,7 +127,7 @@ CREATE TABLE cms_contents
 -- 테이블 생성 SQL - anomaly_detection
 CREATE TABLE anomaly_detection
 (
-    `detection_idx`                  INT UNSIGNED  NULL AUTO_INCREMENT,
+    `detection_idx`       INT UNSIGNED  NULL AUTO_INCREMENT,
     `video_idx`           INT           NULL, -- cms_videos 테이블의 비디오 순번 참조
     `detected_at`         DATETIME      NULL, -- 이상 탐지된 날짜 및 시간
     `type`                VARCHAR(100)  NULL, -- 이상 탐지 유형 (예: 움직임, 소리 등)
@@ -136,14 +136,27 @@ CREATE TABLE anomaly_detection
     PRIMARY KEY (detection_idx)
 );
 
-CREATE TABLE daily_visits (
-    date DATE PRIMARY KEY,
-    count INT DEFAULT 0
+-- 어린이집 원생 테이블
+CREATE TABLE children (
+    `child_idx`         INT UNSIGNED  NOT NULL AUTO_INCREMENT,  -- 원생 고유 식별자
+    `child_name`        VARCHAR(50)   NULL,                     -- 원생 이름
+    `child_age`         INT           NULL,                     -- 원생 나이
+    `child_gender`      VARCHAR(10)   NULL,                     -- 원생 성별 ('남', '여')
+    `business_bno`      VARCHAR(20)   NULL,                     -- 원생이 속한 어린이집 사업자 번호
+    `child_created_at`  DATETIME      NULL DEFAULT NOW(),       -- 원생 정보 생성(등록) 날짜 및 시간
+    `child_updated_at`  DATETIME      NULL DEFAULT NOW(),       -- 원생 정보 업데이트 날짜 및 시간
+    PRIMARY KEY (child_idx)
 );
 
-CREATE TABLE total_visits (
-    count INT
+-- 원생 출석 테이블
+CREATE TABLE child_attendance (
+    `attendance_idx`    INT UNSIGNED  NOT NULL AUTO_INCREMENT,  -- 출석 기록 고유 식별자
+    `child_idx`         INT           NULL,                     -- 출석 기록과 연결된 원생 식별자
+    `attendance_date`   DATE          NULL,                     -- 출석 날짜
+    `attendance_status` VARCHAR(10)   NULL,                     -- 출석 상태 ('출석', '결석' 등)
+    `attendance_time`   TIME          NULL,                     -- 원생 출석 시간
+    `business_bno`      VARCHAR(20)   NULL,                     -- 원생이 속한 어린이집 사업자 번호
+    PRIMARY KEY (attendance_idx)
 );
-
 
 -- 원생, 출결 테이블 추가

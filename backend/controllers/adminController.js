@@ -46,7 +46,6 @@ const loginAdmin = asyncHandler(async (req, res) => {
     const { admin_email, admin_password } = req.body;
     const adminData = await adminModel.findAdminByEmail(admin_email);
     const admin = adminData.length > 0 ? adminData[0] : null;
-
     if (
       !admin ||
       !(await bcrypt.compare(admin_password, admin.admin_password))
@@ -62,6 +61,8 @@ const loginAdmin = asyncHandler(async (req, res) => {
       role: admin.admin_role, // 슈퍼관리자 = 'admin_s' 또는 사업자 = 'admin_c'
     };
     console.log('세션 정보', req.session.admin);
+
+    req.session.businessBno = admin.business_bno;
 
     await cmsLogModel.logAuthAttempt(admin, 'T', req.ip, true);
 
@@ -206,5 +207,5 @@ module.exports = {
   updateAdmin,
   adminLogs,
   logoutAdmin,
-  getSessionData
+  getSessionData,
 };
