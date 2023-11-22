@@ -1,8 +1,6 @@
 import React,{useEffect}from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button, Divider, List, ListItem, ListItemText, Typography } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserGear, faGlobe, faBullhorn, faQuestionCircle, faUser, faVideo, faChild } from '@fortawesome/free-solid-svg-icons';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LanguageIcon from '@mui/icons-material/Language';
 import CampaignIcon from '@mui/icons-material/Campaign';
@@ -30,7 +28,6 @@ const Sidebar = ({ isExpanded, setIsExpanded }) => {
     };
 
     const handleLinkClick = (path) => {
-        
         if (!isExpanded) {
             navigate(path, { state: { isSidebarExpanded: isExpanded } });
         }else{
