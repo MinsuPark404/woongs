@@ -37,6 +37,7 @@ app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/domains', require('./routes/domainRoutes'));
 app.use('/api/children', require('./routes/childRoutes'));
 app.use('/api/contents', require('./routes/contentsRoutes'));
+app.use('/api/visits', require('./routes/visitRoutes'));
 
 // 정적인 파일 관리
 app.use(express.static(path.join(__dirname, '../frontend', 'build')));
