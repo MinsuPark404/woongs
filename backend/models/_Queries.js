@@ -35,7 +35,7 @@ const adminQueries = {
       a.admin_status,
       (
         SELECT b.business_name 
-        FROM cms_businesses b 
+        FROM cms_businesses b
         WHERE b.business_bno = a.business_bno
       ) AS business_name
     FROM cms_admins a
@@ -116,10 +116,13 @@ const cmsLogQueries = {
     INSERT INTO cms_log 
     SET ?
   `,
-  
+
   findAllLogsQuery: `
-    SELECT cms_log_idx, logged_at, log_info, log_ip, logouted_at 
-    FROM cms_log 
+    SELECT cms_log_idx,
+    DATE_FORMAT(CONVERT_TZ(logged_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS logged_at,
+    log_info, log_ip, logouted_at 
+    FROM cms_log
+    ORDER BY cms_log_idx DESC
     LIMIT ? OFFSET ?
   `,
 
@@ -306,4 +309,3 @@ module.exports = {
   userQueries,
   videoQueries,
 };
-

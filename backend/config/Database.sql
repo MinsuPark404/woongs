@@ -8,7 +8,6 @@ CREATE TABLE cms_admins
     `admin_tel`            VARCHAR(20)   NULL,                      -- 관리자 전화번호
     `admin_role`           VARCHAR(20)   NULL,                      -- 관리자 역할
     `admin_status`         VARCHAR(20)   NULL,                      -- 관리자 상태
-    -- `admin_business_name`  VARCHAR(50)   NULL,                      -- 어린이집 이름
     `business_bno`         VARCHAR(20)    NULL,                     -- 어린이집 사업자번호 
     `admin_created_at`     DATETIME      NULL      DEFAULT now(),   -- 관리자 등록일자 
     `admin_updated_at`     DATETIME      NULL      DEFAULT now(),   -- 관리자 수정일자 
@@ -26,7 +25,7 @@ CREATE TABLE cms_businesses
     `business_addr1`       VARCHAR(1000)  NULL,                      -- 어린이집 주소1 
     `business_addr2`       VARCHAR(1000)  NULL,                      -- 어린이집 주소2 
     `business_bno`         VARCHAR(20)    NULL,                      -- 어린이집 사업자번호
-    `business_url`         VARCHAR(1000)  NULL,                      -- 어린이집 도메인 
+    `business_url`         VARCHAR(1000)  NULL,                      -- 어린이집 도메인
     `business_created_at`  DATETIME       NULL      DEFAULT now(),   -- 어린이집 등록일자 
     `admin_idx`            INT UNSIGNED   NULL,                      -- 관리자 순번 
      PRIMARY KEY (business_idx),
@@ -67,8 +66,8 @@ CREATE TABLE cms_users
 CREATE TABLE cms_videos
 (
     `video_idx`          INT UNSIGNED   NOT NULL  AUTO_INCREMENT,  -- 비디오 순번
-    `video_name`         VARCHAR(50)    NULL,                      -- 비디오 이름
-    `video_path`         VARCHAR(1000)  NULL,                      -- 비디오 경로
+    `video_name`         VARCHAR(50)    NULL,                      -- 비디오 이름(어린이집이름, 카메라위치(식당,놀이터,입구,야외1,교실), 날짜를 카멜표기법 마지막.mp4)
+    `video_path`         VARCHAR(1000)  NULL,                      -- 비디오 경로(videos/어린이집이름/)
     `video_recoded_at`   DATETIME       NULL,                      -- 비디오 촬영일자
     `video_archived_at`  DATETIME       NULL,					   -- 비디오 보관일자
     `video_created_at`   DATETIME       NULL      DEFAULT now(),   -- 비디오 등록일자
