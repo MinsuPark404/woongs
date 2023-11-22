@@ -1,4 +1,6 @@
 const asyncHandler = require('express-async-handler');
+
+const db = require('../config/dbConnMysql');
 // const visitsModel = require('../models/visitsModel');
 
 const getVisitsByDate = asyncHandler(async (req, res) => {
@@ -23,7 +25,7 @@ const getVisitsByDate = asyncHandler(async (req, res) => {
     ]);
 
     // 결과 반환
-    res.json({
+    res.status(200).json({
       month: month,
       day: day,
       monthlyVisits: monthlyVisits[0].monthlyVisits, // 월간 방문자
