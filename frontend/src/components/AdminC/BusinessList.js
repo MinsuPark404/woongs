@@ -81,7 +81,7 @@ const BusinessList = () => {
 
   return (
     <Paper >
-    <Typography variant="h6" sx={{ marginBottom: 2 }}>사업자 관리</Typography>
+    <Typography variant="h6" sx={{ marginBottom: 2 }}>사업자 목록</Typography>
     <TextField
         label="사업자 검색"
         variant="outlined"

@@ -27,10 +27,12 @@ router.post('/:businessBno', async (req, res) => {
 });
 
 // 원생 정보 조회
-router.get('/:businessBno', async (req, res) => {
+router.get('/', async (req, res) => {
+  console.log('원생 정보 조회');
   try {
     const sql = `SELECT * FROM children`;
     const [results] = await db.query(sql);
+    console.log(results);
     res.status(200).json(results);
   } catch (error) {
     console.error('원생 정보 조회 중 오류 발생:', error);

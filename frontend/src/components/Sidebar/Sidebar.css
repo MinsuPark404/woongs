@@ -2,8 +2,7 @@
     background-color: #fafafa;
     color: #09313b;
     min-height: 100vh;
-    width: 350px; 
-    /* min-width: 15%; */
+    width: 300px; 
     transition: width 0.2s ease;
     top: 0;
     left: 0;
@@ -63,12 +62,14 @@
     width: 0; /* 텍스트 너비를 0으로 만들어 안 보이게 함 */
     transition: visibility 0s linear 0.2s, opacity 0.2s ease;
 }
+.sidebar.expanded{
+    width: 300px;
+}
 .sidebar.expanded .menu-item span {
     opacity: 1;
     visibility: visible;
     /* opacity가 나타나는데 0.3초의 지연을 줍니다. */
     transition: visibility 0s linear 0.3s, opacity 0.2s ease 0.3s;
-    width: auto; /* 텍스트의 실제 너비로 복원 */
 }
 .sidebar.collapsed .menu-item {
     height: 74px;

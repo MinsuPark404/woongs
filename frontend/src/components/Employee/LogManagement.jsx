@@ -14,7 +14,7 @@ const LogManager = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/admins/logs');
+        const response = await axios.get('/api/users/logs');
         console.log(response.data.data);
         setLogs(response.data.data);
       } catch (error) {

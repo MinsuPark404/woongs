@@ -6,11 +6,9 @@ import LogManagement from './LogManagement';
 
 const List = () => {
   const [activeTab, setActiveTab] = useState(0);
-
   const handleChange = (event, newValue) => {
     setActiveTab(newValue);
   };
-
   return (
     <Paper sx={{ width: '100%' }}>
       <Box sx={{ margin: 2, padding: 2 }}>

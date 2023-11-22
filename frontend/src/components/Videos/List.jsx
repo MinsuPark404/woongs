@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../axios";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, Button, TablePagination, Typography  } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, 
+    TableHead, TableRow, Paper, TextField, Button, TablePagination, Typography, Box  } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -101,60 +102,47 @@ const List = () => {
         setFilteredVideos(videos);
     }, [videos]);
 
-    // const filteredVideos = videos.filter((video) => {
-    //     const recodedAt = dayjs(video.video_recoded_at);
-    //     const createdAt = dayjs(video.video_created_at);
-    
-    //     // 시작 날짜 및 시간 조건 확인
-    //     let isAfterStart = true;
-    //     if (startDate && startTime) {
-    //         const startDateTime = dayjs(startDate).set('hour', dayjs(startTime).hour()).set('minute', dayjs(startTime).minute());
-    //         isAfterStart = recodedAt.isSameOrAfter(startDateTime);
-    //     }
-    
-    //     // 종료 날짜 및 시간 조건 확인
-    //     let isBeforeEnd = true;
-    //     if (endDate && endTime) {
-    //         const endDateTime = dayjs(endDate).set('hour', dayjs(endTime).hour()).set('minute', dayjs(endTime).minute());
-    //         isBeforeEnd = createdAt.isSameOrBefore(endDateTime);
-    //     }
-    
-    //     return isAfterStart && isBeforeEnd;
-    // });
-
     return (
         <Paper >
-        <Typography variant="h6" sx={{ marginBottom: 2 }}>비디오 목록</Typography>
+        <br />
+        <Typography variant="h6" >비디오 목록</Typography>
+        <br/>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                    label="시작 날짜 선택"
-                    value={startDate}
-                    onChange={setStartDate}
-                    renderInput={(params) => <TextField {...params} />}
-                />
-                <TimePicker
-                    label="시작 시간 선택"
-                    value={startTime}
-                    onChange={setStartTime}
-                    renderInput={(params) => <TextField {...params} />}
-                />
-                <DatePicker
-                    label="종료 날짜 선택"
-                    value={endDate}
-                    onChange={setEndDate}
-                    renderInput={(params) => <TextField {...params} />}
-                />
-                <TimePicker
-                    label="종료 시간 선택"
-                    value={endTime}
-                    onChange={setEndTime}
-                    renderInput={(params) => <TextField {...params} />}
-                />
+                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center', padding: 2 }}>
+                    <DatePicker
+                        label="시작 날짜 선택"
+                        value={startDate}
+                        onChange={setStartDate}
+                        renderInput={(params) => <TextField {...params} />}
+                    />
+                    <TimePicker
+                        label="시작 시간 선택"
+                        value={startTime}
+                        onChange={setStartTime}
+                        renderInput={(params) => <TextField {...params} />}
+                    />
+
+                    <Typography variant="h4" sx={{ alignSelf: 'center' }}>~</Typography>
+
+                    <DatePicker
+                        label="종료 날짜 선택"
+                        value={endDate}
+                        onChange={setEndDate}
+                        renderInput={(params) => <TextField {...params} />}
+                    />
+                    <TimePicker
+                        label="종료 시간 선택"
+                        value={endTime}
+                        onChange={setEndTime}
+                        renderInput={(params) => <TextField {...params} />}
+                    />
+                <Button variant="contained" color="primary" onClick={handleSearch}>
+                    검색
+                </Button>
+                </Box>
             </LocalizationProvider>
-            <Button variant="contained" color="primary" onClick={handleSearch}>
-                검색
-            </Button>
         <TableContainer>
+            <br />
         <Table>
             <TableHead>
                 <TableRow style={{backgroundColor: '#f5f5f5'}}>

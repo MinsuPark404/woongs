@@ -2,16 +2,32 @@ import React, { useState } from 'react';
 // import axios from 'axios';
 import axios from '../../axios';
 import { useNavigate } from 'react-router-dom';
-import './Login.css';
 import { useDispatch, useSelector } from 'react-redux';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const defaultTheme = createTheme();
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const data = useSelector((state) => state.user);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage(''); // 이전 메시지 초기화
@@ -47,42 +63,95 @@ function Login() {
       console.error('Login error', error);
     }
   };
-
   return (
-    <div className="login-wrapper">
-      <div className="login-container">
-        <form onSubmit={handleSubmit}>
-          <div className="logo">logo</div>
-
-          <input
-            type="text"
-            placeholder="ID"
-            className="id-input"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="pw-input"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          <div className="button-group">
-            <button className="btn-login" type="submit">
-              Login
-            </button>
-            {/* "Ask" 버튼의 기능이 명시되지 않았으니 기능을 추가하거나 제거해야 합니다. */}
-            <button className="btn-ask" type="button">
-              Ask
-            </button>
-          </div>
-        </form>
-        {message && <p className="error-message">{message}</p>}
-      </div>
-    </div>
+    <ThemeProvider theme={defaultTheme}>
+      <Grid container component="main" sx={{ height: '100vh' }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />}
+                label="Remember me"
+              />
+              {message && (
+                <Typography color="error">{message}</Typography>
+              )}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    로그인 정보를 잃어버렸습니까?
+                  </Link>
+                </Grid>
+                <Grid item>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
-}
+};
 
 export default Login;

@@ -70,7 +70,7 @@ const RegisterAdmin = () => {
 
   return (
     <Container component="main" maxWidth="sm">
-      <Paper style={{ padding: 20, marginTop: 20 }}>
+      <Paper >
         <Typography variant="h5" style={{ marginBottom: 20 }}>Register Admin</Typography>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <TextField
