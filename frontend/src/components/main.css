@@ -10,3 +10,15 @@
     flex-direction: row;
     width: 100%;
 }
+
+.admin-panel {
+    height: 100%; /* 높이를 100%로 설정 */
+    width: 100%;
+    margin: 0; /* 기본 마진 제거 */
+    padding: 20px;
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column; /* 컬럼 방향으로 정렬 */
+    background-color: #f4f4f4;
+    padding: 20px;
+}

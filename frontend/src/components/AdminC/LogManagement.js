@@ -40,7 +40,7 @@ const LogManager = () => {
 
   return (
     <Container maxWidth="lg">
-      <Typography variant="h4" style={{ margin: '20px 0' }}>로그 관리</Typography>
+      <Typography variant="h6" style={{ margin: '20px 0' }}>로그 관리</Typography>
       <Paper style={{ padding: 20, marginBottom: 20 }}>
         <div style={{ display: 'flex', gap: '20px', marginBottom: 20 }}>
           <TextField

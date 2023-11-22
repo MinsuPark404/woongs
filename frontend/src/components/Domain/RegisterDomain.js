@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Button, FormControl, Switch, Paper, Typography, InputLabel, Select, MenuItem } from '@mui/material';
-import './Domain.css'
-// import axios from 'axios';
 import axios from '../../axios';
 
 

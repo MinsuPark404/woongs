@@ -12,7 +12,6 @@ function Main() {
         <div className='sidebar-n-contents'>
           <Sidebar isExpanded={isSidebarExpanded} setIsExpanded={setIsSidebarExpanded} />
           <div className="admin-panel">
-
             <Outlet />
           </div>
         </div>

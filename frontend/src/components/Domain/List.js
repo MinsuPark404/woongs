@@ -17,7 +17,9 @@ const List = () => {
         <Typography variant="h6" sx={{ marginBottom: 2 }}>도메인 관리</Typography>
         <Tabs 
         value={activeTab} 
-        onChange={handleChange} 
+        onChange={handleChange}
+        indicatorColor="primary"
+        textColor="primary" 
         aria-label="domain tabs" 
         variant="fullWidth"
         sx={{

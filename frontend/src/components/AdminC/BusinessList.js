@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from './Modal';
 import axios from '../../axios';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, Button, TablePagination  } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, Button, TablePagination, Typography  } from '@mui/material';
 
 // fetchBusinesses 함수는 백엔드 API를 호출하여 사업자 목록을 가져옵니다.
 const fetchBusinesses = async () => {
@@ -80,8 +80,8 @@ const BusinessList = () => {
 
 
   return (
-    <Paper>
-    <h2>사업자 목록</h2>
+    <Paper >
+    <Typography variant="h6" sx={{ marginBottom: 2 }}>사업자 관리</Typography>
     <TextField
         label="사업자 검색"
         variant="outlined"

@@ -13,8 +13,8 @@ const List = () => {
 
   return (
     <Paper sx={{ width: '100%' }}>
+      <Box sx={{ margin: 2, padding: 2 }}>
       <Typography variant="h6" sx={{ marginBottom: 2 }}>사업자 관리</Typography>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
           value={activeTab}
           onChange={handleChange}
