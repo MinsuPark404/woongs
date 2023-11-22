@@ -11,7 +11,6 @@ const getVisitsByDate = asyncHandler(async (req, res) => {
     const day = now.getDate(); // 일 (1-31)
 
     // 데이터베이스 쿼리
-    // 이 부분은 실제 데이터베이스 구조와 쿼리에 따라 다를 수 있습니다.
     const monthlyQuery = `SELECT COUNT(*) AS monthlyVisits FROM cms_log WHERE MONTH(logged_at) = ? AND YEAR(logged_at) = ?`;
     const dailyQuery = `SELECT COUNT(*) AS dailyVisits FROM cms_log WHERE DATE(logged_at) = ?`;
 

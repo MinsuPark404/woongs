@@ -45,7 +45,11 @@ const createVideo = async (videoData) => {
 
 const getAllVideos = async () => {
   try {
-    const query = 'SELECT * FROM cms_videos';
+    const query = `SELECT video_idx, video_name, video_path, 
+    DATE_FORMAT(CONVERT_TZ(video_recoded_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS video_recoded_at, 
+    DATE_FORMAT(CONVERT_TZ(video_archived_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS video_archived_at, 
+    DATE_FORMAT(CONVERT_TZ(video_created_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS video_created_at, 
+    business_bno FROM cms_videos`;
     const [results] = await db.query(query);
     return results;
   } catch (error) {
