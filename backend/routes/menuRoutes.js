@@ -1,0 +1,18 @@
+const express = require('express');
+const router = express.Router();
+const {
+  createMenu,
+  updateMenu,
+  deleteMenu,
+} = require('../controllers/contentsController');
+
+// 메뉴 생성
+router.post('/:business_bno', createMenu);
+
+// 메뉴 업데이트
+router.put('/:business_bno/:menuId', updateMenu);
+
+// 메뉴 삭제
+router.delete('/:business_bno/:menuId', deleteMenu);
+
+module.exports = router;

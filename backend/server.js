@@ -37,6 +37,7 @@ app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/domains', require('./routes/domainRoutes'));
 app.use('/api/children', require('./routes/childRoutes'));
 app.use('/api/contents', require('./routes/contentsRoutes'));
+app.use('/api/menu', require('./routes/menuRoutes'));
 app.use('/api/visits', require('./routes/visitRoutes'));
 app.use('/api/videos', require('./routes/videoRoutes'));
 
