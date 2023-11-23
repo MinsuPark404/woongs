@@ -161,13 +161,13 @@ CREATE TABLE anomaly_detection
 
 -- 테이블 생성 SQL - board
 CREATE TABLE board (
-    board_idx           INT UNSIGNED    NOT NULL AUTO_INCREMENT    COMMENT '게시물의 고유 인덱스',
-    user_idx            INT UNSIGNED    NULL                       COMMENT '작성자 사용자 ID',
-    business_bno        VARCHAR(20)     NULL                       COMMENT '어린이집 사업자번호', 
-    header              VARCHAR(20)                                COMMENT '게시물의 종류를 나타내는 머리글',
-    title               VARCHAR(50)     NULL                       COMMENT '게시물의 제목',
-    content             TEXT NOT        NULL                       COMMENT '게시물의 내용',
-    board_created_at    DATETIME        NULL DEFAULT NOW()         COMMENT '게시물 생성 시각',
-    board_updated_at    DATETIME        NULL DEFAULT NOW()         COMMENT '게시물 수정 시각',
+    `board_idx`           INT UNSIGNED    NOT NULL AUTO_INCREMENT    COMMENT '게시물의 고유 인덱스',
+    `user_idx`            INT UNSIGNED    NULL                       COMMENT '작성자 사용자 ID',
+    `business_bno`        VARCHAR(20)     NULL                       COMMENT '어린이집 사업자번호', 
+    `header`              VARCHAR(20)                                COMMENT '게시물의 종류를 나타내는 머리글',
+    `title`               VARCHAR(50)     NULL                       COMMENT '게시물의 제목',
+    `content`             TEXT NOT        NULL                       COMMENT '게시물의 내용',
+    `board_created_at`    DATETIME        NULL DEFAULT NOW()         COMMENT '게시물 생성 시각',
+    `board_updated_at`    DATETIME        NULL DEFAULT NOW()         COMMENT '게시물 수정 시각',
     PRIMARY KEY (board_idx)
 );

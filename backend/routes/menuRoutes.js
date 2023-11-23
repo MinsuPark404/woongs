@@ -7,12 +7,12 @@ const {
 } = require('../controllers/contentsController');
 
 // 메뉴 생성
-router.post('/:business_bno', createMenu);
+router.post('/', createMenu);
 
 // 메뉴 업데이트
-router.put('/:business_bno/:menuId', updateMenu);
+router.put('/:menuId', updateMenu);
 
 // 메뉴 삭제
-router.delete('/:business_bno/:menuId', deleteMenu);
+router.delete('/:menuId', deleteMenu);
 
 module.exports = router;

@@ -19,7 +19,7 @@ router.post('/create', async (req, res, next) => {
 
   // 데이터베이스에서 사용자 확인
   const userExists = await db.query('SELECT * FROM users WHERE id = ?', [
-    userId,
+    userId
   ]);
   if (userExists.length === 0) {
     // 사용자가 존재하지 않는 경우, 사용자를 찾을 수 없다는 메시지 응답
@@ -54,6 +54,7 @@ router.get('/', asyncHandler(async (req, res) => {
   const page = req.query.page * 1 || 1;
   const limit = req.query.limit * 1 || 10;
   const skip = (page - 1) * limit;
+  console.log('세션아이디', req.sessionID);
 
   const [posts] = await db.query(
     'SELECT * FROM board ORDER BY created_at DESC LIMIT ? OFFSET ?',
@@ -72,6 +73,7 @@ router.get('/', asyncHandler(async (req, res) => {
 
 // 특정 게시물 조회 라우터
 router.get('/:id', asyncHandler(async (req, res) => {
+  console.log('세션아이디', req.sessionID);
   const [post] = await db.query('SELECT * FROM board WHERE id = ?', [
     req.params.id,
   ]);
@@ -97,6 +99,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
 // 게시글 수정 라우터
 router.put('/update', asyncHandler(async (req, res) => {
+  console.log('세션아이디', req.sessionID);
   const [currentUser] = await db.query('SELECT * FROM users WHERE id = ?', [
     req.user.id,
   ]);
@@ -127,6 +130,7 @@ router.put('/update', asyncHandler(async (req, res) => {
 
 // 게시글 삭제
 router.delete('/delete', asyncHandler(async (req, res) => {
+  console.log('세션아이디', req.sessionID);
   const [currentUser] = await db.query('SELECT * FROM users WHERE id = ?', [
     req.user.id,
   ]);

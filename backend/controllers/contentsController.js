@@ -4,6 +4,7 @@ const contentsModel = require('../models/contentsModel');
 // 컨텐츠 생성
 const createContent = asyncHandler(async (req, res) => {
   try {
+    console.log('세션아이디', req.sessionID);
     const businessBno = req.params.business_bno;
     const contentData = { ...req.body, businessBno }; // 사업자 번호를 컨텐츠 데이터에 추가
     const result = await contentsModel.createContent(contentData);
@@ -20,6 +21,7 @@ const createContent = asyncHandler(async (req, res) => {
 // 컨텐츠 업데이트
 const updateContent = asyncHandler(async (req, res) => {
   try {
+    console.log('세션아이디', req.sessionID);
     const businessBno = req.params.business_bno;
     const contentId = req.params.contentId;
     const contentData = { ...req.body, businessBno, contentId }; // 사업자 번호와 컨텐츠 ID 추가
@@ -39,6 +41,7 @@ const updateContent = asyncHandler(async (req, res) => {
 // 컨텐츠 삭제
 const deleteContent = asyncHandler(async (req, res) => {
   try {
+    console.log('세션아이디', req.sessionID);
     const businessBno = req.params.business_bno;
     const contentId = req.params.contentId;
     const result = await contentsModel.deleteContent(businessBno, contentId);
@@ -55,6 +58,7 @@ const deleteContent = asyncHandler(async (req, res) => {
 // 메뉴 생성
 const createMenu = asyncHandler(async (req, res) => {
   try {
+    console.log('세션아이디', req.sessionID);
     const businessBno = req.params.business_bno;
     const menuData = { ...req.body, businessBno }; // 사업자 번호를 메뉴 데이터에 추가
     const result = await contentsModel.createMenu(menuData);
@@ -71,6 +75,7 @@ const createMenu = asyncHandler(async (req, res) => {
 // 메뉴 업데이트
 const updateMenu = asyncHandler(async (req, res) => {
   try {
+    console.log('세션아이디', req.sessionID);
     const businessBno = req.params.business_bno;
     const menuId = req.params.menuId;
     const menuData = { ...req.body, businessBno, menuId }; // 사업자 번호와 메뉴 ID 추가
@@ -90,6 +95,7 @@ const updateMenu = asyncHandler(async (req, res) => {
 // 메뉴 삭제
 const deleteMenu = asyncHandler(async (req, res) => {
   try {
+    console.log('세션아이디', req.sessionID);
     const businessBno = req.params.business_bno;
     const menuId = req.params.menuId;
     const result = await contentsModel.deleteMenu(businessBno, menuId);

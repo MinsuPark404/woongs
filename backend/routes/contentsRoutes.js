@@ -7,12 +7,12 @@ const {
 } = require('../controllers/contentsController');
 
 // 컨텐츠 생성
-router.post('/:business_bno', createContent);
+router.post('/', createContent);
 
 // 컨텐츠 업데이트
-router.put('/:business_bno/:contentId', updateContent);
+router.put('/:contentId', updateContent);
 
 // 컨텐츠 삭제
-router.delete('/:business_bno/:contentId', deleteContent);
+router.delete('/:contentId', deleteContent);
 
 module.exports = router;
