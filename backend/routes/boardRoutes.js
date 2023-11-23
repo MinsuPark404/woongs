@@ -4,6 +4,7 @@ const router = express.Router();
 const asyncHandler = require('express-async-handler');
 const db = require('../config/dbConnMysql');
 
+// 새 게시물 생성 
 router.post('/create', async (req, res, next) => {
   // 세션에서 사용자 ID 추출
   const userId = req.session.userId;
@@ -48,6 +49,8 @@ router.post('/create', async (req, res, next) => {
   });
 });
 
+// 모든 게시물 조회 라우터
+router.get('/', getPosts);
 // 모든 게시물 조회 (페이지네이션 적용)
 const getPosts = asyncHandler(async (req, res) => {
   const page = req.query.page * 1 || 1;
@@ -68,6 +71,8 @@ const getPosts = asyncHandler(async (req, res) => {
   });
 });
 
+// 특정 게시물 조회 라우터
+router.get('/:id', getPost);
 // 특정 게시물 조회
 const getPost = asyncHandler(async (req, res) => {
   const [post] = await db.query('SELECT * FROM board WHERE id = ?', [
@@ -92,6 +97,8 @@ const getPost = asyncHandler(async (req, res) => {
   });
 });
 
+// 게시글 수정 라우터
+router.put('/update', updatePost);
 // 게시글 수정
 const updatePost = asyncHandler(async (req, res) => {
   const [currentUser] = await db.query('SELECT * FROM users WHERE id = ?', [
@@ -123,6 +130,8 @@ const updatePost = asyncHandler(async (req, res) => {
 });
 
 // 게시글 삭제
+router.delete('/delete', deletePost);
+// 게시글 삭제
 const deletePost = asyncHandler(async (req, res) => {
   const [currentUser] = await db.query('SELECT * FROM users WHERE id = ?', [
     req.user.id,
@@ -148,4 +157,4 @@ const deletePost = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = { getPosts, getPost, updatePost, deletePost };
+module.exports = router;
