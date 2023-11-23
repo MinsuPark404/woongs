@@ -22,13 +22,15 @@ const ChildList = () => {
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <Typography variant="h6" sx={{ margin: 2 }}>원생 목록</Typography>
-            <TableContainer sx={{ maxHeight: 440 }}>
+            <TableContainer>
                 <Table stickyHeader aria-label="children table">
                     <TableHead>
                         <TableRow>
                             <TableCell>이름</TableCell>
                             <TableCell>나이</TableCell>
                             <TableCell>성별</TableCell>
+                            <TableCell>반</TableCell>
+                            <TableCell>등록 일자</TableCell>
                             <TableCell>작업</TableCell>
                         </TableRow>
                     </TableHead>
@@ -38,6 +40,8 @@ const ChildList = () => {
                                 <TableCell>{child.child_name}</TableCell>
                                 <TableCell>{child.child_age}</TableCell>
                                 <TableCell>{child.child_gender}</TableCell>
+                                <TableCell>{child.child_class}</TableCell>
+                                <TableCell>{child.child_created_at}</TableCell>
                                 <TableCell>
                                     <Button color="primary">수정</Button>
                                     <Button color="secondary">삭제</Button>

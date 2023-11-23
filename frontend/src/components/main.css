@@ -19,6 +19,6 @@
     border: 1px solid #ccc;
     display: flex;
     flex-direction: column; /* 컬럼 방향으로 정렬 */
-    background-color: #f4f4f4;
+    background-color: #e7e7e8;
     padding: 20px;
 }

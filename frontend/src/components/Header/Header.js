@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AppBar, Toolbar, Typography, IconButton, Avatar, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Badge from '@mui/material/Badge';
 
 const Header = ({ toggleDrawer, open }) => {
     const data = useSelector((state) => state.user);
@@ -26,6 +28,11 @@ const Header = ({ toggleDrawer, open }) => {
                         LOGO
                     </Typography>
                 </Link>
+                <IconButton color="inherit">
+                    <Badge badgeContent={2} color="error">
+                        <NotificationsIcon />
+                    </Badge>
+                </IconButton>
                 <Button color="inherit">
                     <Avatar src={sampleProfilePic} alt={name} style={{ marginRight: 10 }} />
                     {name}
