@@ -36,9 +36,11 @@ app.use('/api/businesses', require('./routes/businessRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/domains', require('./routes/domainRoutes'));
 app.use('/api/children', require('./routes/childRoutes'));
-app.use('/api/contents', require('./routes/contentsRoutes'));
+app.use('/api/contents/:business_bno', require('./routes/contentsRoutes'));
+app.use('/api/menus/:business_bno', require('./routes/menuRoutes'));
 app.use('/api/visits', require('./routes/visitRoutes'));
 app.use('/api/videos', require('./routes/videoRoutes'));
+app.use('/api/boards', require('./routes/boardRoutes'));
 
 // 정적인 파일 관리
 app.use(express.static(path.join(__dirname, '../frontend', 'build')));

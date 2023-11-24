@@ -1,21 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const { 
+const {
   createContent,
   updateContent,
   deleteContent,
 } = require('../controllers/contentsController');
 
-// 사용자별맞춤형 등록
-//TODO 미완성, 수정해야함
-router.post('/:id', createContent);
+// 컨텐츠 생성
+router.post('/', createContent);
 
-// 사용자별맞춤형 수정
-//TODO 미완성, 수정해야함
-router.put('/:id', updateContent);
+// 컨텐츠 업데이트
+router.put('/:contentId', updateContent);
 
-// 사용자별맞춤형 삭제
-//TODO 미완성, 수정해야함
-router.delete('/:id', deleteContent);
+// 컨텐츠 삭제
+router.delete('/:contentId', deleteContent);
 
 module.exports = router;

@@ -165,24 +165,33 @@ const cmsLogQueries = {
 const contentsQueries = {
   createContentQuery: `
     INSERT INTO cms_contents 
-    (content_detail, business_name, content_created_at, content_updated_at) 
+    (content_detail, business_bno, content_created_at, content_updated_at) 
     VALUES (?, ?, ?, ?)
-  `,
-  getContentByIdQuery: `
-    SELECT * 
-    FROM cms_contents 
-    WHERE content_seq = ?
   `,
   updateContentQuery: `
     UPDATE cms_contents 
     SET content_detail = ?, 
-        business_name = ?, 
         content_updated_at = ? 
-    WHERE content_seq = ?
+    WHERE content_seq = ? AND business_bno = ?
   `,
   deleteContentQuery: `
     DELETE FROM cms_contents 
-    WHERE content_seq = ?
+    WHERE content_seq = ? AND business_bno = ?
+  `,
+  createMenuQuery: `
+    INSERT INTO cms_menu
+    (menu_detail, business_bno, menu_created_at, menu_updated_at)
+    VALUES (?, ?, ?, ?)
+  `,
+  updateMenuQuery: `
+    UPDATE cms_menu
+    SET menu_detail = ?,
+        menu_updated_at = ?
+    WHERE menu_idx = ? AND business_bno = ?
+  `,
+  deleteMenuQuery: `
+    DELETE FROM cms_menu
+    WHERE menu_idx = ? AND business_bno = ?
   `,
 };
 

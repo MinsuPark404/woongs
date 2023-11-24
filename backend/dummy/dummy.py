@@ -230,3 +230,70 @@ df_businesses['admin_idx'] = df_businesses['business_admin'].map(admin_idx_map)
 df_businesses['business_bno'] = business_bno  # business_bno 리스트 또는 다른 데이터 소스에서 가져옴
 
 # 이제 df_businesses에 admin_idx와 business_bno가 포함되어 있음
+
+
+
+
+from faker import Faker
+import random
+import json
+from datetime import datetime, timedelta
+
+fake = Faker()
+
+# 데이터를 생성하는 함수
+def generate_dummy_data(num_samples):
+    dummy_data = []
+
+    for _ in range(num_samples):
+        business_bno = f"{fake.random_number(digits=3)}-{fake.random_number(digits=2)}-{fake.random_number(digits=5)}"
+        admin_idx = str(fake.random_int(min=1, max=100))
+        child_idx = str(fake.random_int(min=1, max=100))
+        url_idx = str(fake.random_int(min=1, max=100))
+        user_idx = str(fake.random_int(min=1, max=100))
+        business_name = fake.company()
+        admin_name = fake.name()
+        child_name = fake.name()
+        user_name = fake.name()
+
+        # 각 테이블에 대한 데이터 생성
+        cms_admins = {
+            "admin_idx": admin_idx,
+            "admin_email": fake.email(),
+            "admin_password": "123",
+            "admin_name": admin_name,
+            "admin_tel": fake.phone_number(),
+            "admin_role": random.choice(["admin_a", "admin_b", "admin_c"]),
+            "admin_status": str(random.choice([0, 1])),
+            "business_bno": business_bno
+        }
+
+        cms_businesses = {
+            "business_name": business_name,
+            "business_admin": admin_name,
+            "business_tel": fake.phone_number(),
+            "business_addr1": fake.address(),
+            "business_addr2": "",
+            "business_bno": business_bno,
+            "business_url": fake.url(),
+            "business_created_at": fake.date_time_between(start_date="-1y", end_date="now").strftime("%Y-%m-%d %H:%M:%S"),
+            "admin_idx": admin_idx
+        }
+
+        children = {
+            "child_idx": child_idx,
+            "child_name": child_name,
+            "child_age": str(random.randint(3, 7)),
+            "child_gender": random.choice(["남", "여"]),
+            "child_class": random.choice(["햇님반", "달님반", "장미반", "해바라기반"]),
+            "business_bno": business_bno,
+            "child_created_at": fake.date_time_between(start_date="-1y", end_date="now").strftime("%Y-%m-%d %H:%M:%S"),
+            "child_updated_at": (datetime.now() + timedelta(days=3)).strftime("%Y-%m-%d %H:%M:%S")
+        }
+
+        cms_url = {
+            "url_addr": cms_businesses["business_url"],
+            "url_status": random.choice(["Y", "N"]),
+            "business_bno": business_bno,
+            "url_created_at": fake.date_time_between(start_date="-1y", end_date="now").strftime("%Y-%m-%d %H:%M:%S"),
+            "url_period_at": (datetime.now

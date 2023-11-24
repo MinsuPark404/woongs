@@ -6,6 +6,7 @@ const videoModel = require('../models/videoModel');
 // @access admin_s
 const createVideo = asyncHandler(async (req, res) => {
   try {
+    console.log('세션아이디', req.sessionID);
     // 클라이언트(플라스크측) -> 서버로 비디오 데이터 전송
     const videoData = req.body;
     // console.log(videoData);
@@ -21,6 +22,7 @@ const createVideo = asyncHandler(async (req, res) => {
 // @access admin_s
 const getAllVideos = asyncHandler(async (req, res) => {
   try {
+    console.log('세션아이디', req.sessionID);
     const videos = await videoModel.getAllVideos();
     res.status(200).json(videos);
   } catch (error) {
@@ -33,6 +35,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
 // @access admin_s
 const getVideo = asyncHandler(async (req, res) => {
   try {
+    console.log('세션아이디', req.sessionID);
     let videos;
     // 슈퍼관리자인 경우 모든 비디오 조회
     if (req.user.role === 'admin_s') {
@@ -58,6 +61,7 @@ const getVideo = asyncHandler(async (req, res) => {
 // @access admin_s
 const deleteVideo = asyncHandler(async (req, res) => {
   try {
+    console.log('세션아이디', req.sessionID);
     const videoId = req.params.id;
     await videoModel.deleteVideo(videoId);
     res.status(200).json({ message: '비디오 삭제 성공' });

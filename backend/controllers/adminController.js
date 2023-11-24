@@ -52,7 +52,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
       bno: admin.business_bno,
     };
     // console.log('세션 정보', req.session.admin);
-    console.log('세션아이디1', req.sessionID);
+    console.log('세션아이디', req.sessionID);
 
     await cmsLogModel.logAuthAttempt(admin, 'T', req.ip, true);
 
