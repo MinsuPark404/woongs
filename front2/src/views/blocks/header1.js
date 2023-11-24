@@ -190,10 +190,10 @@ const hbs = `
 const block = {
 	hbs,
 	name: 'Simple Header #2',
-	previewImageUrl: 'https://i.imgur.com/1bYEKB4.png',
+	previewImageUrl: 'https://imgur.com/3F3fZGd',
 	category: 'header',
 	defaultData: {
-		logo: "https://www.theteams.kr/includes/uploads/company_profile/%EC%9B%85.png",
+		logo: "https://imgur.com/SWfsAax",
 		title: "웅이네",
 		tagline: "유치원",
 		imageSrc1: "http://temp.ebikids.co.kr/v2_01a/images/main/main_bg.jpg",

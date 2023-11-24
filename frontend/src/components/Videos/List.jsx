@@ -183,12 +183,13 @@ const List = () => {
         <Dialog open={openModal} onClose={handleCloseModal} maxWidth="lg">
             <DialogTitle>영상 재생</DialogTitle>
             <DialogContent>
-                {selectedVideo && (
+                {/* {selectedVideo && (
                     <video width="100%" controls>
-                        <source src={selectedVideo.video_path} type="video/mp4" />
+                        <source src={selectedVideo.video_path} type="" />
                         브라우저가 비디오를 지원하지 않습니다.
                     </video>
-                )}
+                )} */}
+                <iframe width="1046" height="588" src="https://www.youtube.com/embed/8wfeIXahttg" title="요즘 난리난 개발자들 극대노한 Next.js 미친 업데이트 ㄷㄷ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </DialogContent>
         </Dialog>
     </Paper>
