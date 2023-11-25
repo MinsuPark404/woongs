@@ -29,6 +29,8 @@ connectDb.getConnection((err, connection) => {
   return;
 });
 
+
+
 console.log('MySQL 연결 성공...');
 
 module.exports = connectDb;

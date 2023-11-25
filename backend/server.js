@@ -6,9 +6,12 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const port = process.env.PORT || 5001;
+//logger
+const morgan = require('morgan');
 
 const app = express();
 app.use(cors());
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 /* MySQL */
@@ -45,9 +48,15 @@ app.use('/api/boards', require('./routes/boardRoutes'));
 // 정적인 파일 관리
 app.use(express.static(path.join(__dirname, '../frontend', 'build')));
 
+app.use('/editor',(req, res) => {
+  console.log("editor");
+  res.sendFile(path.join(__dirname, '../frontend', 'build', 'index2.html'));
+});
 app.use('/', (req, res) => {
+  console.log("main");
   res.sendFile(path.join(__dirname, '../frontend', 'build', 'index.html'));
 });
+
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

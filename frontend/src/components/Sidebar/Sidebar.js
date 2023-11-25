@@ -22,6 +22,10 @@ const Sidebar = ({ toggleDrawer, open }) => {
             toggleDrawer();
         }
     };
+    const aTagStyle = {
+        textDecoration: 'none',
+        color: '#000000DE',
+    };
 
     const getListItemStyle = (path) => {
         return currentPath === path ? { backgroundColor: '#1976d2', color: 'white' } : null;
@@ -67,12 +71,14 @@ const Sidebar = ({ toggleDrawer, open }) => {
                 </ListItem>
                 <Divider />
                 <ListItem button 
-                onClick={() => handleLinkClick('/main/ad')} 
+                // onClick={() => handleLinkClick('/main/ad')} 
                 style={getListItemStyle('/main/ad')}
                 sx={{height:'70px'}}
                 >
                     <ListItemIcon><CampaignIcon /></ListItemIcon>
+                    <a href='/editor' style={aTagStyle}>
                     <ListItemText primary="홍보 페이지" />
+                    </a>
                 </ListItem>
                 <Divider />
                 <ListItem button 
