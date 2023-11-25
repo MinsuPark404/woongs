@@ -6,7 +6,7 @@ CREATE TABLE cms_admins
 (
     `admin_idx`         INT UNSIGNED    NOT NULL    AUTO_INCREMENT COMMENT '관리자 순번', 
     `admin_email`       VARCHAR(50)     NULL        COMMENT '관리자 이메일', 
-    `admin_password`    VARCHAR(40)     NULL        COMMENT '관리자 비밀번호', 
+    `admin_password`    VARCHAR(60)     NULL        COMMENT '관리자 비밀번호', 
     `admin_name`        VARCHAR(30)     NULL        COMMENT '관리자 이름', 
     `admin_tel`         VARCHAR(20)     NULL        COMMENT '관리자 전화번호', 
     `admin_role`        VARCHAR(20)     NULL        COMMENT '관리자 역할', 
@@ -86,7 +86,7 @@ CREATE TABLE cms_url
 (
     `url_idx`         INT UNSIGNED     NOT NULL    AUTO_INCREMENT COMMENT '도메인 순번', 
     `url_addr`        VARCHAR(1000)    NULL        COMMENT '도메인 주소', 
-    `url_status`      CHAR(1)          NULL        COMMENT '도메인 상태', 
+    `url_status`      CHAR(10)          NULL        COMMENT '도메인 상태', 
     `business_bno`    VARCHAR(20)      NULL        COMMENT '어린이집 사업자번호', 
     `url_created_at`  DATETIME         NULL        COMMENT '도메인 등록 일자', 
     `url_period_at`   DATETIME         NULL        COMMENT '도메인 만료 일자', 
@@ -112,10 +112,10 @@ CREATE TABLE cms_users
 (
     `user_idx`         INT UNSIGNED    NOT NULL    AUTO_INCREMENT COMMENT '직원 순번', 
     `user_email`       VARCHAR(50)     NULL        COMMENT '직원 이메일', 
-    `user_password`    VARCHAR(30)     NULL        COMMENT '직원 비밀번호', 
+    `user_password`    VARCHAR(60)     NULL        COMMENT '직원 비밀번호', 
     `user_name`        VARCHAR(30)     NULL        COMMENT '직원 이름', 
     `user_tel`         VARCHAR(20)     NULL        COMMENT '직원 전화번호', 
-    `admin_status`     VARCHAR(20)     NULL        COMMENT '관리자 상태', 
+    `user_status`      VARCHAR(20)     NULL        COMMENT '직원 상태', 
     `business_bno`     VARCHAR(20)     NULL        COMMENT '어린이집 사업자번호', 
     `user_created`     DATETIME        NULL        DEFAULT now() COMMENT '직원 등록', 
     `user_updated_at`  DATETIME        NULL        DEFAULT now() COMMENT '직원 수정 일자', 
@@ -168,7 +168,7 @@ CREATE TABLE cms_url_log
 (
     `log_idx`   INT UNSIGNED     NOT NULL    AUTO_INCREMENT COMMENT '로그 순번', 
     `log_date`  DATE             NULL        COMMENT '로그 날짜만', 
-    `log_time`  DATE             NULL        COMMENT '로그 시간만', 
+    `log_time`  TIME             NULL        COMMENT '로그 시간만', 
     `log_ip`    VARCHAR(20)      NULL        COMMENT '로그 아이피', 
     `url_addr`  VARCHAR(1000)    NULL        COMMENT '도메인 주소', 
      PRIMARY KEY (log_idx)
@@ -333,3 +333,5 @@ ALTER TABLE board
 ALTER TABLE board
     ADD CONSTRAINT fk_board_business_bno
     FOREIGN KEY (business_bno) REFERENCES cms_businesses(business_bno);
+
+

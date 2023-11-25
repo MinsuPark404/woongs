@@ -7,7 +7,7 @@ const connectDb = mysql.createPool({
   port: 3307,
   database: 'Insa4_JSB_final_1',
   waitForConnections: true,
-  connectionLimit: 10,
+  connectionLimit: 100,
   queueLimit: 0,
 });
 
