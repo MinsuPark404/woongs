@@ -8,6 +8,7 @@ const MySQLStore = require('express-mysql-session')(session);
 const port = process.env.PORT || 5001;
 //logger
 const morgan = require('morgan');
+const isAuthenticated = require('./middleware/isAuthenticated');
 
 const app = express();
 app.use(cors());
@@ -28,7 +29,7 @@ app.use(
     cookie: {
       httpOnly: true, // 클라이언트 JavaScript가 쿠키를 볼 수 없도록 함
       secure: false, // HTTPS를 통해서만 쿠키가 전송되도록 함
-      maxAge: 600000, // 쿠키의 생존 기간(예: 10분)
+      maxAge: 60000, // 쿠키의 생존 기간(예: 1분)
     },
   })
 );
@@ -36,25 +37,10 @@ app.use(
 // 정적인 파일 관리
 app.use(express.static(path.join(__dirname, '../frontend', 'build')));
 
-// 인증 미들웨어 정의
-function isAuthenticated(req, res, next) {
-  // 로그인 화면과 API 경로에 대한 예외 처리
-  if (req.path === '/' || req.path.startsWith('/api/admins/login')) {
-    return next();
-  }
-
-  // 세션 확인
-  if (!req.session.admin) {
-    return res.status(403).json({ error: '로그인이 필요합니다.' });
-  }
-
-  next();
-}
-
 // 인증 미들웨어 적용
 app.use(isAuthenticated);
 
-// 라우터 미들웨어
+// API 라우터
 app.use('/api/admins', require('./routes/adminRoutes'));
 app.use('/api/businesses', require('./routes/businessRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
@@ -66,9 +52,7 @@ app.use('/api/visits', require('./routes/visitRoutes'));
 app.use('/api/videos', require('./routes/videoRoutes'));
 app.use('/api/boards', require('./routes/boardRoutes'));
 
-// 정적인 파일 관리
-app.use(express.static(path.join(__dirname, '../frontend', 'build')));
-
+// 특정 페이지 라우터
 app.use('/editor', (req, res) => {
   console.log('editor');
   res.sendFile(path.join(__dirname, '../frontend', 'build', 'index2.html'));
