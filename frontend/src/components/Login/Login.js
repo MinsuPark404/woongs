@@ -43,6 +43,7 @@ function Login() {
       console.log('sessionData', sessionData);
       dispatch({
         type: 'LOGIN',
+        bno : sessionData.data.admin.bno,
         name: sessionData.data.admin.name,
         email: sessionData.data.admin.email,
         id: sessionData.data.admin.id,

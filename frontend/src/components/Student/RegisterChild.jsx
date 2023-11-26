@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, Box, Typography, Container,Paper } from '@mui/material';
 import axios from '../../axios'; // API 호출을 위한 axios 인스턴스
+import { useSelector } from 'react-redux';
 
 const RegisterChild = () => {
   const [childData, setChildData] = useState({
     child_name: '',
     child_age: '',
     child_gender: '',
+    child_class: '',
   });
   const [message, setMessage] = useState('');
 
@@ -14,17 +16,18 @@ const RegisterChild = () => {
     const { name, value } = e.target;
     setChildData({ ...childData, [name]: value });
   };
-
+  const userData = useSelector((state) => state.user);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const businessBno = '1234567890'; // 예시 사업자 번호, 실제로는 동적으로 설정해야 함
+      const businessBno = userData.bno;
       const response = await axios.post(`/api/children/${businessBno}`, childData);
-      setMessage('원생이 성공적으로 등록되었습니다.');
+      setMessage(response.data.message);
       setChildData({
         child_name: '',
         child_age: '',
         child_gender: '',
+        child_class: '',
       });
     } catch (error) {
       setMessage('원생 등록 중 오류가 발생했습니다.');
@@ -52,6 +55,15 @@ const RegisterChild = () => {
         label="나이"
         name="child_age"
         value={childData.child_age}
+        onChange={handleChange}
+        margin="normal"
+      />
+      <TextField
+        required
+        fullWidth
+        label="반"
+        name="child_class"
+        value={childData.child_class}
         onChange={handleChange}
         margin="normal"
       />

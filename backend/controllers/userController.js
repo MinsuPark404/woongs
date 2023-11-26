@@ -3,6 +3,7 @@ const userModel = require('../models/userModel');
 const cmsLogModel = require('../models/cmsLogModel');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const db = require('../config/dbConnMysql')
 
 // 생성
 const create = asyncHandler(async (req, res) => {
@@ -99,6 +100,18 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+// 로그조회
+const findLogs = asyncHandler(async (req, res) => {
+  const bno = req.params.bno;
+  console.log(bno,typeof(bno));
+  const sql = `select * from cms_log where business_name = (
+    select business_name from cms_businesses where business_bno = "${bno}"
+    )`
+  const results = await db.query(sql);
+  console.log(results);
+  res.status(200).json(results);
+})
+
 // 로그아웃
 
-module.exports = { create, findAll, findByUser, update, remove, loginUser };
+module.exports = { create, findAll, findByUser, update, remove, loginUser, findLogs };

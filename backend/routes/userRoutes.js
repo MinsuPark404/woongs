@@ -7,6 +7,7 @@ const {
   update,
   remove,
   loginUser,
+  findLogs,
 } = require('../controllers/userController');
 
 // 어린이집 교사 등록
@@ -31,6 +32,6 @@ router.post('/logout');
 router.delete('/:id', remove);
 
 // 어린이집 교사 로그
-router.get('/logs');
+router.get('/logs/:bno', findLogs)
 
 module.exports = router;

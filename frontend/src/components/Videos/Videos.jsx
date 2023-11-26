@@ -10,6 +10,7 @@ const Videos = () => {
 
     const handleChange = (event, newValue) => {
     setActiveTab(newValue);
+    
     };
 
     return (
