@@ -28,10 +28,22 @@ app.use(
     cookie: {
       httpOnly: true, // 클라이언트 JavaScript가 쿠키를 볼 수 없도록 함
       secure: false, // HTTPS를 통해서만 쿠키가 전송되도록 함
-      maxAge: 600000, // 쿠키의 생존 기간(예: 600초)
+      maxAge: 600000, // 쿠키의 생존 기간(예: 10분)
     },
   })
 );
+
+app.use((req, res, next) => {
+  // 세션에 관리자 정보가 없는 경우
+  console.log('세션 없으면 로그인 불가능: ', req.session.admin);
+  if (!req.session.admin) {
+    // 로그인 페이지 이외의 라우트에 대한 접근을 불허
+    if (req.path !== '/api/admins/login') {
+      return res.status(403).json({ error: '로그인이 필요합니다.' });
+    }
+  }
+  next();
+});
 
 // 라우터 미들웨어
 app.use('/api/admins', require('./routes/adminRoutes'));
