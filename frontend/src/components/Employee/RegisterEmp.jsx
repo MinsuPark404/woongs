@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button, TextField, FormControl, InputLabel, Select, MenuItem, Box, Typography, Container,Paper } from '@mui/material';
+import { Button, TextField, Box, Typography, Container,Paper } from '@mui/material';
 import axios from '../../axios'; // API 호출을 위한 axios 인스턴스
-
+import { useSelector } from 'react-redux';
 const RegisterEmployee = () => {
   const [newEmp, setNewEmp] = useState({
     user_email: '',
@@ -11,7 +11,7 @@ const RegisterEmployee = () => {
     user_role: '',
   });
   const [message, setMessage] = useState('');
-
+  const userData = useSelector((state) => state.user);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewEmp({ ...newEmp, [name]: value });

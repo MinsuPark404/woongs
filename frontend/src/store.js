@@ -8,7 +8,8 @@ function reducer (state, action) {
                 name: '',
                 email: '',
                 id: '',
-                roll : ''
+                roll : '',
+                bno : ''
             }
         }
     }
@@ -17,12 +18,14 @@ function reducer (state, action) {
         newState.user.email = action.email
         newState.user.id = action.id
         newState.user.roll = action.roll
+        newState.user.bno = action.bno
     }
     if (action.type === 'LOGOUT') {
         newState.user.name = ''
         newState.user.email = ''
         newState.user.idx = ''
         newState.user.roll = ''
+        newState.user.bno = ''
     }
     return newState
 }

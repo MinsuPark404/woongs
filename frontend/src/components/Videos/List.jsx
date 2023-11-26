@@ -10,7 +10,7 @@ import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-
+import { useSelector } from "react-redux";
 // Dayjs 플러그인 확장
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
@@ -18,7 +18,6 @@ dayjs.extend(isSameOrBefore);
 const fetchData = async () => {
     try {
         const response = await axios.get("/api/videos");
-        console.log("VIDEO LIST : ",response.data);
         return response.data;
     } catch (err) {
         console.error(err);
@@ -33,8 +32,26 @@ const List = () => {
     const [startTime, setStartTime] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [endTime, setEndTime] = useState(null);
+    const userData = useSelector((state) => state.user);
+    console.log("USER : ",userData);
+    console.log("USER BNO : ",userData.bno)
     useEffect(() => {
-        fetchData().then((data) => setVideos(data));
+        // fetchData().then((data) => setVideos(data));
+        // 전체 목록에서 해당 사업자의 비디오만 필터링
+        if (userData.bno !== '') {
+            fetchData()
+            .then((data) => {
+                // console.log("DATA : ",data);
+                // console.log("BNO TYPE: ",typeof(data[0].business_bno));
+                // console.log("User BNO TYPE: ",typeof(userData.bno));
+                const videos = data.filter((video) => video.business_bno === userData.bno);
+                // console.log("VIDEOS : ",videos);
+                setVideos(videos);
+            
+            });
+        } else {
+            fetchData().then((data) => setVideos(data));
+        }
     }
     , []);
     /*
