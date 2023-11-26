@@ -33,7 +33,9 @@ router.get('/:businessBno', async (req, res) => {
     // LIMIT ${limit} OFFSET ${offset}`;
     const sql = `SELECT child_idx, child_name, child_age, child_gender, child_class, business_bno, 
     DATE_FORMAT(CONVERT_TZ(child_created_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS child_created_at 
-    FROM children`;
+    FROM children
+    WHERE business_bno = "${req.params.businessBno}"
+    `;
 
     const [results] = await db.query(sql);
     // console.log(results);

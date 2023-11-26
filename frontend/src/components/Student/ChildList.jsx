@@ -52,7 +52,7 @@ const ChildList = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {children.map((child) => (
+                        {children.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((child) => (
                             <TableRow hover key={child.child_idx}>
                                 <TableCell>{child.child_name}</TableCell>
                                 <TableCell>{child.child_age}</TableCell>

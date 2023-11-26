@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, TextField, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Container, TextField, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, TablePagination } from '@mui/material';
 import axios from '../../axios';
 import { useSelector } from 'react-redux';
 
@@ -14,18 +14,10 @@ const LogManager = () => {
     log_ip: '',
     logouted_at: '',
   });
-  // {
-  //   cms_log_idx: 818,
-  //   business_name: '해피트리 어린이집',
-  //   admin_name: '김현정',
-  //   logged_at: 2023-11-26T03:16:22.000Z,
-  //   log_info: 'T',
-  //   log_ip: '::1',
-  //   logouted_at: null,
-  //   admin_idx: 1
-  // },
-
   const [logs, setLogs] = useState([]);
+  const [page, setPage] = useState(0); 
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
   const userData = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -53,6 +45,15 @@ const LogManager = () => {
   const handleReset = () => {
       
     };
+  
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0); // 페이지 번호를 다시 0으로 리셋
+  };
 
 
   return (
@@ -122,7 +123,7 @@ const LogManager = () => {
                 <TableCell colSpan="5">로그 정보가 없습니다.</TableCell>
               </TableRow>
             ) : (
-              logs.map((log, index) => (
+              logs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((log, index) => (
                 <TableRow key={index}>
                   <TableCell>{log.cms_log_idx}</TableCell>
                   <TableCell>{log.admin_name}</TableCell>
@@ -136,6 +137,15 @@ const LogManager = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 20, 30]}
+        component="div"
+        count={logs.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </Container>
   );
               };
