@@ -1,3 +1,4 @@
+//TODO 쿼리메소드 분리
 const express = require('express');
 const router = express.Router();
 
@@ -10,12 +11,7 @@ router.post('/:businessBno', async (req, res) => {
 
   try {
     const sql = `INSERT INTO children (child_name, child_age, child_gender, business_bno) VALUES (?, ?, ?, ?)`;
-    const [results] = await db.query(sql, [
-      child_name,
-      child_age,
-      child_gender,
-      business_bno,
-    ]);
+    const [results] = await db.query(sql, [child_name, child_age, child_gender, business_bno]);
     res.status(201).json({
       message: '원생이 성공적으로 등록되었습니다.',
       childId: results.insertId,
@@ -26,13 +22,21 @@ router.post('/:businessBno', async (req, res) => {
   }
 });
 
+//TODO 프론트맨님 I AM 페이징추가예요
 // 원생 정보 조회
 router.get('/', async (req, res) => {
   console.log('원생 정보 조회');
+  const page = req.query.page || 1;
+  const limit = 30;
+  const offset = (page - 1) * limit;
   try {
-    const sql = `SELECT * FROM children`;
+    const sql = `SELECT child_idx, child_name, child_age, child_gender, child_class, business_bno, 
+    DATE_FORMAT(CONVERT_TZ(child_created_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS child_created_at 
+    FROM children
+    LIMIT ${limit} OFFSET ${offset}`;
+
     const [results] = await db.query(sql);
-    console.log(results);
+    // console.log(results);
     res.status(200).json(results);
   } catch (error) {
     console.error('원생 정보 조회 중 오류 발생:', error);
@@ -46,13 +50,7 @@ router.put('/:childId', async (req, res) => {
   const { child_name, child_age, child_gender, business_bno } = req.body;
   try {
     const sql = `UPDATE children SET child_name = ?, child_age = ?, child_gender = ?, business_bno = ? WHERE child_idx = ?`;
-    const [results] = await db.query(sql, [
-      child_name,
-      child_age,
-      child_gender,
-      business_bno,
-      childId,
-    ]);
+    const [results] = await db.query(sql, [child_name, child_age, child_gender, business_bno, childId]);
     res.status(200).json(results);
   } catch (error) {
     console.error('원생 정보 수정 중 오류 발생:', error);
@@ -108,9 +106,7 @@ router.get('/attendance/:childId/:date', async (req, res) => {
     res.json(rows);
   } catch (error) {
     console.error('원생의 출석 이력 조회 중 오류 발생:', error);
-    res
-      .status(500)
-      .json({ message: '원생의 출석 이력 조회 중 오류가 발생했습니다.' });
+    res.status(500).json({ message: '원생의 출석 이력 조회 중 오류가 발생했습니다.' });
   }
 });
 

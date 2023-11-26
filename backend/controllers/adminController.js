@@ -11,12 +11,17 @@ const createAdmin = asyncHandler(async (req, res) => {
   try {
     const adminData = req.body;
     // 이메일 중복 체크
-    const existingAdminEmail = await adminModel.findAdminByEmail(adminData.admin_email);
+    const existingAdminEmail = await adminModel.findAdminByEmail(
+      adminData.admin_email
+    );
     if (existingAdminEmail.length > 0) {
       return res.status(409).json({ message: '이미 존재하는 이메일입니다.' });
     }
     // 비밀번호 해시
-    const hashedPassword = await bcrypt.hash(adminData.admin_password, saltRounds);
+    const hashedPassword = await bcrypt.hash(
+      adminData.admin_password,
+      saltRounds
+    );
     adminData.admin_password = hashedPassword; // 해시된 비밀번호로 대체
     // 관리자 데이터 추가
     const newAdmin = await adminModel.createAdmin(adminData);
@@ -27,7 +32,9 @@ const createAdmin = asyncHandler(async (req, res) => {
   } catch (error) {
     // 에러 로깅
     console.error('관리자 생성 실패:', error);
-    return res.status(500).json({ message: '관리자 생성 중 오류가 발생했습니다.' });
+    return res
+      .status(500)
+      .json({ message: '관리자 생성 중 오류가 발생했습니다.' });
   }
 });
 
@@ -39,7 +46,10 @@ const loginAdmin = asyncHandler(async (req, res) => {
     const { admin_email, admin_password } = req.body;
     const adminData = await adminModel.findAdminByEmail(admin_email);
     const admin = adminData.length > 0 ? adminData[0] : null;
-    if (!admin || !(await bcrypt.compare(admin_password, admin.admin_password))) {
+    if (
+      !admin ||
+      !(await bcrypt.compare(admin_password, admin.admin_password))
+    ) {
       await cmsLogModel.logAuthAttempt(admin, 'F', req.ip, false);
       return res.status(401).json({ message: '인증 정보가 잘못되었습니다.' });
     }
@@ -52,7 +62,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
       bno: admin.business_bno,
     };
     // console.log('세션 정보', req.session.admin);
-    console.log('세션아이디', req.sessionID);
+    console.log('세션아이디', req.sessionID, req.session.admin.role);
 
     await cmsLogModel.logAuthAttempt(admin, 'T', req.ip, true);
 
@@ -68,7 +78,9 @@ const loginAdmin = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     console.error('Admin login failed:', error);
-    return res.status(500).json({ message: '로그인 처리 중 오류가 발생했습니다.' });
+    return res
+      .status(500)
+      .json({ message: '로그인 처리 중 오류가 발생했습니다.' });
   }
 });
 
@@ -83,7 +95,9 @@ const businessList = asyncHandler(async (req, res) => {
     res.status(200).json(admins);
   } catch (error) {
     console.error('관리자 목록 조회 실패', error);
-    res.status(500).json({ message: '관리자 목록 조회 중 오류가 발생했습니다.' });
+    res
+      .status(500)
+      .json({ message: '관리자 목록 조회 중 오류가 발생했습니다.' });
   }
 });
 
@@ -111,7 +125,8 @@ const updateAdmin = asyncHandler(async (req, res) => {
     let errorMessage = '관리자 정보 업데이트 중 문제가 발생했습니다.';
     // 다양한 에러 타입에 따라 처리
     if (err.code === 'ER_ROW_IS_REFERENCED_2') {
-      errorMessage = '이 관리자는 현재 다른 데이터와 연관되어 있어서 업데이트할 수 없습니다.';
+      errorMessage =
+        '이 관리자는 현재 다른 데이터와 연관되어 있어서 업데이트할 수 없습니다.';
     }
     res.status(500).json({
       message: errorMessage,

@@ -120,7 +120,8 @@ const cmsLogQueries = {
   findAllLogsQuery: `
     SELECT cms_log_idx,
     DATE_FORMAT(CONVERT_TZ(logged_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS logged_at,
-    log_info, log_ip, logouted_at 
+    log_info, log_ip,
+    DATE_FORMAT(CONVERT_TZ(logouted_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS logouted_at 
     FROM cms_log
     ORDER BY cms_log_idx DESC
     LIMIT ? OFFSET ?
