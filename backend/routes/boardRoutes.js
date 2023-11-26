@@ -81,7 +81,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const page = Math.max(req.query.page * 1 || 1, 1); // 페이지 번호 검증
     const limit = Math.min(req.query.limit * 1 || 10, 100); // limit 검증 및 제한
-    const skip = (page - 1) * limit;
+    const offset = (page - 1) * limit;
 
     try {
       // 전체 게시물 수 조회
@@ -93,7 +93,7 @@ router.get(
       // 게시물 조회
       const [posts] = await db.query(
         'SELECT * FROM board ORDER BY created_at DESC LIMIT ? OFFSET ?',
-        [limit, skip]
+        [limit, offset]
       );
 
       res.status(200).json({
