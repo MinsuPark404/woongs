@@ -3,7 +3,9 @@ import { TextField, Button, FormControl, InputLabel, Select, MenuItem, Box, Typo
 import axios from '../../axios'; // API 호출을 위한 axios 인스턴스
 import { useSelector } from 'react-redux';
 
+
 const RegisterChild = () => {
+
   const [childData, setChildData] = useState({
     child_name: '',
     child_age: '',
