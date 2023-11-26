@@ -22,18 +22,14 @@ router.post('/:businessBno', async (req, res) => {
   }
 });
 
-//TODO 프론트맨님 I AM 페이징추가예요
 // 원생 정보 조회
 router.get('/', async (req, res) => {
   console.log('원생 정보 조회');
-  const page = req.query.page || 1;
-  const limit = 30;
-  const offset = (page - 1) * limit;
+
   try {
     const sql = `SELECT child_idx, child_name, child_age, child_gender, child_class, business_bno, 
     DATE_FORMAT(CONVERT_TZ(child_created_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS child_created_at 
-    FROM children
-    LIMIT ${limit} OFFSET ${offset}`;
+    FROM children`;
 
     const [results] = await db.query(sql);
     // console.log(results);

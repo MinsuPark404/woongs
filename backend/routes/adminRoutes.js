@@ -10,7 +10,7 @@ router.post('/register', createAdmin);
 router.get('/list', businessList);
 
 // 로그인
-router.post('/login', loginAdmin);
+router.post('/login', verifyAdminAccess, loginAdmin);
 
 // 관리자 정보 업데이트
 router.put('/update/:id', updateAdmin);

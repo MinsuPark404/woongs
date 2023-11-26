@@ -48,15 +48,14 @@ app.use('/api/boards', require('./routes/boardRoutes'));
 // 정적인 파일 관리
 app.use(express.static(path.join(__dirname, '../frontend', 'build')));
 
-app.use('/editor',(req, res) => {
-  console.log("editor");
+app.use('/editor', (req, res) => {
+  console.log('editor');
   res.sendFile(path.join(__dirname, '../frontend', 'build', 'index2.html'));
 });
 app.use('/', (req, res) => {
-  console.log("main");
+  console.log('main');
   res.sendFile(path.join(__dirname, '../frontend', 'build', 'index.html'));
 });
-
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

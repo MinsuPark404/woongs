@@ -249,8 +249,8 @@ const urlQueries = {
 const userQueries = {
   createUserQuery: `
     INSERT INTO cms_users 
-    (user_email, user_password, user_name, user_tel, user_role) 
-    VALUES (?, ?, ?, ?, ?)
+    (user_email, user_password, user_name, user_tel, business_bno, user_role) 
+    VALUES (?, ?, ?, ?, ?, ?)
   `,
   getUserByIdQuery: `
     SELECT * 
