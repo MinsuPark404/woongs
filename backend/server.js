@@ -33,17 +33,26 @@ app.use(
   })
 );
 
-// app.use((req, res, next) => {
-//   // 세션에 관리자 정보가 없는 경우
-//   console.log('세션 없으면 로그인 불가능: ', req.session.admin);
-//   if (!req.session.admin) {
-//     // 로그인 페이지 이외의 라우트에 대한 접근을 불허
-//     if (req.path !== '/api/admins/login') {
-//       return res.status(403).json({ error: '로그인이 필요합니다.' });
-//     }
-//   }
-//   next();
-// });
+// 정적인 파일 관리
+app.use(express.static(path.join(__dirname, '../frontend', 'build')));
+
+// 인증 미들웨어 정의
+function isAuthenticated(req, res, next) {
+  // 로그인 화면과 API 경로에 대한 예외 처리
+  if (req.path === '/' || req.path.startsWith('/api/admins/login')) {
+    return next();
+  }
+
+  // 세션 확인
+  if (!req.session.admin) {
+    return res.status(403).json({ error: '로그인이 필요합니다.' });
+  }
+
+  next();
+}
+
+// 인증 미들웨어 적용
+app.use(isAuthenticated);
 
 // 라우터 미들웨어
 app.use('/api/admins', require('./routes/adminRoutes'));
