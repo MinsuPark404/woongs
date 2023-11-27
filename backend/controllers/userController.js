@@ -119,8 +119,7 @@ const logoutUser = asyncHandler(async (req, res) => {
       if (err) {
         console.error('세션 삭제 중 오류 발생:', err);
       } else {
-        res.clearCookie('connect.sid');
-        res.status(200).json({ message: '로그아웃 되었습니다.', results });
+        res.clearCookie('connect.sid').status(200).json({ message: '로그아웃 되었습니다.', results });
       }
     });
   } catch (error) {

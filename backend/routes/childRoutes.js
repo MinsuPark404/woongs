@@ -23,8 +23,10 @@ router.post('/reg/:businessBno', async (req, res) => {
 });
 
 // 원생 정보 조회
-router.get('/:businessBno', async (req, res) => {
+router.get('/:businessBno?', async (req, res) => {
   console.log('원생 정보 조회');
+  const sessionData = req.session
+  console.log(sessionData)
   try {
     const sql = `SELECT child_idx, child_name, child_age, child_gender, child_class, business_bno, 
     DATE_FORMAT(CONVERT_TZ(child_created_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS child_created_at 
@@ -70,7 +72,7 @@ router.delete('/:childId', async (req, res) => {
 // 출석 기록
 router.post('/attendance', async (req, res) => {
   const { childId, date, bno, status, time } = req.body;
-  console.log(req.body);
+  console.log("중간 로그",req.body);
   try {
     const sql = `INSERT INTO child_attendance (child_idx, attendance_date, business_bno, attendance_status, attendance_time) VALUES (?, ?, ?, ?, ?)`;
     const result = await db.query(sql, req.body);
