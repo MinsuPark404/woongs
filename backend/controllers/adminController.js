@@ -4,6 +4,7 @@ const cmsLogModel = require('../models/cmsLogModel');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const db = require('../config/dbConnMysql');
+
 // @관리자 등록
 // @Endpoint POST /api/admins/register
 // @access admin_s
@@ -140,8 +141,8 @@ const updateAdmin = asyncHandler(async (req, res) => {
 // @access admin_s, admin_c
 const logoutAdmin = asyncHandler(async (req, res) => {
   try {
-    // const adminId = req.body.admin_idx;
-    const adminId = req.session.admin.bno;
+    const adminId = req.body.admin_idx;
+    // const adminId = req.session.admin.bno;
     // 로그아웃 시간 업데이트 쿼리
     const query = `UPDATE cms_log SET logouted_at = NOW() WHERE admin_idx = ? ORDER BY cms_log_idx DESC LIMIT 1`;
     const [results] = await db.query(query, [adminId]);
