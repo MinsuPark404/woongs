@@ -5,33 +5,28 @@ const db = require('../config/dbConnMysql');
 // @원생 등록
 // @Endpoint POST /api/children/reg/:businessBno
 const registerChild = asyncHandler(async (req, res) => {
-  const { child_name, child_age, child_gender } = req.body;
-  const business_bno = req.params.businessBno;
   try {
-    const [results] = await db.query(`INSERT INTO children (child_name, child_age, child_gender, business_bno) VALUES (?, ?, ?, ?)`, [child_name, child_age, child_gender, business_bno]);
+    const params = {
+      child_name: req.body.child_name,
+      child_age: req.body.child_age,
+      child_gender: req.body.child_gender,
+      business_bno: req.params.businessBno,
+    };
+    const result = await childModel.createChild(params);
     res.status(201).json({
       message: '원생이 성공적으로 등록되었습니다.',
-      childId: results.insertId,
+      childId: result.insertId,
     });
   } catch (error) {
     console.error('원생 등록 중 오류 발생:', error);
     res.status(500).json({ message: '원생 등록 중 오류가 발생했습니다.' });
   }
 });
-
 // @원생 정보 조회
 // @Endpoint GET /api/children/:businessBno?
 const getChild = asyncHandler(async (req, res) => {
-  const businessBno = req.session.admin.bno;
-  console.log('원생 정보 조회:', businessBno);
   try {
-    const sql = `SELECT child_idx, child_name, child_age, child_gender, child_class, business_bno, 
-    DATE_FORMAT(CONVERT_TZ(child_created_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS child_created_at 
-    FROM children
-    WHERE business_bno = "${businessBno}"
-    `;
-    const [results] = await db.query(sql);
-    // console.log(results);
+    const results = await childModel.getChild();
     res.status(200).json(results);
   } catch (error) {
     console.error('원생 정보 조회 중 오류 발생:', error);
@@ -42,12 +37,17 @@ const getChild = asyncHandler(async (req, res) => {
 // @원생 정보 수정
 // @Endpoint PUT /api/children/:childId
 const updateChild = asyncHandler(async (req, res) => {
-  const { childId } = req.params;
-  const { child_name, child_age, child_gender, business_bno } = req.body;
   try {
-    const sql = `UPDATE children SET child_name = ?, child_age = ?, child_gender = ?, business_bno = ? WHERE child_idx = ?`;
-    const [results] = await db.query(sql, [child_name, child_age, child_gender, business_bno, childId]);
-    res.status(200).json(results);
+    const childIdx = req.params.childId;
+    const params = {
+      child_name: req.body.child_name,
+      child_age: req.body.child_age,
+      child_gender: req.body.child_gender,
+      business_bno: req.body.business_bno,
+      child_idx: childIdx,
+    };
+    const result = await childModel.updateChild(params);
+    res.status(200).json({ message: '원생 정보가 성공적으로 수정되었습니다.', result });
   } catch (error) {
     console.error('원생 정보 수정 중 오류 발생:', error);
     res.status(500).json({ message: '원생 정보 수정 중 오류가 발생했습니다.' });
@@ -57,11 +57,10 @@ const updateChild = asyncHandler(async (req, res) => {
 // @원생 정보 삭제
 // @Endpoint DELETE /api/children/:childId
 const deleteChild = asyncHandler(async (req, res) => {
-  const { childId } = req.params;
   try {
-    const sql = `DELETE FROM children WHERE child_idx = ?`;
-    const [results] = await db.query(sql, [childId]);
-    res.status(200).json(results);
+    const childIdx = req.params.childId;
+    await childModel.deleteChild(childIdx);
+    res.status(200).json({ message: '원생 정보가 성공적으로 삭제되었습니다.' });
   } catch (error) {
     console.error('원생 정보 삭제 중 오류 발생:', error);
     res.status(500).json({ message: '원생 정보 삭제 중 오류가 발생했습니다.' });
