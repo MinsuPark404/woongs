@@ -31,11 +31,13 @@ const List = () => {
             // 추후 직원 정보를 수정하는 API를 만들어야 함
             const response = await axios.put(`/api/users/${updatedEmp.user_idx}`, updatedEmp);
             console.log(response);
-            setEmployees((preEmployees) =>
-            preEmployees.map((emp) =>
-            emp.user_id === updatedEmp.admin_id ? { ...emp, ...updatedEmp } : emp
-            )
-        );
+            const newEmps = employees.map((emp) => {
+                if (emp.user_idx === updatedEmp.user_idx) {
+                    return updatedEmp;
+                }
+                return emp;
+            });
+            setEmployees(newEmps);
         } catch (error) {
         console.error('업데이트 중 에러가 발생했습니다:', error);
         }
