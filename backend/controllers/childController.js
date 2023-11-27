@@ -1,14 +1,9 @@
-//TODO 쿼리메소드 분리
-const express = require('express');
-const router = express.Router();
-
+const asyncHandler = require('express-async-handler');
 const db = require('../config/dbConnMysql');
 
-// 원생 등록 API
-router.post('/reg/:businessBno', async (req, res) => {
+const registerChild = asyncHandler(async (req, res) => {
   const { child_name, child_age, child_gender } = req.body;
   const business_bno = req.params.businessBno;
-
   try {
     const sql = `INSERT INTO children (child_name, child_age, child_gender, business_bno) VALUES (?, ?, ?, ?)`;
     const [results] = await db.query(sql, [child_name, child_age, child_gender, business_bno]);
@@ -20,13 +15,10 @@ router.post('/reg/:businessBno', async (req, res) => {
     console.error('원생 등록 중 오류 발생:', error);
     res.status(500).json({ message: '원생 등록 중 오류가 발생했습니다.' });
   }
-});
+})
 
-// 원생 정보 조회
-router.get('/:businessBno?', async (req, res) => {
+const getChild = asyncHandler(async (req, res) => {
   console.log('원생 정보 조회');
-  const sessionData = req.session
-  console.log(sessionData)
   try {
     const sql = `SELECT child_idx, child_name, child_age, child_gender, child_class, business_bno, 
     DATE_FORMAT(CONVERT_TZ(child_created_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS child_created_at 
@@ -40,10 +32,9 @@ router.get('/:businessBno?', async (req, res) => {
     console.error('원생 정보 조회 중 오류 발생:', error);
     res.status(500).json({ message: '원생 정보 조회 중 오류가 발생했습니다.' });
   }
-});
+})
 
-// 원생 정보 수정
-router.put('/:childId', async (req, res) => {
+const updateChild = asyncHandler(async (req, res) => {
   const { childId } = req.params;
   const { child_name, child_age, child_gender, business_bno } = req.body;
   try {
@@ -54,10 +45,9 @@ router.put('/:childId', async (req, res) => {
     console.error('원생 정보 수정 중 오류 발생:', error);
     res.status(500).json({ message: '원생 정보 수정 중 오류가 발생했습니다.' });
   }
-});
+})
 
-// 원생 정보 삭제
-router.delete('/:childId', async (req, res) => {
+const deleteChild = asyncHandler(async (req, res) => {
   const { childId } = req.params;
   try {
     const sql = `DELETE FROM children WHERE child_idx = ?`;
@@ -67,12 +57,11 @@ router.delete('/:childId', async (req, res) => {
     console.error('원생 정보 삭제 중 오류 발생:', error);
     res.status(500).json({ message: '원생 정보 삭제 중 오류가 발생했습니다.' });
   }
-});
+})
 
-// 출석 기록
-router.post('/attendance', async (req, res) => {
+const recordAttendance = asyncHandler(async (req, res) => {
   const { childId, date, bno, status, time } = req.body;
-  console.log("중간 로그",req.body);
+  console.log(req.body);
   try {
     const sql = `INSERT INTO child_attendance (child_idx, attendance_date, business_bno, attendance_status, attendance_time) VALUES (?, ?, ?, ?, ?)`;
     const result = await db.query(sql, req.body);
@@ -82,10 +71,9 @@ router.post('/attendance', async (req, res) => {
     console.error('출석 정보 기록 중 오류 발생:', error);
     res.status(500).json({ message: '출석 정보 기록 중 오류가 발생했습니다.' });
   }
-});
+})
 
-// 특정 날짜의 출석 조회
-router.get('/attendance/:date', async (req, res) => {
+const getAttendanceByDate = asyncHandler(async (req, res) => {
   const { date } = req.params;
   console.log(date);
   try {
@@ -96,10 +84,9 @@ router.get('/attendance/:date', async (req, res) => {
     console.error('출석 정보 조회 중 오류 발생:', error);
     res.status(500).json({ message: '출석 정보 조회 중 오류가 발생했습니다.' });
   }
-});
+})
 
-//특정 원생의 출석 이력 조회
-router.get('/attendance/:childId/:date', async (req, res) => {
+const getAttendanceByChild = asyncHandler(async (req, res) => {
   const { childId } = req.params;
   try {
     const sql = `SELECT * FROM child_attendance WHERE child_idx = ?`;
@@ -109,6 +96,6 @@ router.get('/attendance/:childId/:date', async (req, res) => {
     console.error('원생의 출석 이력 조회 중 오류 발생:', error);
     res.status(500).json({ message: '원생의 출석 이력 조회 중 오류가 발생했습니다.' });
   }
-});
+})
 
-module.exports = router;
+module.exports = {registerChild, getChild, updateChild, deleteChild, recordAttendance, getAttendanceByDate, getAttendanceByChild}

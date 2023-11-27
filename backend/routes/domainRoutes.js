@@ -6,6 +6,7 @@ const db = require('../config/dbConnMysql');
 // 전체 도메인 정보 조회 라우트
 router.get('/', asyncHandler(async (req, res) => {
   console.log('세션아이디2', req.sessionID);
+  console.log('세션아이디2', req.session.admin);
 
   try {
     console.log('도메인 api 연결됨');

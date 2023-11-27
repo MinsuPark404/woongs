@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const dotenv = require('dotenv').config();
-const bodyParser = require('body-parser');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const port = process.env.PORT || 5001;
@@ -11,15 +10,17 @@ const morgan = require('morgan');
 const isAuthenticated = require('./middleware/isAuthenticated');
 
 const app = express();
+
 app.use(cors());
+
 app.use(morgan('dev'));
-app.use(bodyParser.json());
+
+app.use(express.json()); // 다시는 절대 순서를 헷갈리지말자
 
 /* MySQL */
 const connectDb = require('./config/dbConnMysql');
 const sessionStore = new MySQLStore({}, connectDb);
 
-app.use(express.json()); // 다시는 절대 순서를 헷갈리지말자
 app.use(
   session({
     store: sessionStore, // MySQL에 세션 데이터를 저장

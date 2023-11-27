@@ -4,6 +4,7 @@ const cmsLogModel = require('../models/cmsLogModel');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const db = require('../config/dbConnMysql');
+
 // @관리자 등록
 // @Endpoint POST /api/admins/register
 // @access admin_s
@@ -151,8 +152,7 @@ const logoutAdmin = asyncHandler(async (req, res) => {
         console.error('세션 삭제 중 오류 발생:', err);
       } else {
         // 세션 쿠키 삭제
-        res.clearCookie('connect.sid');
-        res.status(200).json({ message: '로그아웃 되었습니다.', results });
+        res.clearCookie('connect.sid').status(200).json({ message: '로그아웃 되었습니다.', results });
       }
     });
     // res.status(200).json(results);
