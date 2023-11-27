@@ -5,7 +5,7 @@ const router = express.Router();
 const db = require('../config/dbConnMysql');
 
 // 원생 등록 API
-router.post('/:businessBno', async (req, res) => {
+router.post('/reg/:businessBno', async (req, res) => {
   const { child_name, child_age, child_gender } = req.body;
   const business_bno = req.params.businessBno;
 
@@ -69,10 +69,12 @@ router.delete('/:childId', async (req, res) => {
 
 // 출석 기록
 router.post('/attendance', async (req, res) => {
-  const { childId, date, status, time } = req.body;
+  const { childId, date, bno, status, time } = req.body;
+  console.log(req.body);
   try {
-    const sql = `INSERT INTO child_attendance (child_idx, attendance_date, attendance_status, attendance_time) VALUES (?, ?, ?, ?)`;
-    const [result] = await db.query(sql, [childId, date, status, time]);
+    const sql = `INSERT INTO child_attendance (child_idx, attendance_date, business_bno, attendance_status, attendance_time) VALUES (?, ?, ?, ?, ?)`;
+    const result = await db.query(sql, req.body);
+    console.log(result);
     res.status(201).json({ message: '출석 정보가 성공적으로 기록되었습니다.' });
   } catch (error) {
     console.error('출석 정보 기록 중 오류 발생:', error);
@@ -83,6 +85,7 @@ router.post('/attendance', async (req, res) => {
 // 특정 날짜의 출석 조회
 router.get('/attendance/:date', async (req, res) => {
   const { date } = req.params;
+  console.log(date);
   try {
     const sql = `SELECT * FROM child_attendance WHERE attendance_date = ?`;
     const [rows] = await db.query(sql, [date]);

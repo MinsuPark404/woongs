@@ -209,19 +209,33 @@ export default function EnhancedTable() {
   const business_bno = userData.bno;
 
   useEffect(() => {
-    axios.get(`/api/children/${business_bno}`)
-    .then((response) => {
-      console.log(response.data);
-      const children = response.data;
-      const rows = children.map((child) => createData(child.child_idx, child.child_name, child.child_class, child.child_age));
-      setRows(rows);
+    const loadInitialData = async () => {
+      setLoading(true);
+      try {
+        // 원생 데이터 로드
+        const childrenResponse = await axios.get(`/api/children/${business_bno}`);
+        const children = childrenResponse.data;
+        const newRows = children.map((child) => createData(child.child_idx, child.child_name, child.child_class, child.child_age));
+        setRows(newRows);
+  
+        // 출석 데이터 로드
+        const today = new Date();
+        const dateString = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        console.log("TODAY : ",dateString);
+        const attendanceResponse = await axios.get(`/api/children/attendance/${dateString}`);
+        console.log(attendanceResponse);
+        const attendedChildIds = attendanceResponse.data.map(a => a.child_idx);
+  
+        // 체크 상태 설정
+        setSelected(attendedChildIds);
+      } catch (error) {
+        console.error("Error loading data", error);
+      }
       setLoading(false);
-    })
-    .catch((error) => {
-      console.log(error);
-      setLoading(false);
-    });
-  },[]);
+    };
+  
+    loadInitialData();
+  }, []);
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -231,13 +245,11 @@ export default function EnhancedTable() {
     console.log("저장");
     const selectedRowsData  = rows.filter((row) => selected.includes(row.id));
     console.log(selectedRowsData);
-    // const sql = `INSERT INTO child_attendance (child_idx, attendance_date, attendance_status, attendance_time) VALUES (?, ?, ?, ?)`;
     const today = new Date();
     const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
     const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     console.log(date);
-    // const params = selectedRowsData.map((row) => [row.id, '2021-10-01', '출석', '10:00']);
-    const params = selectedRowsData.map((row) => [row.id, date, '출석', time]);
+    const params = selectedRowsData.map((row) => [row.id, date, business_bno , '출석', time]);
     console.log(params);
     params.forEach((param) => {
       axios.post(`/api/children/attendance`, param)
