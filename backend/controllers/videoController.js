@@ -21,9 +21,10 @@ const createVideo = asyncHandler(async (req, res) => {
 // @Endpoint GET /api/videos
 // @access admin_s
 const getAllVideos = asyncHandler(async (req, res) => {
+  const businessBno = req.session.admin.bno
   try {
-    console.log('세션아이디', req.sessionID);
-    const videos = await videoModel.getAllVideos();
+    console.log('비디오api 사업자번호:', businessBno);
+    const videos = await videoModel.getAllVideos(businessBno);
     res.status(200).json(videos);
   } catch (error) {
     res.status(500).json({ message: '비디오를 찾는 중에 오류가 발생' });
@@ -45,7 +46,6 @@ const getVideo = asyncHandler(async (req, res) => {
       const businessIdx = req.user.business_idx;
       videos = await videoModel.getAllVideosByBusinessIdx(businessIdx);
     }
-
     if (videos.length > 0) {
       res.status(200).json(videos);
     } else {

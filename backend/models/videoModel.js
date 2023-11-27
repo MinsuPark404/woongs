@@ -4,23 +4,6 @@ const db = require('../config/dbConnMysql');
 const createVideo = async (videoData) => {
   try {
     console.log('videoData:', videoData);
-    // console.log('query:', videoQueries);
-    /*
-    video_name (비디오 이름):
-    설명: 비디오 파일의 이름입니다. 일반적으로 파일 업로드 시 사용되는 원본 파일명이나, 서버에서 파일을 저장할 때 생성한 새로운 이름일 수 있습니다.
-
-    video_path (비디오 경로):
-    설명: 서버에서 비디오 파일이 저장된 전체 경로입니다. 이 경로 정보는 서버에서 파일에 접근하기 위해 사용됩니다.
-
-    video_recoded_at (촬영 날짜 및 시간):
-    설명: 비디오가 촬영된 실제 날짜와 시간입니다. 이 정보는 CCTV에서 제공하거나, 파일 메타데이터에서 추출될 수 있습니다.
-
-    video_archived_at (보관 만료일):
-    설명: 비디오가 보관될 마지막 날짜입니다. 이 날짜가 지나면 비디오는 자동으로 아카이브되거나 삭제될 수 있습니다.
-
-    business_idx (어린이집 식별자):
-    설명: 해당 비디오가 어느 어린이집에 속하는지를 나타내는 고유 식별자입니다. 이는 어린이집을 구분하기 위한 용도로 사용됩니다.
-    */
     const {
       video_name,
       video_path,
@@ -43,14 +26,32 @@ const createVideo = async (videoData) => {
   }
 };
 
-const getAllVideos = async () => {
+const getAllVideos = async (businessBno) => {
   try {
-    const query = `SELECT video_idx, video_name, video_path, 
-    DATE_FORMAT(CONVERT_TZ(video_recoded_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS video_recoded_at, 
-    DATE_FORMAT(CONVERT_TZ(video_archived_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS video_archived_at, 
-    DATE_FORMAT(CONVERT_TZ(video_created_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS video_created_at, 
-    business_bno FROM cms_videos`;
-    const [results] = await db.query(query);
+    let query;
+    let queryParams;
+    if (businessBno) {
+      // 관리자: business_bno 값이 있는 경우, 해당 비즈니스의 비디오만 조회
+      query = `SELECT video_idx, video_name, video_path, 
+               DATE_FORMAT(CONVERT_TZ(video_recoded_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS video_recoded_at, 
+               DATE_FORMAT(CONVERT_TZ(video_archived_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS video_archived_at, 
+               DATE_FORMAT(CONVERT_TZ(video_created_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS video_created_at, 
+               business_bno 
+               FROM cms_videos
+               WHERE business_bno = ?`;
+      queryParams = [businessBno];
+    } else {
+      // 슈퍼관리자: business_bno 값이 없는 경우, 전체 비디오 조회
+      query = `SELECT video_idx, video_name, video_path, 
+               DATE_FORMAT(CONVERT_TZ(video_recoded_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS video_recoded_at, 
+               DATE_FORMAT(CONVERT_TZ(video_archived_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS video_archived_at, 
+               DATE_FORMAT(CONVERT_TZ(video_created_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS video_created_at, 
+               business_bno 
+               FROM cms_videos`;
+      queryParams = [];
+    }
+
+    const [results] = await db.query(query, queryParams);
     return results;
   } catch (error) {
     throw error;
