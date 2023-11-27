@@ -39,7 +39,7 @@ app.use(
 app.use(express.static(path.join(__dirname, '../frontend', 'build')));
 
 // 인증 미들웨어 적용
-app.use(isAuthenticated);
+// app.use(isAuthenticated);
 
 // API 라우터
 app.use('/api/admins', require('./routes/adminRoutes'));
