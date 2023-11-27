@@ -117,6 +117,14 @@ const Sidebar = ({ toggleDrawer, open }) => {
                     <ListItemText primary="문의하기" />
                 </ListItem>
                 <Divider />
+                <ListItem button
+                onClick={() => handleLinkClick('/main/board')}
+                style={getListItemStyle('/main/board')}
+                sx={{height:'70px'}}
+                >
+                    <ListItemIcon><HelpOutlineIcon /></ListItemIcon>
+                    <ListItemText primary="게시판" />
+                </ListItem>
 
             </List>
         </div>

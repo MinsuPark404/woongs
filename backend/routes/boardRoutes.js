@@ -76,44 +76,25 @@ router.post('/create', async (req, res, next) => {
 });
 
 // 모든 게시물 조회 라우터 getPosts
-router.get(
-  '/',
-  asyncHandler(async (req, res) => {
-    const page = Math.max(req.query.page * 1 || 1, 1); // 페이지 번호 검증
-    const limit = Math.min(req.query.limit * 1 || 10, 100); // limit 검증 및 제한
-    const offset = (page - 1) * limit;
-
-    try {
-      // 전체 게시물 수 조회
-      const [totalResults] = await db.query(
-        'SELECT COUNT(*) AS total FROM board'
-      );
-      const totalCount = totalResults[0].total;
-
-      // 게시물 조회
-      const [posts] = await db.query(
-        'SELECT * FROM board ORDER BY created_at DESC LIMIT ? OFFSET ?',
-        [limit, offset]
-      );
-
-      res.status(200).json({
-        status: 'success',
-        results: posts.length,
-        total: totalCount,
-        totalPages: Math.ceil(totalCount / limit),
-        currentPage: page,
-        data: {
-          posts,
-        },
-        message: '게시물 목록을 성공적으로 불러왔습니다',
-      });
-    } catch (error) {
-      // 데이터베이스 쿼리 오류 처리
-      res.status(500).json({
-        status: 'error',
-        message: '게시물 조회 중 오류가 발생했습니다',
-      });
-    }
+router.get('/list/:bno',asyncHandler(async (req, res) => {
+  console.log('게시물 조회 라우터');
+  const bno = req.params.bno;
+  console.log(bno);
+  const sql = 'SELECT * FROM board WHERE business_bno = ?';
+  try {
+    const [posts] = await db.query(sql, [bno]);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        posts,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: '게시물 조회 중 오류가 발생했습니다',
+    });
+  }
   })
 );
 
