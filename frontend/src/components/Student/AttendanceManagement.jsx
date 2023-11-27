@@ -232,6 +232,7 @@ export default function EnhancedTable() {
         console.error("Error loading data", error);
       }
       setLoading(false);
+      setPage(1);
     };
   
     loadInitialData();
