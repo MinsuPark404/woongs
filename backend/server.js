@@ -30,7 +30,7 @@ app.use(
     cookie: {
       httpOnly: true, // 클라이언트 JavaScript가 쿠키를 볼 수 없도록 함
       secure: false, // HTTPS를 통해서만 쿠키가 전송되도록 함
-      maxAge: 60000, // 쿠키의 생존 기간(예: 1분)
+      maxAge: 180000, // 쿠키의 생존 기간(세션 유지 시간: 3분)
     },
   })
 );

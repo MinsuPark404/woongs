@@ -33,7 +33,9 @@ const create = asyncHandler(async (req, res) => {
 
 // 전체 조회
 const findAll = asyncHandler(async (req, res) => {
-  const users = await userModel.getAllUsers();
+  const businessBno = req.session.admin.bno
+  console.log('원생 정보 조회:', businessBno)
+  const users = await userModel.getAllUsers(businessBno);
 
   return res.status(200).json(users);
 });

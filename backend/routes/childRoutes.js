@@ -23,15 +23,15 @@ router.post('/reg/:businessBno', async (req, res) => {
 });
 
 // 원생 정보 조회
+//TODO 슈퍼관리자도 모든 정보 접근
 router.get('/:businessBno?', async (req, res) => {
-  console.log('원생 정보 조회');
-  const sessionData = req.session
-  console.log(sessionData)
+  const businessBno = req.session.admin.bno
+  console.log('원생 정보 조회:',businessBno)
   try {
     const sql = `SELECT child_idx, child_name, child_age, child_gender, child_class, business_bno, 
     DATE_FORMAT(CONVERT_TZ(child_created_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS child_created_at 
     FROM children
-    WHERE business_bno = "${req.params.businessBno}"
+    WHERE business_bno = "${businessBno}"
     `;
     const [results] = await db.query(sql);
     // console.log(results);
