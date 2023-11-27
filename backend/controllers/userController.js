@@ -113,5 +113,20 @@ const findLogs = asyncHandler(async (req, res) => {
 })
 
 // 로그아웃
+const logoutUser = asyncHandler(async (req, res) => {
+  try {
+    req.session.destroy(function (err) {
+      if (err) {
+        console.error('세션 삭제 중 오류 발생:', err);
+      } else {
+        res.clearCookie('connect.sid');
+        res.status(200).json({ message: '로그아웃 되었습니다.', results });
+      }
+    });
+  } catch (error) {
+    console.error('Logout failed:', error);
+    res.status(500).json({ message: '로그아웃 처리 중 문제가 발생했습니다.' });
+  }
+});
 
-module.exports = { create, findAll, findByUser, update, remove, loginUser, findLogs };
+module.exports = { create, findAll, findByUser, update, remove, loginUser, findLogs, logoutUser };
