@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../../axios'; // API 호출을 위해 axios 사용
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TablePagination } from '@mui/material';
+import axios from '../../axios';
+import {
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography,
+  TablePagination, Container, Button, TextField, FormControl, Select, InputLabel, MenuItem, Grid
+} from '@mui/material';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const BoardList = () => {
-  const [posts, setPosts] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-    const bno = '916-23-31691'
-
-// {    board_created_at: "2023-04-21T19:27:49.000Z"
-//     board_idx: 1
-//     board_updated_at: "2023-12-26T09:42:04.000Z"
-//     business_bno: "916-23-31691"
-//     content: "어린이집 소식 업데이트 내용"
-//     header: "공지사항"
-//     title: "어린이집 졸업식 일정 안내"}
-
+    const [posts, setPosts] = useState([]);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [filterHeader, setFilterHeader] = useState('');
+    const [searchTitle, setSearchTitle] = useState('');
+    const bno = useSelector((state) => state.user.bno);
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+  };
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -38,9 +44,37 @@ const BoardList = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+    // 말머리 변경 핸들러
+    const handleFilterHeaderChange = (event) => {
+        setFilterHeader(event.target.value);
+    };
+    
+      // 제목 검색 핸들러
+      const handleSearchTitleChange = (event) => {
+        setSearchTitle(event.target.value);
+    };
+    const getFilteredPosts = () => {
+        return posts.filter(post => {
+          // 말머리 필터링
+          if (filterHeader && post.header !== filterHeader) {
+            return false;
+          }
+          // 제목 검색 필터링
+          if (searchTitle && !post.title.toLowerCase().includes(searchTitle.toLowerCase())) {
+            return false;
+          }
+          return true;
+        });
+      };
+
+      const filteredPosts = getFilteredPosts();
+
+
   if (!posts) return null;
   return (
-    <TableContainer component={Paper} sx={{ maxWidth: 800, margin: 'auto', marginTop: 4 }}>
+    <Container maxWidth="lg">
+    <Paper sx={{width : '100%', padding : 4}}>
+    <TableContainer component={Paper} sx={{ width : '100%', marginTop: 4 }}>
       <Typography variant="h6" sx={{ padding: 2 }}>
         게시글 목록
       </Typography>
@@ -54,17 +88,23 @@ const BoardList = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {posts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((post, index) => (
+          {filteredPosts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((post, index) => (
             <TableRow
               key={index}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              sx={{ 
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.07)', 
+                },
+                cursor: 'pointer'
+              }}
+
             >
               <TableCell component="th" scope="row">
                 {post.header}
               </TableCell>
-              <TableCell>{post.title}</TableCell>
+              <TableCell><Link to={`/main/board-detail/${post.board_idx}`} style={{ textDecoration: 'none' }}>{post.title}</Link></TableCell>
               <TableCell>{post.author}</TableCell>
-              <TableCell align="right">{post.date}</TableCell>
+              <TableCell align="right">{formatDate(post.board_created_at)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -79,6 +119,41 @@ const BoardList = () => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </TableContainer>
+    <br />
+    <Grid container spacing={0} sx={{ marginBottom: 2 }}>
+        <Grid item xs={3}>
+          <Button variant="outlined" color="primary" href='/main/write' size="large">
+            글쓰기
+          </Button>
+        </Grid>
+        <Grid item xs={3}>
+          <FormControl fullWidth>
+            <InputLabel id="filter-header-label">말머리</InputLabel>
+            <Select
+              labelId="filter-header-label"
+              value={filterHeader}
+              label="말머리"
+              onChange={handleFilterHeaderChange}
+            >
+              <MenuItem value="">전체</MenuItem>
+              <MenuItem value="공지사랑">공지사항</MenuItem>
+              <MenuItem value="특이사항">특이사항</MenuItem>
+              <MenuItem value="일반">일반</MenuItem>
+              <MenuItem value="알람">알람</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="제목 검색"
+            value={searchTitle}
+            onChange={handleSearchTitleChange}
+          />
+        </Grid>
+      </Grid>
+    </Paper>
+    </Container>
   );
 };
 
