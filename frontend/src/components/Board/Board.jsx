@@ -4,12 +4,16 @@ import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftjsToHtml from "draftjs-to-html";
 import { Box, Paper, Typography, TextField, MenuItem, FormControl, Select, InputLabel, Button, Grid } from "@mui/material";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Draft = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [title, setTitle] = useState("");
   const [header, setHeader] = useState("");
-
+  const userData = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  console.log(userData)
   const updateTextDescription = async (state) => {
     await setEditorState(state);
   };
@@ -23,10 +27,13 @@ const Draft = () => {
   };
 
   const handleSubmit = () => {
-    // 게시글 등록 로직
     const html = draftjsToHtml(convertToRaw(editorState.getCurrentContent()));
     console.log("제목:", title, "말머리:", header, "내용:", html);
-    // 게시글 등록 처리
+    console.log("작성자:", userData.name);
+    console.log("사업자번호:", userData.bno);
+
+
+    navigate("/main/board");
   };
 
   return (
@@ -47,8 +54,8 @@ const Draft = () => {
                 onChange={handleHeaderChange}
                 size="small"
               >
-                <MenuItem value="공지">공지</MenuItem>
-                <MenuItem value="알림">알림</MenuItem>
+                <MenuItem value="공지사항">공지사항</MenuItem>
+                <MenuItem value="알람">알람</MenuItem>
                 <MenuItem value="특이사항">특이사항</MenuItem>
                 <MenuItem value="일반">일반</MenuItem>
               </Select>
@@ -84,7 +91,7 @@ const Draft = () => {
         {/* 목록으로 돌아가기 */}
         <Grid container justifyContent="flex-end">
             <Grid item>
-                <Button variant="contained" color="secondary" >
+                <Button variant="contained" color="secondary" href="/main/board" >
                 목록으로
                 </Button>
             </Grid>

@@ -11,6 +11,8 @@ import Employee from './components/Employee/Employee';
 import Student from './components/Student/Student';
 import Contact from './components/Contact/Contact';
 import Board from './components/Board/BoardList';
+import WriteBoard from './components/Board/Board';
+import BoardDetail from './components/Board/BoardDetail';
 import store from './store';
 import { Provider } from 'react-redux';
 
@@ -30,6 +32,8 @@ function App() {
               <Route path="student" element={<Student />} />
               <Route path="contact" element={<Contact />} />
               <Route path="board"  element={<Board/>}/>
+              <Route path="write" element={<WriteBoard />} />
+              <Route path="board-detail/:id" element={<BoardDetail />} />
             </Route>
           <Route path="/" element={<Login />} />
         </Routes>
