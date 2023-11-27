@@ -140,13 +140,11 @@ const updateAdmin = asyncHandler(async (req, res) => {
 // @access admin_s, admin_c
 const logoutAdmin = asyncHandler(async (req, res) => {
   try {
-    // const adminId = req.body.admin_idx;
-    const adminId = req.session.admin.bno;
+    const adminId = req.body.admin_idx;
+    // const adminId = req.session.admin.bno;
     // 로그아웃 시간 업데이트 쿼리
     const query = `UPDATE cms_log SET logouted_at = NOW() WHERE admin_idx = ? ORDER BY cms_log_idx DESC LIMIT 1`;
     const [results] = await db.query(query, [adminId]);
-    res.status(200).json(results);
-
     // 세션 파일 스토어에서 세션 삭제
     req.session.destroy(function (err) {
       if (err) {
@@ -154,10 +152,11 @@ const logoutAdmin = asyncHandler(async (req, res) => {
       } else {
         // 세션 쿠키 삭제
         res.clearCookie('connect.sid');
-
-        res.status(200).json({ message: '로그아웃 되었습니다.' });
+        res.status(200).json({ message: '로그아웃 되었습니다.', results });
       }
     });
+    // res.status(200).json(results);
+
   } catch (error) {
     console.error('Logout failed:', error);
     res.status(500).json({ message: '로그아웃 처리 중 문제가 발생했습니다.' });

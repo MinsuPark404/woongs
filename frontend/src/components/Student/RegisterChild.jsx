@@ -23,7 +23,7 @@ const RegisterChild = () => {
     e.preventDefault();
     try {
       const businessBno = userData.bno;
-      const response = await axios.post(`/api/children/${businessBno}`, childData);
+      const response = await axios.post(`/api/children/reg/${businessBno}`, childData);
       setMessage(response.data.message);
       setChildData({
         child_name: '',

@@ -1,15 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate  } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { AppBar, Toolbar, Typography, IconButton, Avatar, Button } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Avatar, Button, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
+import axios from '../../axios';
 
 const Header = ({ toggleDrawer, open }) => {
     const data = useSelector((state) => state.user);
     const name = data.name;
     const sampleProfilePic = "https://source.unsplash.com/random";
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const nav = useNavigate();
+    const handleMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+    };
+
+    const handleLogout = () => {
+        axios.post('/api/admins/logout');
+        handleCloseMenu();
+        nav('/');
+    };
 
     return (
         <AppBar position="static">
@@ -33,10 +49,28 @@ const Header = ({ toggleDrawer, open }) => {
                         <NotificationsIcon />
                     </Badge>
                 </IconButton>
-                <Button color="inherit">
+                <Button color="inherit" onClick={handleMenu}>
                     <Avatar src={sampleProfilePic} alt={name} style={{ marginRight: 10 }} />
                     {name}
                 </Button>
+                <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    open={Boolean(anchorEl)}
+                    onClose={handleCloseMenu}
+                >
+                    <MenuItem onClick={handleCloseMenu}>내 정보 수정</MenuItem>
+                    <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
+                </Menu>
             </Toolbar>
         </AppBar>
     );
