@@ -323,6 +323,20 @@ const childQueries = {
   getAttendanceByChildQuery: `SELECT * FROM child_attendance WHERE child_idx = ?`,
 };
 
+const domainQueries = {
+  getDomainQuery: `
+    SELECT url_addr,
+       url_status,
+       b.business_name,
+       DATE_FORMAT(url_period_at, '%Y-%m-%d') AS url_period_at
+    FROM cms_url u
+    LEFT JOIN cms_businesses b ON u.business_bno = b.business_bno;
+  `,
+  createDomainQuery: `INSERT INTO cms_url (url_addr, url_status, business_bno, url_created_at, url_period_at)
+  VALUES (?, ?, ?, ?, ?)`,
+  updateDomainQuery: `UPDATE cms_url SET url_addr = ?, url_status = ?, business_bno = ?, url_created_at = ?, url_period_at = ? WHERE url_idx = ?`,
+}
+
 module.exports = {
   adminQueries,
   BusinessQueries,
@@ -333,4 +347,5 @@ module.exports = {
   userQueries,
   videoQueries,
   childQueries,
+  domainQueries,
 };

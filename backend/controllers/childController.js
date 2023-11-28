@@ -1,8 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const childModel = require('../models/childModel');
 
-const db = require('../config/dbConnMysql');
-
 // @원생 등록
 // @Endpoint POST /api/children/reg/:businessBno?
 const registerChild = asyncHandler(async (req, res) => {
@@ -24,7 +22,6 @@ const registerChild = asyncHandler(async (req, res) => {
 // @Endpoint GET /api/children/:businessBno?
 const getChild = asyncHandler(async (req, res) => {
   const business_bno = req.session.admin.bno;
-  console.log('중간로그1:', business_bno);
   try {
     const result = await childModel.getChild(business_bno);
     res.status(200).json(result);
