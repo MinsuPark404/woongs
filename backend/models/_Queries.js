@@ -277,9 +277,11 @@ const userQueries = {
     WHERE user_email = ?
   `,
   // 직원 조회 쿼리문
+  //TODO 슈퍼관리자도 모든 정보 접근
   getAllUsersQuery: `
     SELECT * 
     FROM cms_users
+    WHERE business_bno = ?
   `,
 };
 

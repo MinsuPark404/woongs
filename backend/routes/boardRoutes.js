@@ -76,112 +76,65 @@ router.post('/create', async (req, res, next) => {
 });
 
 // 모든 게시물 조회 라우터 getPosts
-router.get(
-  '/',
-  asyncHandler(async (req, res) => {
-    const page = Math.max(req.query.page * 1 || 1, 1); // 페이지 번호 검증
-    const limit = Math.min(req.query.limit * 1 || 10, 100); // limit 검증 및 제한
-    const offset = (page - 1) * limit;
-
-    try {
-      // 전체 게시물 수 조회
-      const [totalResults] = await db.query(
-        'SELECT COUNT(*) AS total FROM board'
-      );
-      const totalCount = totalResults[0].total;
-
-      // 게시물 조회
-      const [posts] = await db.query(
-        'SELECT * FROM board ORDER BY created_at DESC LIMIT ? OFFSET ?',
-        [limit, offset]
-      );
-
-      res.status(200).json({
-        status: 'success',
-        results: posts.length,
-        total: totalCount,
-        totalPages: Math.ceil(totalCount / limit),
-        currentPage: page,
-        data: {
-          posts,
-        },
-        message: '게시물 목록을 성공적으로 불러왔습니다',
-      });
-    } catch (error) {
-      // 데이터베이스 쿼리 오류 처리
-      res.status(500).json({
-        status: 'error',
-        message: '게시물 조회 중 오류가 발생했습니다',
-      });
-    }
+router.get('/list/:bno',asyncHandler(async (req, res) => {
+  console.log('게시물 조회 라우터');
+  const bno = req.params.bno;
+  console.log(bno);
+  const sql = 'SELECT * FROM board WHERE business_bno = ?';
+  try {
+    const [posts] = await db.query(sql, [bno]);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        posts,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: '게시물 조회 중 오류가 발생했습니다',
+    });
+  }
   })
 );
 
 // 특정 게시물 조회 라우터
-router.put(
-  '/update/:id',
-  asyncHandler(async (req, res) => {
-    const userId = req.session.admin.id; // 세션에서 가져온 사용자 ID
-    const userRole = req.session.admin.role; // 세션에서 가져온 사용자 역할
-    const userBno = req.session.admin.bno; // 세션에서 가져온 사용자 소속 어린이집 사업번호
-    const postId = parseInt(req.params.id);
+router.get('/detail/:id', asyncHandler(async (req, res) => {
+  const postId = parseInt(req.params.id);
 
-    // ID 값 및 입력 데이터 유효성 검증 (생략)
+  // 게시물 ID 유효성 검증
+  if (isNaN(postId) || postId < 1) {
+    return res.status(400).json({
+      status: 'fail',
+      message: '유효하지 않은 게시물 ID입니다',
+    });
+  }
 
-    try {
-      let currentUser;
-
-      // 사용자 역할에 따라 적절한 테이블에서 사용자 정보 조회
-      if (userRole === '관리자') {
-        [currentUser] = await db.query(
-          'SELECT * FROM cms_admins WHERE admin_idx = ? AND business_bno = ?',
-          [userId, userBno]
-        );
-      } else {
-        [currentUser] = await db.query(
-          'SELECT * FROM cms_users WHERE user_idx = ? AND business_bno = ?',
-          [userId, userBno]
-        );
-      }
-
-      const [post] = await db.query('SELECT * FROM board WHERE id = ?', [
-        postId,
-      ]);
-
-      // 사용자 및 게시물 권한 검증
-      if (
-        currentUser.length === 0 ||
-        post.length === 0 ||
-        post[0].user_id !== userId
-      ) {
-        return res.status(403).json({
-          status: 'fail',
-          message: '수정 권한이 없습니다',
-        });
-      }
-
-      // 게시물 수정
-      await db.query('UPDATE board SET title = ?, content = ? WHERE id = ?', [
-        req.body.title,
-        req.body.content,
-        postId,
-      ]);
-
-      // 성공적인 응답 반환
-      res.status(200).json({
-        status: 'success',
-        message: '게시물이 성공적으로 수정되었습니다',
-      });
-    } catch (error) {
-      // 데이터베이스 쿼리 오류 처리
-      res.status(500).json({
-        status: 'error',
-        message: '게시물 수정 중 오류가 발생했습니다',
+  try {
+    // 게시물 조회
+    const [post] = await db.query('SELECT * FROM board WHERE board_idx = ?', [postId,]);
+    // 게시물 존재 여부 확인
+    if (post.length === 0) {
+      return res.status(404).json({
+        status: 'fail',
+        message: '해당 ID를 가진 게시물을 찾을 수 없습니다',
       });
     }
-  })
-);
-
+    // 성공적인 응답 반환
+    res.status(200).json({
+      status: 'success',
+      data: {
+        post,
+      },
+    });
+  } catch (error) {
+    // 데이터베이스 쿼리 오류 처리
+    res.status(500).json({
+      status: 'error',
+      message: '게시물 조회 중 오류가 발생했습니다',
+    });
+  }
+}));
 // 게시글 수정 라우터
 router.put(
   '/update/:id',

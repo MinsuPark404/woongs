@@ -22,9 +22,9 @@ const getUserById = async (userId) => {
 };
 
 // 직원 정보 조회
-const getAllUsers = async () => {
+const getAllUsers = async (businessBno) => {
   try {
-    const [results] = await db.query(userQueries.getAllUsersQuery);
+    const [results] = await db.query(userQueries.getAllUsersQuery, [businessBno]);
     return results;
   } catch (error) {
     throw error;

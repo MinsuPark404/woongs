@@ -30,7 +30,7 @@ app.use(
     cookie: {
       httpOnly: true, // 클라이언트 JavaScript가 쿠키를 볼 수 없도록 함
       secure: false, // HTTPS를 통해서만 쿠키가 전송되도록 함
-      maxAge: 60000, // 쿠키의 생존 기간(예: 1분)
+      maxAge: 180000, // 쿠키의 생존 기간(세션 유지 시간: 3분)
     },
   })
 );
@@ -39,7 +39,7 @@ app.use(
 app.use(express.static(path.join(__dirname, '../frontend', 'build')));
 
 // 인증 미들웨어 적용
-app.use(isAuthenticated);
+// app.use(isAuthenticated);
 
 // API 라우터
 app.use('/api/admins', require('./routes/adminRoutes'));
