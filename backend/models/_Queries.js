@@ -112,9 +112,8 @@ const cmsLogQueries = {
     VALUES (?, ?)
   `,
   logAuthAttemptQuery: `
-    INSERT INTO cms_log 
-    SET ?
-  `,
+  INSERT INTO cms_log (business_name, admin_name, log_info, log_ip, admin_idx, logged_at, logouted_at) 
+  VALUES (?, ?, ?, ?, ?, NOW(), NULL)`,
 
   findAllLogsQuery: `
   SELECT cms_log_idx,
@@ -162,63 +161,60 @@ const cmsLogQueries = {
 
 //TODO 추후 수정 필요
 const contentsQueries = {
+  // 컨텐츠 등록 SQL
   createContentQuery: `
     INSERT INTO cms_contents 
     (content_detail, business_bno, content_created_at, content_updated_at) 
     VALUES (?, ?, ?, ?)
   `,
+
+  // 컨텐츠 조회 SQL(홍보페이지에 사용되는 쿼리)
+  getContentQuery: `
+  SELECT * 
+  FROM cms_contents
+  WHERE business_bno = ?
+  `,
+  // 컨텐츠 수정 SQL
   updateContentQuery: `
     UPDATE cms_contents 
     SET content_detail = ?, 
         content_updated_at = ? 
     WHERE content_seq = ? AND business_bno = ?
   `,
+
+  // 컨텐츠 삭제 SQL
   deleteContentQuery: `
     DELETE FROM cms_contents 
     WHERE content_seq = ? AND business_bno = ?
   `,
-  createMenuQuery: `
-    INSERT INTO cms_menu
-    (menu_detail, business_bno, menu_created_at, menu_updated_at)
-    VALUES (?, ?, ?, ?)
-  `,
-  updateMenuQuery: `
-    UPDATE cms_menu
-    SET menu_detail = ?,
-        menu_updated_at = ?
-    WHERE menu_idx = ? AND business_bno = ?
-  `,
-  deleteMenuQuery: `
-    DELETE FROM cms_menu
-    WHERE menu_idx = ? AND business_bno = ?
-  `,
 };
 
-//TODO 추후 수정 필요
 const menuQueries = {
+  // 메뉴 등록 SQL
   createMenuQuery: `
     INSERT INTO cms_menu 
-    (menu_detail, menu_created_at, menu_updated_at) 
-    VALUES (?, ?, ?)
+    (menu_detail, business_bno) 
+    VALUES (?, ?, ?, ?)
   `,
-  getMenuByIdQuery: `
+  // 메뉴 조회 SQL(홍보페이지에 사용되는 쿼리)
+  getMenuQuery: `
     SELECT * 
-    FROM cms_menu 
-    WHERE menu_idx = ?
+    FROM cms_menu
+    WHERE business_bno = ?
   `,
+  // 메뉴 수정 SQL
   updateMenuQuery: `
     UPDATE cms_menu 
-    SET menu_detail = ?, 
-        menu_updated_at = ? 
-    WHERE menu_idx = ?
+    SET menu_detail = ?,
+    WHERE business_bno = ?
   `,
+  // 메뉴마다 지우는 SQL
   deleteMenuQuery: `
     DELETE FROM cms_menu 
     WHERE menu_idx = ?
   `,
 };
 
-//TODO 추후 수정 필요
 const urlQueries = {
   createUrlQuery: `
     INSERT INTO cms_url 
@@ -281,32 +277,32 @@ const userQueries = {
     FROM cms_users
     WHERE business_bno = ?
   `,
+  // 로그조회
+  findLogsQuery:`
+  SELECT l.* 
+  FROM cms_log l
+  JOIN cms_businesses b ON l.business_name = b.business_name
+  WHERE b.business_bno = ?`
 };
 
 const videoQueries = {
-  createVideoQuery: `
-    INSERT INTO cms_videos 
-    (video_name, video_path, video_recoded_at, video_archived_at, video_created_at) 
-    VALUES (?, ?, ?, ?, ?)
-  `,
-  getVideoByIdQuery: `
-    SELECT * 
-    FROM cms_videos 
-    WHERE video_idx = ?
-  `,
-  updateVideoQuery: `
-    UPDATE cms_videos 
-    SET video_name = ?, 
-        video_path = ?, 
-        video_recoded_at = ?, 
-        video_archived_at = ?, 
-        video_created_at = ? 
-    WHERE video_idx = ?
-  `,
-  deleteVideoQuery: `
-    DELETE FROM cms_videos 
-    WHERE video_idx = ?
-  `,
+  createVideoQuery: `INSERT INTO cms_videos (video_name, video_path, video_recoded_at, video_archived_at, video_created_at, business_idx) VALUES (?, ?, ?, ?, NOW(),?)`,
+  getVideos1: `SELECT video_idx, video_name, video_path, 
+  DATE_FORMAT(CONVERT_TZ(video_recoded_at, '+00:00', '+00:00'), '%Y-%m-%d %H:%i:%s') AS video_recoded_at, 
+  DATE_FORMAT(CONVERT_TZ(video_archived_at, '+00:00', '+00:00'), '%Y-%m-%d %H:%i:%s') AS video_archived_at, 
+  DATE_FORMAT(CONVERT_TZ(video_created_at, '+00:00', '+00:00'), '%Y-%m-%d %H:%i:%s') AS video_created_at, 
+  business_bno 
+  FROM cms_videos
+  WHERE business_bno = ?`,
+  getVideos2: `SELECT video_idx, video_name, video_path, 
+  DATE_FORMAT(CONVERT_TZ(video_recoded_at, '+00:00', '+00:00'), '%Y-%m-%d %H:%i:%s') AS video_recoded_at, 
+  DATE_FORMAT(CONVERT_TZ(video_archived_at, '+00:00', '+00:00'), '%Y-%m-%d %H:%i:%s') AS video_archived_at, 
+  DATE_FORMAT(CONVERT_TZ(video_created_at, '+00:00', '+00:00'), '%Y-%m-%d %H:%i:%s') AS video_created_at, 
+  business_bno 
+  FROM cms_videos`,
+  getVideosBusinessQuery: `SELECT * FROM cms_videos WHERE business_idx = ?`,
+  getVideosIdQuery: `SELECT * FROM cms_videos WHERE video_idx = ?`,
+  deleteVideoQuery: `DELETE FROM cms_videos WHERE video_idx = ?`,
 };
 
 const childQueries = {
@@ -337,6 +333,26 @@ const domainQueries = {
   updateDomainQuery: `UPDATE cms_url SET url_addr = ?, url_status = ?, business_bno = ?, url_created_at = ?, url_period_at = ? WHERE url_idx = ?`,
 }
 
+const visitsQueries = {
+  monthlyVisitsQuery: `SELECT COUNT(*) AS monthlyVisits 
+                       FROM cms_log 
+                       WHERE MONTH(logged_at) = ? AND YEAR(logged_at) = ?`,
+
+  dailyVisitsQuery: `SELECT COUNT(*) AS dailyVisits 
+                     FROM cms_log 
+                     WHERE DATE(logged_at) = ?`,
+
+  monthlyDomainVisitsQuery: `SELECT url_addr, COUNT(*) AS monthlyVisits 
+                             FROM cms_url_log 
+                             WHERE MONTH(log_date) = ? AND YEAR(log_date) = ? 
+                             GROUP BY url_addr`,
+
+  dailyDomainVisitsQuery: `SELECT url_addr, COUNT(*) AS dailyVisits 
+                           FROM cms_url_log 
+                           WHERE DATE(log_date) = ? 
+                           GROUP BY url_addr`
+};
+
 module.exports = {
   adminQueries,
   BusinessQueries,
@@ -348,4 +364,5 @@ module.exports = {
   videoQueries,
   childQueries,
   domainQueries,
+  visitsQueries
 };

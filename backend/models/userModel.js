@@ -62,6 +62,16 @@ const findUserByEmail = async (user_email) => {
   }
 };
 
+// 로그조회
+const findLogs = async (bno) => {
+  try {
+    const results = await db.query(userQueries.findLogsQuery, [bno]);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createUser,
   getAllUsers,
@@ -69,4 +79,5 @@ module.exports = {
   updateUser,
   deleteUser,
   findUserByEmail,
+  findLogs
 };

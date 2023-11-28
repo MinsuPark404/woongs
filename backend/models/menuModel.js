@@ -1,62 +1,44 @@
 const db = require('../config/dbConnMysql');
 
-const createMenu = async (menuData) => {
+const createMenu = async (menu_detail, business_bno) => {
   try {
-    const query =
-      'INSERT INTO cms_menu (menu_detail, menu_created_at, menu_updated_at) VALUES (?, ?, ?)';
-    const results = await db.query(query, [
-      JSON.stringify(menuData.menu_detail),
-      menuData.menu_created_at,
-      menuData.menu_updated_at,
-    ]);
+    const results = await db.query(menuQueries.createMenuQuery, [menu_detail, business_bno]);
     return results;
   } catch (error) {
-    console.error('Create Menu Error:', error);
     throw error;
   }
 };
 
-const getMenuById = async (menuId) => {
+const getMenu = async (business_bno) => {
   try {
-    const query = 'SELECT * FROM cms_menu WHERE menu_idx = ?';
-    const results = await db.query(query, [menuId]);
+    const results = await db.query(menuQueries.getMenuQuery, [business_bno]);
     return results;
   } catch (error) {
-    console.error('Get Menu By ID Error:', error);
     throw error;
   }
 };
 
-const updateMenu = async (menuId, menuData) => {
+const updateMenu = async (menu_detail, business_bno) => {
   try {
-    const query =
-      'UPDATE cms_menu SET menu_detail = ?, menu_updated_at = ? WHERE menu_idx = ?';
-    const results = await db.query(query, [
-      JSON.stringify(menuData.menu_detail),
-      menuData.menu_updated_at,
-      menuId,
-    ]);
+    const results = await db.query(menuQueries.updateContentQuery, [menu_detail, business_bno]);
     return results;
   } catch (error) {
-    console.error('Update Menu Error:', error);
     throw error;
   }
 };
 
 const deleteMenu = async (menuId) => {
   try {
-    const query = 'DELETE FROM cms_menu WHERE menu_idx = ?';
-    const results = await db.query(query, [menuId]);
+    const results = await db.query(menuQueries.deleteContentQuery, [menuId]);
     return results;
   } catch (error) {
-    console.error('Delete Menu Error:', error);
     throw error;
   }
 };
 
 module.exports = {
   createMenu,
-  getMenuById,
+  getMenu,
   updateMenu,
   deleteMenu,
 };

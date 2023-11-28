@@ -3,7 +3,6 @@ const adminModel = require('../models/adminModel');
 const cmsLogModel = require('../models/cmsLogModel');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const db = require('../config/dbConnMysql');
 
 // @관리자 등록
 // @Endpoint POST /api/admins/register

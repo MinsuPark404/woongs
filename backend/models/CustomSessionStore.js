@@ -1,3 +1,4 @@
+// TODO 나중에 필요하면 데이터베이스 mysql-session 대신에 사용
 const session = require('express-session');
 const db = require('../config/dbConnMysql'); // 실제 데이터베이스 연결 파일 경로로 변경
 

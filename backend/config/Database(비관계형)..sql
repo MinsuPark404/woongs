@@ -118,7 +118,7 @@ CREATE TABLE cms_contents
 (
     `content_idx`         INT UNSIGNED    NOT NULL    AUTO_INCREMENT COMMENT '컨텐츠 순번', 
     `content_detail`      JSON            NULL        COMMENT '컨텐츠 디테일', 
-    `business_name`       VARCHAR(50)     NULL        COMMENT '어린이집 이름', 
+    `business_bno`        VARCHAR(20)     NULL        COMMENT '어린이집 사업자번호',
     `content_created_at`  DATETIME        NULL        DEFAULT now() COMMENT '컨텐츠 등록 일자', 
     `content_updated_at`  DATETIME        NULL        DEFAULT now() COMMENT '컨텐츠 수정 일자', 
      PRIMARY KEY (content_idx)
@@ -128,7 +128,8 @@ CREATE TABLE cms_contents
 CREATE TABLE cms_menu
 (
     `menu_idx`         INT UNSIGNED    NOT NULL    AUTO_INCREMENT COMMENT '메뉴 순번', 
-    `menu_detail`      JSON            NULL        COMMENT '메뉴 디테일', 
+    `menu_detail`      JSON            NULL        COMMENT '메뉴 디테일',
+    `business_bno`     VARCHAR(20)     NULL        COMMENT '어린이집 사업자번호',
     `menu_created_at`  DATETIME        NULL        DEFAULT now() COMMENT '메뉴 등록 일자', 
     `menu_updated_at`  DATETIME        NULL        DEFAULT now() COMMENT '메뉴 수정 일자', 
     `url_idx`          INT UNSIGNED    NULL        COMMENT '도메인 순번', 

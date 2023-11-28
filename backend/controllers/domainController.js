@@ -1,5 +1,4 @@
 const asyncHandler = require('express-async-handler');
-const db = require('../config/dbConnMysql');
 const domainModel = require('../models/domainModel');
 
 const getDomain = asyncHandler(async (req, res) => {

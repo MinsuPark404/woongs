@@ -3,13 +3,11 @@ const userModel = require('../models/userModel');
 const cmsLogModel = require('../models/cmsLogModel');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const db = require('../config/dbConnMysql')
 
 // 생성
 const create = asyncHandler(async (req, res) => {
   try {
     const userData = req.body;
-    // console.log('요청body: ', userData);
     // 이메일 중복 체크
     const existingUserEmail = await userModel.findUserByEmail(userData.user_email);
     if (existingUserEmail.length > 0) {
@@ -83,7 +81,6 @@ const loginUser = asyncHandler(async (req, res) => {
       name: user.user_name,
       role: user.user_role,
     };
-    // console.log('세션 정보', req.session.user);
 
     await cmsLogModel.logAuthAttempt(user, 'T', req.ip, true);
 
@@ -104,15 +101,17 @@ const loginUser = asyncHandler(async (req, res) => {
 
 // 로그조회
 const findLogs = asyncHandler(async (req, res) => {
-  const bno = req.params.bno;
-  console.log(bno,typeof(bno));
-  const sql = `select * from cms_log where business_name = (
-    select business_name from cms_businesses where business_bno = "${bno}"
-    )`
-  const results = await db.query(sql);
-  console.log(results);
-  res.status(200).json(results);
-})
+  const bno = req.session.admin.bno;
+  console.log(bno, typeof(bno));
+  try {
+    const result = await userModel.findLogs(bno);
+    console.log(result);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Error querying logs:', error);
+    res.status(500).json({ message: 'Error querying logs' });
+  }
+});
 
 // 로그아웃
 const logoutUser = asyncHandler(async (req, res) => {

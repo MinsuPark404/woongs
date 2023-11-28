@@ -33,6 +33,6 @@ router.post('/logout', logoutUser);
 router.delete('/:id', remove);
 
 // 어린이집 교사 로그
-router.get('/logs/:bno', findLogs)
+router.get('/logs/:bno?', findLogs)
 
 module.exports = router;

@@ -1,10 +1,9 @@
 const db = require('../config/dbConnMysql');
+const { urlQueries } = require('./_Queries');
 
 const createUrl = async (urlData) => {
   try {
-    const query =
-      'INSERT INTO cms_url (url_addr, url_status, business_idx, url_archived_at) VALUES (?, ?, ?, ?)';
-    const results = await db.query(query, [
+    const results = await db.query(urlQueries.createUrlQuery, [
       urlData.url_addr,
       urlData.url_status,
       urlData.business_idx,
@@ -12,27 +11,22 @@ const createUrl = async (urlData) => {
     ]);
     return results;
   } catch (error) {
-    console.error('Create URL Error:', error);
     throw error;
   }
 };
 
 const getUrlById = async (urlId) => {
   try {
-    const query = 'SELECT * FROM cms_url WHERE url_idx = ?';
-    const results = await db.query(query, [urlId]);
+    const results = await db.query(urlQueries.getUrlByIdQuery, [urlId]);
     return results;
   } catch (error) {
-    console.error('Get URL By ID Error:', error);
     throw error;
   }
 };
 
 const updateUrl = async (urlId, urlData) => {
   try {
-    const query =
-      'UPDATE cms_url SET url_addr = ?, url_status = ?, business_idx = ?, url_archived_at = ? WHERE url_idx = ?';
-    const results = await db.query(query, [
+    const results = await db.query(urlQueries.updateUrlQuery, [
       urlData.url_addr,
       urlData.url_status,
       urlData.business_idx,
@@ -41,18 +35,15 @@ const updateUrl = async (urlId, urlData) => {
     ]);
     return results;
   } catch (error) {
-    console.error('Update URL Error:', error);
     throw error;
   }
 };
 
 const deleteUrl = async (urlId) => {
   try {
-    const query = 'DELETE FROM cms_url WHERE url_idx = ?';
-    const results = await db.query(query, [urlId]);
+    const results = await db.query(urlQueries.deleteUrlQuery, [urlId]);
     return results;
   } catch (error) {
-    console.error('Delete URL Error:', error);
     throw error;
   }
 };

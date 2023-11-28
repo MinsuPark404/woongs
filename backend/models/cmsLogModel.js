@@ -19,18 +19,13 @@ const logAuthAttempt = async (admin, logInfo, ip) => {
     log_ip: ip,
     admin_idx: admin.admin_idx,
   };
-  const results = await db.query(
-    `
-    INSERT INTO cms_log (business_name, admin_name, log_info, log_ip, admin_idx, logged_at, logouted_at) 
-    VALUES (?, ?, ?, ?, ?, NOW(), NULL)`,
-    [
-      params.business_name,
-      params.admin_name,
-      params.log_info,
-      params.log_ip,
-      params.admin_idx,
-    ]
-  );
+  const results = await db.query(cmsLogQueries.logAuthAttemptQuery, [
+    params.business_name,
+    params.admin_name,
+    params.log_info,
+    params.log_ip,
+    params.admin_idx,
+  ]);
   return results;
 };
 

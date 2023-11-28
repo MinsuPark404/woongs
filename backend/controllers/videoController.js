@@ -6,10 +6,8 @@ const videoModel = require('../models/videoModel');
 // @access admin_s
 const createVideo = asyncHandler(async (req, res) => {
   try {
-    console.log('세션아이디', req.sessionID);
     // 클라이언트(플라스크측) -> 서버로 비디오 데이터 전송
     const videoData = req.body;
-    // console.log(videoData);
     await videoModel.createVideo(videoData);
     res.status(201).json({ message: '비디오 등록 성공' });
   } catch (error) {
