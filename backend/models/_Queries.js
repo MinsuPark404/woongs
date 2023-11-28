@@ -353,6 +353,14 @@ const visitsQueries = {
                            GROUP BY url_addr`
 };
 
+const boardQueries = {
+  createPost: `INSERT INTO board (title, content, user_id) VALUES (?, ?, ?)`,
+  getPosts: `SELECT * FROM board WHERE business_bno = ?`,
+  getPost: `SELECT * FROM board WHERE board_idx = ?`,
+  updatePost: `UPDATE board SET title = ?, content = ? WHERE id = ?`,
+  deletePost: `DELETE FROM board WHERE id = ?`
+};
+
 module.exports = {
   adminQueries,
   BusinessQueries,
@@ -364,5 +372,6 @@ module.exports = {
   videoQueries,
   childQueries,
   domainQueries,
-  visitsQueries
+  visitsQueries,
+  boardQueries
 };
