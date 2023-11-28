@@ -5,7 +5,8 @@ function isAuthenticated(req, res, next) {
     return next();
   }
   if (!req.session.admin) {
-    return res.status(403).json({ error: '로그인이 필요합니다.' });
+    // return res.status(403).json({ error: '로그인이 필요합니다.' });
+    return res.status(403).json({ error: '세션이 만료되었습니다. 다시 로그인해주세요.' });
   }
   next();
 }

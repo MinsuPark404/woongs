@@ -3,7 +3,7 @@ const router = express.Router();
 const { registerChild, getChild, updateChild, deleteChild, recordAttendance, getAttendanceByDate, getAttendanceByChild } = require('../controllers/childController');
 
 // 원생 등록 API
-router.post('/reg/:businessBno', registerChild);
+router.post('/reg/:businessBno?', registerChild);
 
 // 원생 정보 조회
 router.get('/:businessBno?', getChild);

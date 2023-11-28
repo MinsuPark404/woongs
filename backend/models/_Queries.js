@@ -42,7 +42,6 @@ const adminQueries = {
   `,
 
   // 관리자 정보 수정(Update) 쿼리문
-  // updateAdminQuery: `UPDATE cms_admins SET admin_email = ?, admin_password = ?, admin_name = ?, admin_tel = ?, admin_role = ?, admin_status = ?, business_bno = ?, admin_updated_at = ? WHERE admin_idx = ?`,
   updateAdminQuery: `
     UPDATE cms_admins 
     SET 
@@ -57,17 +56,17 @@ const adminQueries = {
     DELETE FROM cms_admin 
     WHERE admin_id = ?
   `,
-  // 어린이집 등록 쿼리문
-  // createBusinessQuery: `INSERT INTO cms_businesses (business_name, business_admin, business_tel, business_addr1, business_addr2, business_bno, business_url) VALUES (?, ?, ?, ?, ?, ?, ?)`,
   // 특정 관리자 id 조회 쿼리문
   getAdminByIdQuery: `
     SELECT * 
     FROM cms_admin 
     WHERE admin_id = ?
   `,
+  updateLogoutTimeQuery:`UPDATE cms_log SET logouted_at = NOW() WHERE admin_idx = ? ORDER BY cms_log_idx DESC LIMIT 1`
 };
 
 const BusinessQueries = {
+  // 어린이집 등록 쿼리문
   createBusinessQuery: `
     INSERT INTO cms_businesses 
     (
@@ -118,14 +117,13 @@ const cmsLogQueries = {
   `,
 
   findAllLogsQuery: `
-    SELECT cms_log_idx,
-    DATE_FORMAT(CONVERT_TZ(logged_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS logged_at,
-    log_info, log_ip,
-    DATE_FORMAT(CONVERT_TZ(logouted_at, '+00:00', '+09:00'), '%Y-%m-%d %H:%i:%s') AS logouted_at 
-    FROM cms_log
-    ORDER BY cms_log_idx DESC
-    LIMIT ? OFFSET ?
-  `,
+  SELECT cms_log_idx,
+  DATE_FORMAT(CONVERT_TZ(logged_at, '+00:00', '+00:00'), '%Y-%m-%d %H:%i:%s') AS logged_at,
+  log_info, log_ip,
+  DATE_FORMAT(CONVERT_TZ(logouted_at, '+00:00', '+00:00'), '%Y-%m-%d %H:%i:%s') AS logouted_at 
+  FROM cms_log
+  ORDER BY cms_log_idx DESC
+`,
 
   createLogQuery2: `
     INSERT INTO cms_log 
@@ -311,6 +309,20 @@ const videoQueries = {
   `,
 };
 
+const childQueries = {
+  createChildQuery: `INSERT INTO children (child_name, child_age, child_gender, child_class, business_bno) VALUES (?, ?, ?, ?, ?)`,
+  getChildQuery: `SELECT child_idx, child_name, child_age, child_gender, child_class, business_bno, 
+  DATE_FORMAT(CONVERT_TZ(child_created_at, '+00:00', '+00:00'), '%Y-%m-%d %H:%i:%s') AS child_created_at 
+  FROM children
+  WHERE business_bno = ?
+  `,
+  updateChildQuery: `UPDATE children SET child_name = ?, child_age = ?, child_gender = ?, business_bno = ? WHERE child_idx = ?`,
+  deleteChildQuery: `DELETE FROM children WHERE child_idx = ?`,
+  recordAttendanceQuery: `INSERT INTO child_attendance (child_idx, attendance_date, business_bno, attendance_status, attendance_time) VALUES (?, ?, ?, ?, ?)`,
+  getAttendanceByDateQuery: `SELECT * FROM child_attendance WHERE attendance_date = ?`,
+  getAttendanceByChildQuery: `SELECT * FROM child_attendance WHERE child_idx = ?`,
+};
+
 module.exports = {
   adminQueries,
   BusinessQueries,
@@ -320,4 +332,5 @@ module.exports = {
   urlQueries,
   userQueries,
   videoQueries,
+  childQueries,
 };

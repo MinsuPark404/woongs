@@ -6,8 +6,8 @@ const createAdmin = async (adminData) => {
   try {
     const { admin_email, admin_password, admin_name, admin_tel, admin_role, admin_status, business_bno } = adminData;
     const params = [admin_email, admin_password, admin_name, admin_tel, admin_role, admin_status, business_bno];
-    const results = await db.query(adminQueries.createAdminQuery, params);
-    return results[0];
+    const [results] = await db.query(adminQueries.createAdminQuery, params);
+    return results;
   } catch (error) {
     throw error;
   }
@@ -27,8 +27,8 @@ const findAdminByEmail = async (admin_email) => {
 const updateAdminData = async (adminId, adminData) => {
   try {
     const { admin_email, admin_name, admin_role, admin_status } = adminData;
-    const results = await db.query(adminQueries.updateAdminQuery, [admin_email, admin_name, admin_role, admin_status, adminId]);
-    return results[0];
+    const [results] = await db.query(adminQueries.updateAdminQuery, [admin_email, admin_name, admin_role, admin_status, adminId]);
+    return results;
   } catch (error) {
     throw error;
   }
@@ -57,12 +57,21 @@ const getAdminLoginLogs = async (id) => {
 // 관리자 정보 삭제
 const deleteAdmin = async (adminId) => {
   try {
-    const results = await db.query(adminQueries.deleteAdminQuery, [adminId]);
-    return results[0];
+    const [results] = await db.query(adminQueries.deleteAdminQuery, [adminId]);
+    return results;
   } catch (error) {
     throw error;
   }
 };
+
+const updateLogoutTime = async (adminId) => {
+  try {
+    const [results] = await db.query(adminQueries.updateLogoutTimeQuery, [adminId]);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+}
 
 module.exports = {
   createAdmin,
@@ -71,4 +80,5 @@ module.exports = {
   getAlladmins,
   getAdminLoginLogs,
   deleteAdmin,
+  updateLogoutTime
 };

@@ -4,6 +4,7 @@ const path = require('path');
 const dotenv = require('dotenv').config();
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
+// const CustomSessionStore = require('./models/CustomSessionStore'); // 사용자
 const port = process.env.PORT || 5001;
 //logger
 const morgan = require('morgan');
@@ -24,13 +25,14 @@ const sessionStore = new MySQLStore({}, connectDb);
 app.use(
   session({
     store: sessionStore, // MySQL에 세션 데이터를 저장
+    // store: new CustomSessionStore(), // MySQL에 세션 데이터를 저장
     secret: process.env.SESSION_SECRET, // 세션 암호화에 사용될 키
     resave: false, // 세션을 항상 저장할지 정하는 값 (false 권장)
     saveUninitialized: false, // 세션을 초기화하지 않고 저장할지 정하는 값 (false 권장)
     cookie: {
       httpOnly: true, // 클라이언트 JavaScript가 쿠키를 볼 수 없도록 함
       secure: false, // HTTPS를 통해서만 쿠키가 전송되도록 함
-      maxAge: 180000, // 쿠키의 생존 기간(세션 유지 시간: 3분)
+      maxAge: 180000 * 20 * 8, // 쿠키의 생존 기간(세션 유지 시간: 8시간)
     },
   })
 );
@@ -39,7 +41,7 @@ app.use(
 app.use(express.static(path.join(__dirname, '../frontend', 'build')));
 
 // 인증 미들웨어 적용
-// app.use(isAuthenticated);
+app.use(isAuthenticated);
 
 // API 라우터
 app.use('/api/admins', require('./routes/adminRoutes'));

@@ -7,7 +7,7 @@ const db = require('../config/dbConnMysql');
 
 // @관리자 등록
 // @Endpoint POST /api/admins/register
-// @access admin_s
+// @access 슈퍼관리자
 const createAdmin = asyncHandler(async (req, res) => {
   try {
     const adminData = req.body;
@@ -41,7 +41,7 @@ const createAdmin = asyncHandler(async (req, res) => {
 
 // @관리자 로그인
 // @Endpoint POST /api/admins/login
-// @access admin_s, admin_c
+// @access 슈퍼관리자, 관리자
 const loginAdmin = asyncHandler(async (req, res) => {
   try {
     const { admin_email, admin_password } = req.body;
@@ -62,11 +62,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
       role: admin.admin_role, // 슈퍼관리자 = 'admin_s' 또는 사업자 = 'admin_c'
       bno: admin.business_bno,
     };
-    // console.log('세션 정보', req.session.admin);
-    console.log('세션아이디', req.sessionID, req.session.admin.role);
-
     await cmsLogModel.logAuthAttempt(admin, 'T', req.ip, true);
-
     return res.status(200).json({
       message: '로그인 성공!',
       admin: {
@@ -75,7 +71,6 @@ const loginAdmin = asyncHandler(async (req, res) => {
         name: admin.admin_name,
         role: admin.admin_role,
       },
-      // cookie: res.getHeader('Set-Cookie'),
     });
   } catch (error) {
     console.error('Admin login failed:', error);
@@ -87,9 +82,8 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
 // @관리자 목록 조회
 // @Endpoint GET /api/admins/list
-// @access admin_s
+// @access 슈퍼관리자
 const businessList = asyncHandler(async (req, res) => {
-  console.log('세션아이디4', req.sessionID);
   try {
     const admins = await adminModel.getAlladmins();
     // console.log('두번쨰:', admins);
@@ -104,7 +98,7 @@ const businessList = asyncHandler(async (req, res) => {
 
 // @관리자 정보 업데이트
 // @Endpoint PUT /api/admins/update/:id
-// @access admin_s
+// @access 슈퍼관리자
 const updateAdmin = asyncHandler(async (req, res) => {
   const adminId = req.params.id; // URL 경로에서 관리자 ID 추출
   const adminData = req.body; // 요청 본문에서 관리자 데이터 추출
@@ -138,25 +132,24 @@ const updateAdmin = asyncHandler(async (req, res) => {
 
 // @관리자 로그아웃
 // @Endpoint POST /api/admins/logout
-// @access admin_s, admin_c
+// @access 슈퍼관리자, 관리자
 const logoutAdmin = asyncHandler(async (req, res) => {
   try {
-    const adminId = req.body.admin_idx;
-    // const adminId = req.session.admin.bno;
-    // 로그아웃 시간 업데이트 쿼리
-    const query = `UPDATE cms_log SET logouted_at = NOW() WHERE admin_idx = ? ORDER BY cms_log_idx DESC LIMIT 1`;
-    const [results] = await db.query(query, [adminId]);
+    const adminId = req.session.admin.id;
+    console.log("로그아웃api에서 요청 adminId", adminId);
+    const result = await adminModel.updateLogoutTime(adminId);
     // 세션 파일 스토어에서 세션 삭제
     req.session.destroy(function (err) {
       if (err) {
         console.error('세션 삭제 중 오류 발생:', err);
       } else {
         // 세션 쿠키 삭제
-        res.clearCookie('connect.sid').status(200).json({ message: '로그아웃 되었습니다.', results });
+        res
+          .clearCookie('connect.sid')
+          .status(200)
+          .json({ message: '로그아웃 되었습니다.', result });
       }
     });
-    // res.status(200).json(results);
-
   } catch (error) {
     console.error('Logout failed:', error);
     res.status(500).json({ message: '로그아웃 처리 중 문제가 발생했습니다.' });
@@ -165,13 +158,10 @@ const logoutAdmin = asyncHandler(async (req, res) => {
 
 // @관리자 로그 조회
 // @Endpoint GET /api/admins/logs
-// @access admin_s
+// @access 슈퍼관리자
 const adminLogs = asyncHandler(async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-
-    const [logs] = await cmsLogModel.findAll({ page, limit });
+    const [logs] = await cmsLogModel.findAll();
     // 로그 조회 결과 응답
     res.json({
       success: true,
@@ -182,13 +172,13 @@ const adminLogs = asyncHandler(async (req, res) => {
   }
 });
 
+// @세션 데이터 조회
+// @Endpoint POST /api/admins/sessiondata
+// @access 모든 관리자
 const getSessionData = asyncHandler(async (req, res) => {
-  // console.log('(getSessionData) called : ', req.session);
-  console.log('세션아이디2', req.sessionID);
   try {
     const sessionData = req.session.admin;
     if (sessionData) {
-      console.log('세션아이디3', req.sessionID);
       res.status(200).json({
         message: '세션 정보가 존재합니다.',
         admin: sessionData,
