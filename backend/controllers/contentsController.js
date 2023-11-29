@@ -116,4 +116,6 @@ module.exports = {
   createMenu,
   updateMenu,
   deleteMenu,
+  // getMenu,
+  // getContent
 };

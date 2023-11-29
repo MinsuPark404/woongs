@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { Button, TextField, FormControl, InputLabel, Select, MenuItem, Box, Typography, Container,Paper } from '@mui/material';
+import { Button, TextField, Box, Typography, Container,Paper } from '@mui/material';
 import axios from '../../axios'; // API 호출을 위한 axios 인스턴스
-
+import { useSelector } from 'react-redux';
 const RegisterEmployee = () => {
+  const userData = useSelector((state) => state.user);
   const [newEmp, setNewEmp] = useState({
     user_email: '',
     user_password: '',
     user_name: '',
     user_tel: '',
     user_role: '',
+    business_bno: userData.bno,
   });
   const [message, setMessage] = useState('');
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setNewEmp({ ...newEmp, [name]: value });
@@ -20,6 +21,7 @@ const RegisterEmployee = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(newEmp);
       const response = await axios.post('/api/users/', newEmp);
       setMessage('직원 등록 성공!');
       console.log(response);

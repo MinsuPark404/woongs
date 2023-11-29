@@ -1,102 +1,413 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Paper, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Button, Select, MenuItem } from '@mui/material';
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import { alpha } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import TableSortLabel from '@mui/material/TableSortLabel';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
+import LabelImportantIcon from '@mui/icons-material/LabelImportant';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import { visuallyHidden } from '@mui/utils';
 import axios from '../../axios';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
 
-const AttendanceManagement = () => {
-    const [attendanceData, setAttendanceData] = useState([]);
-    const [children, setChildren] = useState([]); // 원생 목록 상태
-    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
-    const [selectedChild, setSelectedChild] = useState('');
+function createData(id, child_name, child_class, child_age) {
+  return {
+    id,
+    child_name,
+    child_class,
+    child_age
+  };
+}
 
-    // 원생 목록 가져오기
-    const fetchChildren = async () => {
-        try {
-            const response = await axios.get('/api/children/');
-            setChildren(response.data);
-        } catch (error) {
-            console.error('Error fetching children data:', error);
-        }
-    };
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
 
-    useEffect(() => {
-        fetchChildren(); // 컴포넌트 마운트 시 원생 목록 가져오기
-        fetchAttendance(); // 선택된 날짜에 대한 출석 정보 가져오기
-    }, []);
-    const fetchAttendance = async () => {
-        try {
-            const response = await axios.get(`/api/children/attendance/${selectedDate}`);
-            setAttendanceData(response.data);
-        } catch (error) {
-            console.error('Error fetching attendance data:', error);
-        }
-    };
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
 
-    useEffect(() => {
-        fetchAttendance();
-    }, [selectedDate]);
+const headCells = [
+  {
+    id: 'name',
+    numeric: false,
+    disablePadding: true,
+    label: '원생 이름',
+  },
+  {
+    id: 'class',
+    numeric: true,
+    disablePadding: false,
+    label: '반',
+  },
+  {
+    id: 'age',
+    numeric: true,
+    disablePadding: false,
+    label: '나이',
+  }
+];
 
-    const handleDateChange = (event) => {
-        setSelectedDate(event.target.value);
-    };
+function EnhancedTableHead(props) {
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
+    props;
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
 
-    const handleChildChange = (event) => {
-        setSelectedChild(event.target.value);
-    };
+  return (
+    <TableHead>
+      <TableRow>
+        <TableCell padding="checkbox">
+          <Checkbox
+            color="primary"
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={rowCount > 0 && numSelected === rowCount}
+            onChange={onSelectAllClick}
+            inputProps={{
+              'aria-label': 'select all desserts',
+            }}
+          />
+        </TableCell>
+        {headCells.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            align={headCell.numeric ? 'right' : 'left'}
+            padding={headCell.disablePadding ? 'none' : 'normal'}
+            sortDirection={orderBy === headCell.id ? order : false}
+          >
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : 'asc'}
+              onClick={createSortHandler(headCell.id)}
+            >
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <Box component="span" sx={visuallyHidden}>
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </Box>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
 
-    return (
-        <Paper sx={{ width: '100%', padding: 2 }}>
-            <Typography variant="h6">원생 출석 관리</Typography>
-            <Box sx={{ display: 'flex', gap: 2, marginTop: 2 }}>
-                <TextField
-                    type="date"
-                    label="날짜 선택"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                />
-                <Select
-                    value={selectedChild}
-                    onChange={handleChildChange}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }}
-                >
-                    <MenuItem value="">원생 선택</MenuItem>
-                    {children.map((child) => (
-                        <MenuItem key={child.child_idx} value={child.child_idx}>
-                            {child.child_name}
-                        </MenuItem>
-                    ))}
-                </Select>
-                <Button variant="contained" onClick={fetchAttendance}>조회</Button>
-            </Box>
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 650 }} aria-label="attendance table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>원생 ID</TableCell>
-                            <TableCell align="right">이름</TableCell>
-                            <TableCell align="right">출석 상태</TableCell>
-                            <TableCell align="right">출석 시간</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {attendanceData.map((row) => (
-                            <TableRow
-                                key={row.child_idx}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {row.child_idx}
-                                </TableCell>
-                                <TableCell align="right">{row.child_name}</TableCell>
-                                <TableCell align="right">{row.attendance_status}</TableCell>
-                                <TableCell align="right">{row.attendance_time}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Paper>
-    );
+EnhancedTableHead.propTypes = {
+  numSelected: PropTypes.number.isRequired,
+  onRequestSort: PropTypes.func.isRequired,
+  onSelectAllClick: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rowCount: PropTypes.number.isRequired,
 };
 
-export default AttendanceManagement;
+function EnhancedTableToolbar(props) {
+  const { numSelected, onSaveSelected } = props;
+
+  return (
+    <Toolbar
+      sx={{
+        pl: { sm: 2 },
+        pr: { xs: 1, sm: 1 },
+        ...(numSelected > 0 && {
+          bgcolor: (theme) =>
+            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+        }),
+      }}
+    >
+      {numSelected > 0 ? (
+        <Typography
+          sx={{ flex: '1 1 100%' }}
+          color="inherit"
+          variant="subtitle1"
+          component="div"
+        >
+          {numSelected} selected
+        </Typography>
+      ) : (
+        <Typography
+          sx={{ flex: '1 1 100%' }}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
+          출석 관리
+        </Typography>
+      )}
+
+      {numSelected > 0 ? (
+        <Tooltip title="저장">
+          <IconButton>
+            <LabelImportantIcon  onClick={onSaveSelected}/>
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Filter list">
+          <IconButton>
+            <FilterListIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+    </Toolbar>
+  );
+}
+
+EnhancedTableToolbar.propTypes = {
+  numSelected: PropTypes.number.isRequired,
+  onSaveSelected: PropTypes.func, // prop 타입 정의
+};
+
+export default function EnhancedTable() {
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('calories');
+  const [selected, setSelected] = React.useState([]);
+  const [page, setPage] = React.useState(0);
+  const [dense, setDense] = React.useState(false);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rows, setRows] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  const userData = useSelector((state) => state.user);
+  const business_bno = userData.bno;
+
+  useEffect(() => {
+    const loadInitialData = async () => {
+      setLoading(true);
+      try {
+        // 원생 데이터 로드
+        const childrenResponse = await axios.get(`/api/children/${business_bno}`);
+        const children = childrenResponse.data;
+        const newRows = children.map((child) => createData(child.child_idx, child.child_name, child.child_class, child.child_age));
+        setRows(newRows);
+  
+        // 출석 데이터 로드
+        const today = new Date();
+        const dateString = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        console.log("TODAY : ",dateString);
+        const attendanceResponse = await axios.get(`/api/children/attendance/${dateString}`);
+        console.log(attendanceResponse);
+        const attendedChildIds = attendanceResponse.data.map(a => a.child_idx);
+  
+        // 체크 상태 설정
+        setSelected(attendedChildIds);
+      } catch (error) {
+        console.error("Error loading data", error);
+      }
+      setLoading(false);
+      setPage(1);
+    };
+  
+    loadInitialData();
+  }, []);
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+  const handleSaveSelected = () => {
+    console.log("저장");
+    const selectedRowsData  = rows.filter((row) => selected.includes(row.id));
+    console.log(selectedRowsData);
+    const today = new Date();
+    const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    console.log(date);
+    const params = selectedRowsData.map((row) => [row.id, date, business_bno , '출석', time]);
+    console.log(params);
+    params.forEach((param) => {
+      axios.post(`/api/children/attendance`, param)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    });
+  }
+
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelected = rows.map((n) => n.id);
+      setSelected(newSelected);
+      return;
+    }
+    setSelected([]);
+  };
+
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+    setSelected(newSelected);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleChangeDense = (event) => {
+    setDense(event.target.checked);
+  };
+
+  const isSelected = (id) => selected.indexOf(id) !== -1;
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+  const visibleRows = React.useMemo(
+    () =>
+      stableSort(rows, getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage,
+      ),
+    [order, orderBy, page, rowsPerPage],
+  );
+
+  return (
+    <Box sx={{ width: '100%' }}>
+      {loading ? (
+        <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+          <CircularProgress /> {/* 로딩 인디케이터 표시 */}
+        </Box>
+      ) : (
+        
+        <Paper sx={{ width: '100%', mb: 2 }}>
+          <EnhancedTableToolbar numSelected={selected.length} onSaveSelected={handleSaveSelected}/>
+          <TableContainer>
+            <Table
+              sx={{ minWidth: 750 }}
+              aria-labelledby="tableTitle"
+              size={dense ? 'small' : 'medium'}
+            >
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={rows.length}
+              />
+              <TableBody>
+                {visibleRows.map((row, index) => {
+                  const isItemSelected = isSelected(row.id);
+                  const labelId = `enhanced-table-checkbox-${index}`;
+  
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, row.id)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.id}
+                      selected={isItemSelected}
+                      sx={{ cursor: 'pointer' }}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          color="primary"
+                          checked={isItemSelected}
+                          inputProps={{
+                            'aria-labelledby': labelId,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                      >
+                        {row.child_name}
+                      </TableCell>
+                      <TableCell align="right">{row.child_class}</TableCell>
+                      <TableCell align="right">{row.child_age}</TableCell>
+                    </TableRow>
+                  );
+                })}
+                {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: (dense ? 33 : 53) * emptyRows,
+                    }}
+                  >
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 20, 30]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        <FormControlLabel
+          control={<Switch checked={dense} onChange={handleChangeDense} />}
+          label="Dense padding"
+        />
+        </Paper>
+      )}
+    </Box>
+  );
+}

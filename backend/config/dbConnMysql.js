@@ -1,13 +1,21 @@
 const mysql = require('mysql2/promise');
 
 const connectDb = mysql.createPool({
-  host: 'project-db-stu3.smhrd.com',
-  user: 'Insa4_JSB_final_1',
-  password: 'aishcool1',
-  port: 3307,
-  database: 'Insa4_JSB_final_1',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+  database: process.env.DB_NAME,
+  
+  // 테스트용
+  // host: 'localhost',
+  // user: 'root',
+  // password: '1234',
+  // port: 3306,
+  // database: 'CMS_PROJECT',
+
   waitForConnections: true,
-  connectionLimit: 10,
+  connectionLimit: 100,
   queueLimit: 0,
 });
 

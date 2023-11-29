@@ -3,7 +3,7 @@ const { userQueries } = require('./_Queries');
 
 const createUser = async (userData) => {
   try {
-    const results = await db.query(userQueries.createUserQuery, [userData.user_email, userData.user_password, userData.user_name, userData.user_tel, userData.user_role]);
+    const results = await db.query(userQueries.createUserQuery, [userData.user_email, userData.user_password, userData.user_name, userData.user_tel, userData.business_bno, userData.user_role]);
     return results;
   } catch (error) {
     console.error('Create User Error:', error);
@@ -22,9 +22,9 @@ const getUserById = async (userId) => {
 };
 
 // 직원 정보 조회
-const getAllUsers = async () => {
+const getAllUsers = async (businessBno) => {
   try {
-    const [results] = await db.query(userQueries.getAllUsersQuery);
+    const [results] = await db.query(userQueries.getAllUsersQuery, [businessBno]);
     return results;
   } catch (error) {
     throw error;
@@ -62,6 +62,16 @@ const findUserByEmail = async (user_email) => {
   }
 };
 
+// 로그조회
+const findLogs = async (bno) => {
+  try {
+    const results = await db.query(userQueries.findLogsQuery, [bno]);
+    return results;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   createUser,
   getAllUsers,
@@ -69,4 +79,5 @@ module.exports = {
   updateUser,
   deleteUser,
   findUserByEmail,
+  findLogs
 };

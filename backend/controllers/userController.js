@@ -8,7 +8,6 @@ const saltRounds = 10;
 const create = asyncHandler(async (req, res) => {
   try {
     const userData = req.body;
-    // console.log('요청body: ', userData);
     // 이메일 중복 체크
     const existingUserEmail = await userModel.findUserByEmail(userData.user_email);
     if (existingUserEmail.length > 0) {
@@ -32,7 +31,9 @@ const create = asyncHandler(async (req, res) => {
 
 // 전체 조회
 const findAll = asyncHandler(async (req, res) => {
-  const users = await userModel.getAllUsers();
+  const businessBno = req.session.admin.bno
+  console.log('원생 정보 조회:', businessBno)
+  const users = await userModel.getAllUsers(businessBno);
 
   return res.status(200).json(users);
 });
@@ -80,7 +81,6 @@ const loginUser = asyncHandler(async (req, res) => {
       name: user.user_name,
       role: user.user_role,
     };
-    // console.log('세션 정보', req.session.user);
 
     await cmsLogModel.logAuthAttempt(user, 'T', req.ip, true);
 
@@ -99,6 +99,34 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-// 로그아웃
+// 로그조회
+const findLogs = asyncHandler(async (req, res) => {
+  const bno = req.session.admin.bno;
+  console.log(bno, typeof(bno));
+  try {
+    const result = await userModel.findLogs(bno);
+    console.log(result);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error('Error querying logs:', error);
+    res.status(500).json({ message: 'Error querying logs' });
+  }
+});
 
-module.exports = { create, findAll, findByUser, update, remove, loginUser };
+// 로그아웃
+const logoutUser = asyncHandler(async (req, res) => {
+  try {
+    req.session.destroy(function (err) {
+      if (err) {
+        console.error('세션 삭제 중 오류 발생:', err);
+      } else {
+        res.clearCookie('connect.sid').status(200).json({ message: '로그아웃 되었습니다.', results });
+      }
+    });
+  } catch (error) {
+    console.error('Logout failed:', error);
+    res.status(500).json({ message: '로그아웃 처리 중 문제가 발생했습니다.' });
+  }
+});
+
+module.exports = { create, findAll, findByUser, update, remove, loginUser, findLogs, logoutUser };

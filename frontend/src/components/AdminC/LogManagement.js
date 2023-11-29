@@ -37,7 +37,6 @@ const LogManager = () => {
       
     };
 
-
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" style={{ margin: '20px 0' }}>로그 관리</Typography>
