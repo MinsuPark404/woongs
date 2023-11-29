@@ -39,7 +39,7 @@ padding-top: 20px; padding-bottom: 20px; background-size: cover; background-posi
 const block = {
   hbs,
   name: 'Navbar #1',
-  previewImageUrl: 'https://i.imgur.com/awrvf3d.png',
+  previewImageUrl: 'https://gamma.app/_next/static/media/Accent-right.c78c2203.svg',
   category: 'header',
   defaultData: {
     backgroundImage: '',

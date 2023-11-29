@@ -18,7 +18,7 @@ const hbs = `
 const block = {
   hbs,
   name: '2 column gallery',
-  previewImageUrl: 'https://i.imgur.com/3hpsgRt.png',
+  previewImageUrl: 'https://i.imgur.com/ju0uld0.png',
   category: 'gallery',
   defaultData: {
     img1: "https://via.placeholder.com/450x450",

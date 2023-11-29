@@ -1,4 +1,11 @@
+
+
+
 const hbs = `
+
+<!DOCTYPE html>
+
+
 
 <!DOCTYPE html>
 
@@ -66,163 +73,98 @@ const hbs = `
 <body>
 
 
-
 <!-- 컨텐츠 -->
 <section class="main">
 
 	
 	
-	<div class="noticeWrap">
-		<div>
-			<div class="noticeTit">
-				<h3>알림마당</h3>
-				<p>우리 원의 다양한 새로운 소식을 전해드립니다.</p>
-			</div>
-			<div class="noticeIcon">
-				<a href="../community/notice_list.html?tn=bbs_notice">공지사항</a>
-				<a href="../community/paper_list.html?tn=bbs_paper">가정통신</a>
-				<a href="../community/food_list.html?tn=bbs_food">식단표</a>
-			</div>
-		</div>
-
+	<div class="quickMenu">
 		<ul>
-	<li class="noticeList">
-		<a href="../community/notice_list.html?tn=bbs_notice">봄철 인플루엔자 등 감염병 예방 및 교육을 실시하였습니다.</a>
-		<span>2020.03.20</span>
-	</li>
-	<li class="noticeList">
-		<a href="../community/notice_list.html?tn=bbs_notice">3월 영양교육을 하였어요</a>
-		<span>2020.03.15</span>
-	</li>
-	<li class="foodList">
-		<a href="../community/food_list.html?tn=bbs_food">2020년 3월달 식단표입니다.</a>
-		<span>2020.03.02</span>
-	</li>
-	
-</ul>
+			<li>
+				<span></span>
+				<h4>{{tagline1}}</h4>
+				<p>{{tagfield1}}</p>
+				<a href="../entrance/entrance_01.html">바로가기</a>
+			</li>
+			<li>
+				<span></span>
+				<h4>{{tagline2}}</h4>
+				<p>{{tagfield2}}</p>
+				<a href="../edu/edu_02.html">바로가기</a>
+			</li>
+			<li>
+				<span></span>
+				<h4>{{tagline3}}</h4>
+				<p>{{tagfield3}}</p>
+				<a href="../intro/facility.html">바로가기</a>
+			</li>
+			<li>
+				<span></span>
+				<h4>{{tagline4}}</h4>
+				<p>{{tagfield4}}</p>
+				<a href="../intro/teacher.html">바로가기</a>
+			</li>
+		</ul>
 	</div>
 	
 	
+</section><!-- //main -->
+
+
+
 </body>
 </html>
 `;
 
-const configTitle = {
-  title: {
-    type: "string",
-    name: '제목',
-  },
-  titleColor: {
-    type: "color",
-    name: '제목 색상',
-  },
-  titleFontSize: {
-    type: "string",
-    name: '제목 글꼴 크기',
-  },
-  titleFontFamily: {
-    type: "select",
-    name: '제목 글꼴',
-    options: [
-      { label: "Arial", value: "Arial, sans-serif" },
-      { label: "Georgia", value: "Georgia, serif" },
-      { label: "Times New Roman", value: "Times New Roman, serif" },
-      { label: "Verdana", value: "Verdana, sans-serif" },
-      { label: "Helvetica", value: "Helvetica, sans-serif" },
-      { label: "Tahoma", value: "Tahoma, sans-serif" },
-      { label: "Trebuchet MS", value: "Trebuchet MS, sans-serif" },
-      { label: "Courier New", value: "Courier New, monospace" },
-      // 필요에 따라 추가 폰트를 여기에 나열할 수 있습니다
-    ]
-  },
-  
-};
-
-const configTagline = {
-  tagline: {
-    type: "string",
-    name: '태그 라인',
-  },
-  taglineColor: {
-    type: "color",
-    name: '태그 라인 색상',
-  },
-  taglineFontSize: {
-    type: "string",
-    name: '태그 라인 글꼴 크기',
-  },
-  taglineFontFamily: {
-    type: "select",
-    name: '태그 글꼴',
-    options: [
-      { label: "Arial", value: "Arial, sans-serif" },
-      { label: "Georgia", value: "Georgia, serif" },
-      { label: "Times New Roman", value: "Times New Roman, serif" },
-      { label: "Verdana", value: "Verdana, sans-serif" },
-      { label: "Helvetica", value: "Helvetica, sans-serif" },
-      { label: "Tahoma", value: "Tahoma, sans-serif" },
-      { label: "Trebuchet MS", value: "Trebuchet MS, sans-serif" },
-      { label: "Courier New", value: "Courier New, monospace" },
-      // 필요에 따라 추가 폰트를 여기에 나열할 수 있습니다
-    ]
-  },
-};
-
-const configLink = {
-  link: {
-    type: "string",
-    name: '링크 텍스트',
-  },
-  linkColor: {
-    type: "color",
-    name: '링크 색상',
-  },
-  linkFontSize: {
-    type: "string",
-    name: '링크 글꼴 크기',
-  },
-  linkUrl: {
-    type: "string",
-    name: '링크 URL',
-  },
-  buttonBackgroundColor: {
-    type: "color",
-    name: '버튼 배경 색상',
-  },
-};
-
-const configBackground = {
-  backgroundImage: {
-    type: "string",
-    name: '배경 이미지 URL',
-  },
-};
-const configLogo ={
-  logoImage: {
-    type: "string",
-    name: '로고 이미지 URL',
-  },
-}
-
 const block = {
-  hbs,
-  name: 'Enhanced Header #1',
-  previewImageUrl: 'https://i.imgur.com/IXz7LZ5.png',
-  category: 'header',
-  defaultData: {
-    logoImage: "http://temp.ebikids.co.kr/v2_05a/images/common/logo-black.svg",
-    title: "",
-    tagline:"" ,
-    link: "",
-    linkUrl: "#",
-  },
-  config: {
-    ...configLogo,
-    ...configTitle,
-    ...configTagline,
-    ...configLink,
-    ...configBackground
-  }
+	hbs,
+	name: 'quick #1',
+	previewImageUrl: 'https://i.imgur.com/IEa54M1.png',
+	category: 'article',
+	defaultData: {
+		
+		title: "",
+		tagline1: "",
+        tagline2: "",
+        tagline3: "",
+		tagline4: "",
+	},
+	config: {
+		
+
+		tagline1: {
+			type: "string",
+			name: 'Tag Line',
+		},
+        tagline2: {
+			type: "string",
+			name: 'Tag Line',
+		},
+        tagline3: {
+			type: "string",
+			name: 'Tag Line',
+		},
+        tagline4: {
+			type: "string",
+			name: 'Tag Line',
+		},
+		tagfield1: {
+			type: "string",
+			name: 'Tag Line',
+		},
+        tagfield2: {
+			type: "string",
+			name: 'Tag Line',
+		},
+        tagfield3: {
+			type: "string",
+			name: 'Tag Line',
+		},
+        tagfield4: {
+			type: "string",
+			name: 'Tag Line',
+		},
+	}
 };
 
 export default block;

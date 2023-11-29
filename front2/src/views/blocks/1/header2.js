@@ -1,4 +1,6 @@
 
+
+
 const hbs = `
 <head>
 <style>
@@ -190,10 +192,10 @@ const hbs = `
 const block = {
 	hbs,
 	name: 'Simple Header #2',
-	previewImageUrl: 'https://imgur.com/3F3fZGd',
+	previewImageUrl: 'https://gamma.app/_next/static/media/Title-card.409d7081.svg',
 	category: 'header',
 	defaultData: {
-		logo: "https://imgur.com/SWfsAax",
+		logo: "https://dnvefa72aowie.cloudfront.net/jobs/article/29555513/1677765497662/job-post-2878178089.jpeg?q=95&s=1440x1440&t=inside",
 		title: "웅이네",
 		tagline: "유치원",
 		imageSrc1: "http://temp.ebikids.co.kr/v2_01a/images/main/main_bg.jpg",

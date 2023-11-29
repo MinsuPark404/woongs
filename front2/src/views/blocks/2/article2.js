@@ -1,12 +1,7 @@
 const hbs = `
 <div>
   <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <h2 class="text-center">{{title}}</h2>
-        <p class="text-center">{{description}}</p>
-      </div>
-    </div>
+    
     <div class="row">
       <div class="col-sm-6 col-md-4 item">
         <h3 class="name">{{articleTitle1}}</h3>
@@ -28,7 +23,7 @@ const hbs = `
 const block = {
   hbs,
   name: 'Article #2',
-  previewImageUrl: 'https://i.imgur.com/xljS5RC.png',
+  previewImageUrl: 'https://gamma.app/_next/static/media/Title-with-3-boxes.8a28c3c6.svg',
   category: 'article',
   defaultData: {
     title: 'Sample section',
