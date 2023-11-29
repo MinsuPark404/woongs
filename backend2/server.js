@@ -59,17 +59,27 @@ app.use(
 
 // Read All - 모든 컨텐츠 조회
 
+// app.get('/', async (req, res) => {
+//   try {
+//     const [rows] = await connectDb.query('SELECT url_html FROM cms_contents where content_idx = 1');
+//     // console.log(rows);
+//     res.status(200).json(rows);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// });
 app.get('/', async (req, res) => {
   try {
-    const [rows] = await connectDb.query('SELECT url_html FROM cms_contents where content_idx = 15');
-    console.log(rows);
-    res.status(200).json(rows);
+    const [rows] = await connectDb.query('SELECT url_html FROM cms_contents where content_idx = 13');
+    const cleanedHtml = rows.map(row => ({
+      ...row,
+      url_html: row.url_html.replace(/\\n/g, "").replace(/\\t/g, "").replace(/\\\\/g, "")
+    }));
+    res.status(200).json(cleanedHtml);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
-
-
 
 // Update - 컨텐츠 수정
 // app.put('/', async (req, res) => {

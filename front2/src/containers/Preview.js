@@ -26,7 +26,7 @@ export default function Preview(props) {
       </div>
       
       <iframe title={'visual-iframe'} className={`visual-iframe`} srcDoc={props.html}/>
-    
+      
     </div>
   </div>;
 }
