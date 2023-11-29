@@ -14,7 +14,7 @@ function AdMain() {
             sandbox='allow-scripts allow-same-origin allow-forms allow-popups allow-presentation allow-top-navigation allow-same-origin'
             /> */}
             <a href="http://localhost:5001/" target="_blank" rel="noopener noreferrer">
-            ></a>
+            </a>
         </>
     );
 
