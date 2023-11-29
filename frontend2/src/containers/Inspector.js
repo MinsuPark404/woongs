@@ -124,6 +124,7 @@ class Inspector extends Component {
     // 각 카테고리별 설정 키들 필터링
     const titleConfigKeys = Object.keys(config).filter(key => key.startsWith('title'));
     const taglineConfigKeys = Object.keys(config).filter(key => key.startsWith('tagline'));
+    const tagfieldConfigKeys = Object.keys(config).filter(key => key.startsWith('tagfield'));
     const linkConfigKeys = Object.keys(config).filter(key => key.startsWith('link'));
     const backgroundConfigKeys = Object.keys(config).filter(key => key.startsWith('background'));
     const imageConfigKeys = Object.keys(config).filter(key => key.startsWith('image'));
@@ -157,6 +158,12 @@ class Inspector extends Component {
           <div className='settings-box'>
             <h6>Tagline Configuration</h6>
             {taglineConfigKeys.map(el => this.renderInput(config, block, el))}
+          </div>
+        )}
+        {tagfieldConfigKeys.length > 0 && (
+          <div className='settings-box'>
+            <h6>Tagfield Configuration</h6>
+            {tagfieldConfigKeys.map(el => this.renderInput(config, block, el))}
           </div>
         )}
 
