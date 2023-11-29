@@ -1,5 +1,5 @@
 import actionTypes from "../constants/actionTypes";
-import blocks from "../views/blocks/";
+import blocks from "../views/blocks";
 import {v4 as uuidv4} from 'uuid';
 
 const initialState = {

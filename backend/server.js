@@ -5,7 +5,7 @@ const dotenv = require('dotenv').config();
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 // const CustomSessionStore = require('./models/CustomSessionStore'); // 사용자
-const port = process.env.PORT || 5001;
+const port = process.env.PORT;
 //logger
 const morgan = require('morgan');
 const isAuthenticated = require('./middleware/isAuthenticated');
@@ -38,10 +38,10 @@ app.use(
 );
 
 // 정적인 파일 관리
-app.use(express.static(path.join(__dirname, '../frontend', 'build')));
+app.use(express.static(path.join(__dirname, '../frontend', 'build')));  // build
 
 // 인증 미들웨어 적용
-// app.use(isAuthenticated);
+app.use(isAuthenticated);
 
 // API 라우터
 app.use('/api/admins', require('./routes/adminRoutes'));
