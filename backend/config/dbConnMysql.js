@@ -6,7 +6,6 @@ const connectDb = mysql.createPool({
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
   database: process.env.DB_NAME,
-  
   waitForConnections: true,
   connectionLimit: 100,
   queueLimit: 0,
@@ -16,9 +15,6 @@ const connectDb = mysql.createPool({
   try {
     const connection = await connectDb.getConnection();
     console.log('MySQL 연결 성공...');
-
-    // 여기에서 데이터베이스 쿼리 또는 작업을 수행할 수 있습니다.
-
     connection.release();
   } catch (err) {
     if (err.code === 'PROTOCOL_CONNECTION_LOST') {
