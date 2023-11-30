@@ -97,12 +97,12 @@ const formatDate = (dateString) => {
                 },
                 cursor: 'pointer'
               }}
-
+              onClick={() => window.location.href=`/main/board-detail/${post.board_idx}`}
             >
               <TableCell component="th" scope="row">
                 {post.header}
               </TableCell>
-              <TableCell><Link to={`/main/board-detail/${post.board_idx}`} style={{ textDecoration: 'none' }}>{post.title}</Link></TableCell>
+              <TableCell>{post.title}</TableCell>
               <TableCell>{post.author}</TableCell>
               <TableCell align="right">{formatDate(post.board_created_at)}</TableCell>
             </TableRow>

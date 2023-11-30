@@ -71,9 +71,9 @@ router.post('/create', asyncHandler( async (req, res) => {
 }));
 
 // 모든 게시물 조회 라우터 getPosts
-router.get('/list/:bno',asyncHandler(async (req, res) => {
+router.get('/list/:bno?',asyncHandler(async (req, res) => {
   console.log("세션 아이디:", req.session.admin)
-  const bno = req.params.bno;
+  const bno = req.session.admin.bno;
   console.log(bno);
   const sql = `SELECT * FROM board WHERE business_bno = ?`;
   try {
