@@ -157,26 +157,6 @@ ALTER TABLE cms_url_log
     ADD CONSTRAINT  FOREIGN KEY (url_addr)
         REFERENCES cms_url (url_addr) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- cms_menu Table Create SQL
--- 테이블 생성 SQL - cms_menu
-CREATE TABLE cms_menu
-(
-    `menu_idx`         INT UNSIGNED    NOT NULL    AUTO_INCREMENT COMMENT '메뉴 순번', 
-    `menu_detail`      JSON            NULL        COMMENT '메뉴 디테일', 
-    `menu_created_at`  DATETIME        NULL        DEFAULT now() COMMENT '메뉴 등록 일자', 
-    `menu_updated_at`  DATETIME        NULL        DEFAULT now() COMMENT '메뉴 수정 일자', 
-    `url_idx`          INT UNSIGNED    NULL        COMMENT '도메인 순번', 
-     PRIMARY KEY (menu_idx)
-);
-
--- 테이블 Comment 설정 SQL - cms_menu
-ALTER TABLE cms_menu COMMENT '메뉴. 메뉴 관련 데이터 저장';
-
--- Foreign Key 설정 SQL - cms_menu(url_idx) -> cms_url(url_idx)
-ALTER TABLE cms_menu
-    ADD CONSTRAINT  FOREIGN KEY (url_idx)
-        REFERENCES cms_url (url_idx) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
 -- cms_log Table Create SQL
 -- 테이블 생성 SQL - cms_log
 CREATE TABLE cms_log
