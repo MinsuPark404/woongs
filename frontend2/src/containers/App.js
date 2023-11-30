@@ -22,7 +22,7 @@ import Output from "./Output";
 class App extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state = { innerHTML: '' };
     this.handleChangeActiveTab = this.handleChangeActiveTab.bind(this);
     this.handleChangePreviewMode = this.handleChangePreviewMode.bind(this);
     this.handlePushBlock = this.handlePushBlock.bind(this);
@@ -31,9 +31,21 @@ class App extends React.Component {
     this.handleReorderLayout = this.handleReorderLayout.bind(this);
   }
 
-  componentDidMount() {
-    window.addEventListener("message", this.handleMessage)
+  async componentDidMount() {
+    this.updateRenderedContent();
+    window.addEventListener("message", this.handleMessage);
   }
+  componentDidUpdate(prevProps) {
+    // 블록 배열이 변경되었는지 확인
+    if (this.props.layout.blocks !== prevProps.layout.blocks) {
+      this.updateRenderedContent();
+    }
+  }
+  async updateRenderedContent() {
+    const innerHTML = await renderHandlebars(this.props.layout.blocks, this.props.layout.documentId);
+    this.setState({ innerHTML });
+  }
+
 
   componentWillUnmount() {
     window.removeEventListener("message", this.handleMessage)
@@ -95,7 +107,7 @@ class App extends React.Component {
   }
 
   render() {
-    const innerHTML = renderHandlebars(this.props.layout.blocks, this.props.layout.documentId);
+    const { innerHTML } = this.state;
     const {activeTab, previewMode} = this.props.config;
 
     return (
@@ -128,9 +140,7 @@ class App extends React.Component {
                   category='photo'
                   display={activeTab === 5}
                   onPushBlock={this.handlePushBlock} />
-                <Output
-                  display={activeTab === 9}
-                  html={innerHTML}/>
+                <Output display={activeTab === 9} html={innerHTML}/>
                 <Settings
                   display={activeTab === 10}/>
               </WideSidebar>

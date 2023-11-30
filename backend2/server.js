@@ -35,51 +35,51 @@ app.use(
 );
 
 // 정적인 파일 관리
-// app.use(express.static(path.join(__dirname, '../frontend', 'build')));
+// app.use(express.static(path.join(__dirname, '../frontend2', 'build')));
 
 // 인증 미들웨어 적용
 // app.use(isAuthenticated);
 
 
 // Create - 새 컨텐츠 추가
-// app.post('/', async (req, res) => {
-//   try {
-//     const { url_html } = req.body;
-//     const url_addr = '123'
-//     const business_bno = '916-23-31691';
-//     const [result] = await connectDb.query(
-//       'INSERT INTO cms_contents (url_addr, business_bno, url_html) VALUES (?, ?, ?)',
-//       [url_addr, business_bno, url_html]
-//     );
-//     res.status(201).json({ content_idx: result.insertId });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// });
-
-// Read All - 모든 컨텐츠 조회
-
-// app.get('/', async (req, res) => {
-//   try {
-//     const [rows] = await connectDb.query('SELECT url_html FROM cms_contents where content_idx = 1');
-//     // console.log(rows);
-//     res.status(200).json(rows);
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// });
-app.get('/', async (req, res) => {
+app.post('/', async (req, res) => {
   try {
-    const [rows] = await connectDb.query('SELECT url_html FROM cms_contents where content_idx = 13');
-    const cleanedHtml = rows.map(row => ({
-      ...row,
-      url_html: row.url_html.replace(/\\n/g, "").replace(/\\t/g, "").replace(/\\\\/g, "")
-    }));
-    res.status(200).json(cleanedHtml);
+    const { url_html } = req.body;
+    const url_addr = '123'
+    const business_bno = '916-23-31691';
+    const [result] = await connectDb.query(
+      'INSERT INTO cms_contents (url_addr, business_bno, url_html) VALUES (?, ?, ?)',
+      [url_addr, business_bno, url_html]
+    );
+    res.status(201).json({ content_idx: result.insertId });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
+// Read All - 모든 컨텐츠 조회
+
+app.get('/', async (req, res) => {
+  try {
+    const [rows] = await connectDb.query('SELECT url_html FROM cms_contents where content_idx = 13');
+    // console.log(rows);
+    res.status(200).json(rows);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+// app.get('/', async (req, res) => {
+//   try {
+//     const [rows] = await connectDb.query('SELECT url_html FROM cms_contents where content_idx = 13');
+//     const cleanedHtml = rows.map(row => ({
+//       ...row,
+//       url_html: row.url_html.replace(/\\n/g, "").replace(/\\t/g, "").replace(/\\\\/g, "")
+//     }));
+//     res.status(200).json(cleanedHtml);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// });
 
 // Update - 컨텐츠 수정
 // app.put('/', async (req, res) => {
@@ -113,9 +113,10 @@ app.get('/', async (req, res) => {
 
 // app.use('/', (req, res) => {
 //   console.log('main');
-//   res.sendFile(path.join(__dirname, '../frontend', 'build', 'index.html'));
+//   res.sendFile(path.join(__dirname, '../frontend2', 'build', 'index.html'));
 // });
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+///
