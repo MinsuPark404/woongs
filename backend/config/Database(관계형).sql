@@ -47,11 +47,6 @@ ALTER TABLE cms_businesses
     ADD CONSTRAINT  FOREIGN KEY (admin_idx)
         REFERENCES cms_admins (admin_idx) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- Foreign Key 삭제 SQL - cms_businesses(admin_idx)
--- ALTER TABLE cms_businesses
--- DROP FOREIGN KEY ;
-
-
 -- children Table Create SQL
 -- 테이블 생성 SQL - children
 CREATE TABLE children
@@ -75,11 +70,6 @@ ALTER TABLE children
     ADD CONSTRAINT  FOREIGN KEY (business_bno)
         REFERENCES cms_businesses (business_bno) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- Foreign Key 삭제 SQL - children(business_bno)
--- ALTER TABLE children
--- DROP FOREIGN KEY ;
-
-
 -- cms_url Table Create SQL
 -- 테이블 생성 SQL - cms_url
 CREATE TABLE cms_url
@@ -100,11 +90,6 @@ ALTER TABLE cms_url COMMENT '도메인. 도메인 관련 데이터 저장';
 ALTER TABLE cms_url
     ADD CONSTRAINT  FOREIGN KEY (business_bno)
         REFERENCES cms_businesses (business_bno) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
--- Foreign Key 삭제 SQL - cms_url(business_bno)
--- ALTER TABLE cms_url
--- DROP FOREIGN KEY ;
-
 
 -- cms_users Table Create SQL
 -- 테이블 생성 SQL - cms_users
@@ -130,11 +115,6 @@ ALTER TABLE cms_users
     ADD CONSTRAINT  FOREIGN KEY (business_bno)
         REFERENCES cms_businesses (business_bno) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- Foreign Key 삭제 SQL - cms_users(business_bno)
--- ALTER TABLE cms_users
--- DROP FOREIGN KEY ;
-
-
 -- cms_videos Table Create SQL
 -- 테이블 생성 SQL - cms_videos
 CREATE TABLE cms_videos
@@ -157,11 +137,6 @@ ALTER TABLE cms_videos
     ADD CONSTRAINT  FOREIGN KEY (business_bno)
         REFERENCES cms_businesses (business_bno) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- Foreign Key 삭제 SQL - cms_videos(business_bno)
--- ALTER TABLE cms_videos
--- DROP FOREIGN KEY ;
-
-
 -- cms_url_log Table Create SQL
 -- 테이블 생성 SQL - cms_url_log
 CREATE TABLE cms_url_log
@@ -181,11 +156,6 @@ ALTER TABLE cms_url_log COMMENT '도메인 로그. 도메인 관련 데이터 �
 ALTER TABLE cms_url_log
     ADD CONSTRAINT  FOREIGN KEY (url_addr)
         REFERENCES cms_url (url_addr) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
--- Foreign Key 삭제 SQL - cms_url_log(url_addr)
--- ALTER TABLE cms_url_log
--- DROP FOREIGN KEY ;
-
 
 -- cms_menu Table Create SQL
 -- 테이블 생성 SQL - cms_menu
@@ -207,11 +177,6 @@ ALTER TABLE cms_menu
     ADD CONSTRAINT  FOREIGN KEY (url_idx)
         REFERENCES cms_url (url_idx) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- Foreign Key 삭제 SQL - cms_menu(url_idx)
--- ALTER TABLE cms_menu
--- DROP FOREIGN KEY ;
-
-
 -- cms_log Table Create SQL
 -- 테이블 생성 SQL - cms_log
 CREATE TABLE cms_log
@@ -232,11 +197,6 @@ ALTER TABLE cms_log
     ADD CONSTRAINT  FOREIGN KEY (admin_idx)
         REFERENCES cms_admins (admin_idx) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- Foreign Key 삭제 SQL - cms_log(admin_idx)
--- ALTER TABLE cms_log
--- DROP FOREIGN KEY ;
-
-
 -- cms_contents Table Create SQL
 -- 테이블 생성 SQL - cms_contents
 CREATE TABLE cms_contents
@@ -253,11 +213,6 @@ CREATE TABLE cms_contents
 ALTER TABLE cms_contents
     ADD CONSTRAINT  FOREIGN KEY (business_name)
         REFERENCES cms_businesses (business_name) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
--- Foreign Key 삭제 SQL - cms_contents(business_name)
--- ALTER TABLE cms_contents
--- DROP FOREIGN KEY ;
-
 
 -- child_attendance Table Create SQL
 -- 테이블 생성 SQL - child_attendance
@@ -280,11 +235,6 @@ ALTER TABLE child_attendance
     ADD CONSTRAINT  FOREIGN KEY (child_idx)
         REFERENCES children (child_idx) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- Foreign Key 삭제 SQL - child_attendance(child_idx)
--- ALTER TABLE child_attendance
--- DROP FOREIGN KEY ;
-
-
 -- anomaly_detection Table Create SQL
 -- 테이블 생성 SQL - anomaly_detection
 CREATE TABLE anomaly_detection
@@ -305,10 +255,6 @@ ALTER TABLE anomaly_detection COMMENT '이상탐지. 이상탐지 관련 데이�
 ALTER TABLE anomaly_detection
     ADD CONSTRAINT  FOREIGN KEY (business_name)
         REFERENCES cms_businesses (business_name) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
--- Foreign Key 삭제 SQL - anomaly_detection(business_name)
--- ALTER TABLE anomaly_detection
--- DROP FOREIGN KEY ;
 
 -- 테이블 생성 SQL - board
 CREATE TABLE board (
