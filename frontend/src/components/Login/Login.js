@@ -41,6 +41,7 @@ function Login() {
       // 로그인 성공시 session데이터 요청후 데이터 저장
       const sessionData = await axios.post('/api/admins/sessiondata');
       console.log('sessionData', sessionData);
+      
       dispatch({
         type: 'LOGIN',
         bno : sessionData.data.admin.bno,
@@ -49,8 +50,10 @@ function Login() {
         id: sessionData.data.admin.id,
         roll: sessionData.data.admin.role,
       });
-      // redux에 저장된 데이터 확인
-      console.log('redux', data)
+      
+      // 세션 스토리지에 데이터 저장
+      sessionStorage.setItem('user', JSON.stringify(sessionData.data.admin));
+      
       navigate('/main');
     } catch (error) {
       // 에러 처리 개선

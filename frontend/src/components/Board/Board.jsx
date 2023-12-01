@@ -6,6 +6,7 @@ import draftjsToHtml from "draftjs-to-html";
 import { Box, Paper, Typography, TextField, MenuItem, FormControl, Select, InputLabel, Button, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import axios from '../../axios'; // 실제 경로에 맞게 조정해야 합니다.
 
 const Draft = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -13,27 +14,58 @@ const Draft = () => {
   const [header, setHeader] = useState("");
   const userData = useSelector((state) => state.user);
   const navigate = useNavigate();
-  console.log(userData)
-  const updateTextDescription = async (state) => {
-    await setEditorState(state);
+
+  console.log('[1] 현재 사용자 데이터:', userData);
+
+  const updateTextDescription = (state) => {
+    console.log('[2] 에디터 상태 업데이트:', state);
+    setEditorState(state);
   };
 
   const handleTitleChange = (event) => {
+    console.log('[3] 제목 변경:', event.target.value);
     setTitle(event.target.value);
   };
 
   const handleHeaderChange = (event) => {
+    console.log('[4] 말머리 변경:', event.target.value);
     setHeader(event.target.value);
   };
 
-  const handleSubmit = () => {
-    const html = draftjsToHtml(convertToRaw(editorState.getCurrentContent()));
-    console.log("제목:", title, "말머리:", header, "내용:", html);
-    console.log("작성자:", userData.name);
-    console.log("사업자번호:", userData.bno);
+  const handleSubmit = async () => {
+    console.log('[5] 제출 버튼 클릭');
 
+    if (!title.trim() || !header.trim()) {
+      console.log('[6] 유효성 검사 실패: 제목 또는 말머리 누락');
+      alert("제목과 말머리를 입력해주세요.");
+      return;
+    }
 
-    navigate("/main/board");
+    const htmlContent = draftjsToHtml(convertToRaw(editorState.getCurrentContent()));
+    console.log('[7] 변환된 HTML:', htmlContent);
+
+    if (!htmlContent.trim()) {
+      console.log('[8] 유효성 검사 실패: 내용 누락');
+      alert("내용을 입력해주세요.");
+      return;
+    }
+
+    const postData = {
+      title,
+      header,
+      content: htmlContent
+    };
+    console.log('[9] 서버에 제출될 데이터:', postData);
+
+    try {
+      const response = await axios.post('/api/boards/create', postData);
+      console.log('[10] 서버 응답:', response);
+      alert("게시글이 성공적으로 등록되었습니다.");
+      navigate("/main/board");
+    } catch (error) {
+      console.error('[11] 서버 요청 오류:', error);
+      alert("게시글 등록에 실패했습니다.");
+    }
   };
 
   return (
@@ -88,7 +120,6 @@ const Draft = () => {
           }}
         />
         <br/>
-        {/* 목록으로 돌아가기 */}
         <Grid container justifyContent="flex-end">
             <Grid item>
                 <Button variant="contained" color="secondary" href="/main/board" >

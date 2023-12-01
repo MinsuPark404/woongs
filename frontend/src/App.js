@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Main from './components/Main';
@@ -16,11 +17,33 @@ import BoardDetail from './components/Board/BoardDetail';
 import store from './store';
 import { Provider } from 'react-redux';
 
+const SessionCheck = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // 세션 스토리지에서 사용자 데이터 가져오기
+    const storedUserData = sessionStorage.getItem('user');
+    console.log('세션 데이터: ', storedUserData);
+    if (storedUserData) {
+      const userData = JSON.parse(storedUserData);
+      // Redux 스토어에 사용자 데이터 저장
+      dispatch({
+        type: 'LOGIN',
+        payload: userData
+      });
+    }
+  }, [dispatch]);
+
+  return null; // UI를 렌더링하지 않는 컴포넌트
+};
+
+
 function App() {
-  const storeData = store
+  // const storeData = store
   return (
     <div>
-      <Provider store={storeData}>
+      <Provider store={store}>
+        <SessionCheck/>
         <Routes>
           <Route path="/main" element={<Main />}>
               <Route path="" element={<Dashboard />} />

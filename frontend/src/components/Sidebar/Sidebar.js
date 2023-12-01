@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { List, ListItem, ListItemText, ListItemIcon, Divider, IconButton } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -10,125 +10,65 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 import ChildCareIcon from '@mui/icons-material/ChildCare';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import { useSelector } from 'react-redux';
 
 const Sidebar = ({ toggleDrawer, open }) => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const currentPath = location.pathname;
+  const userRole = useSelector((state) => state.user.roll);
+  console.log("사이드데이터:", userRole)
+  const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname;
 
-    const handleLinkClick = (path) => {
-        navigate(path);
-        if (!open) {
-            toggleDrawer();
-        }
-    };
-    const aTagStyle = {
-        textDecoration: 'none',
-        color: '#000000DE',
-    };
+  const superAdminMenu = [
+    { path: '/main', icon: <DashboardIcon/>, text: '대시보드' },
+    { path: '/main/admin', icon: <SettingsIcon/>, text: '사업자 관리' },
+    { path: '/main/domain', icon: <LanguageIcon/>, text: '도메인 관리' },
+  ];
 
-    const getListItemStyle = (path) => {
-        return currentPath === path ? { backgroundColor: '#1976d2', color: 'white' } : null;
-    };
+  const adminMenu = [
+    { path: '/main', icon: <DashboardIcon/>, text: '대시보드' },
+    { path: '/main/ad', icon: <CampaignIcon/>, text: '홍보 페이지' },
+    { path: '/main/videos', icon: <VideocamIcon/>, text: 'CCTV 관리' },
+    { path: '/main/employee', icon: <PersonIcon/>, text: '직원 관리' },
+    { path: '/main/student', icon: <ChildCareIcon/>, text: '원생 관리' },
+    { path: '/main/board', icon: <HelpOutlineIcon/>, text: '게시판' }
+  ];
 
-    return (
-        <div style={{
-            // backgroundColor : "#283B42",
-            height : '100vh',
-            }}>
-            <IconButton onClick={toggleDrawer} style={{height : '70px'}}>
-                <ChevronLeftIcon />
-            </IconButton>
-            <List style={{padding:'10px'}}>
-                <ListItem 
-                button
-                onClick={() => handleLinkClick('/main')}
-                style={getListItemStyle('/main')}
-                sx={{height:'70px'}}
-                >
-                    <ListItemIcon><DashboardIcon/></ListItemIcon>
-                    <ListItemText primary="대시보드" />
-                </ListItem>
-            </List>
-            <Divider />
-            <List style={{padding:'10px'}}>
-                <ListItem button 
-                onClick={() => handleLinkClick('/main/admin')} 
-                style={getListItemStyle('/main/admin')}
-                sx={{height:'70px'}}
-                >
-                    <ListItemIcon><SettingsIcon /></ListItemIcon>
-                    <ListItemText primary="사업자 관리" />
-                </ListItem>
-                <Divider />
-                <ListItem button 
-                onClick={() => handleLinkClick('/main/domain')} 
-                style={getListItemStyle('/main/domain')}
-                sx={{height:'70px'}}
-                >
-                    <ListItemIcon><LanguageIcon /></ListItemIcon>
-                    <ListItemText primary="도메인 관리" />
-                </ListItem>
-                <Divider />
-                <ListItem button 
-                // onClick={() => handleLinkClick('/main/ad')} 
-                style={getListItemStyle('/main/ad')}
-                sx={{height:'70px'}}
-                >
-                    <ListItemIcon><CampaignIcon /></ListItemIcon>
-                    <a href='/editor' style={aTagStyle}>
-                    <ListItemText primary="홍보 페이지" />
-                    </a>
-                </ListItem>
-                <Divider />
-                <ListItem button 
-                onClick={() => handleLinkClick('/main/videos')} 
-                style={getListItemStyle('/main/videos')}
-                sx={{height:'70px'}}
-                >
-                    <ListItemIcon><VideocamIcon /></ListItemIcon>
-                    <ListItemText primary="CCTV 관리" />
-                </ListItem>
-                <Divider />
-                <ListItem button
-                onClick={() => handleLinkClick('/main/employee')} 
-                style={getListItemStyle('/main/employee')}
-                sx={{height:'70px'}}
-                >
-                    <ListItemIcon><PersonIcon /></ListItemIcon>
-                    <ListItemText primary="직원 관리" />
-                </ListItem>
-                <Divider />
-                <ListItem button 
-                onClick={() => handleLinkClick('/main/student')} 
-                style={getListItemStyle('/main/student')}
-                sx={{height:'70px'}}
-                >
-                    <ListItemIcon><ChildCareIcon /></ListItemIcon>
-                    <ListItemText primary="원생 관리" />
-                </ListItem>
-                <Divider />
-                <ListItem button 
-                onClick={() => handleLinkClick('/main/contact')} 
-                style={getListItemStyle('/main/contact')}
-                sx={{height:'70px'}}
-                >
-                    <ListItemIcon><HelpOutlineIcon /></ListItemIcon>
-                    <ListItemText primary="문의하기" />
-                </ListItem>
-                <Divider />
-                <ListItem button
-                onClick={() => handleLinkClick('/main/board')}
-                style={getListItemStyle('/main/board')}
-                sx={{height:'70px'}}
-                >
-                    <ListItemIcon><HelpOutlineIcon /></ListItemIcon>
-                    <ListItemText primary="게시판" />
-                </ListItem>
+  const handleLinkClick = (path) => {
+    navigate(path);
+    if (!open) {
+      toggleDrawer();
+    }
+  };
 
-            </List>
-        </div>
-    );
+  const getListItemStyle = (path) => {
+    return currentPath === path ? { backgroundColor: '#1976d2', color: 'white' } : null;
+  };
+
+  return (
+    <div style={{ height : '100vh' }}>
+      <IconButton onClick={toggleDrawer} style={{height : '70px'}}>
+        <ChevronLeftIcon />
+      </IconButton>
+      {userRole && (  // userRole이 undefined가 아닐 때만 렌더링
+        <List style={{padding:'10px'}}>
+          {(userRole === '슈퍼관리자' ? superAdminMenu : adminMenu).map((menu) => (
+            <React.Fragment key={menu.path}>
+              <ListItem button 
+                onClick={() => handleLinkClick(menu.path)} 
+                style={getListItemStyle(menu.path)}
+                sx={{height:'70px'}}
+              >
+                <ListItemIcon>{menu.icon}</ListItemIcon>
+                <ListItemText primary={menu.text} />
+              </ListItem>
+              <Divider />
+            </React.Fragment>
+          ))}
+        </List>
+      )}
+    </div>
+  );
 };
 
 export default Sidebar;

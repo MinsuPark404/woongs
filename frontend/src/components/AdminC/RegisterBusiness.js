@@ -1,26 +1,42 @@
 import React, { useState } from 'react';
-import { TextField, FormControlLabel, Checkbox, Button, Container, Paper, Typography } from '@mui/material';
+import { TextField, FormControlLabel, Checkbox, Button, Container, Paper, Typography,  Select, MenuItem } from '@mui/material';
 import axios from '../../axios';
 
 const RegisterAdmin = () => {
+  const [step, setStep] = useState(1); // 추가
   
   const [adminInfo, setAdminInfo] = useState({
     admin_name: '',
     admin_password: '',
-    company_name: '',
-    company_address: '',
-    company_unique: '',
     admin_email: '',
-    admin_phone: '',
-    admin_phone2: '',
-    role: '',
-    is_active: ''
+    admin_tel: '',
+    admin_role: '관리자',
+    admin_status: true
   });
+  
+  const [businessInfo, setBusinessInfo] = useState({
+    business_name: '',
+    business_addr1: '',
+    business_addr2: '',
+    business_bno: '',
+    business_tel: '',
+  });
+  
   const [message, setMessage] = useState('');
 
-  const handleChange = (e) => {
+  const handleChangeAdminInfo = (e) => {
     const { name, value } = e.target;
     setAdminInfo({ ...adminInfo, [name]: value });
+  };
+
+  const handleChangeBusinessInfo = (e) => {
+    const { name, value } = e.target;
+    setBusinessInfo({ ...businessInfo, [name]: value });
+  };
+
+  const handleNext = () => {
+    console.log('Admin Info:', adminInfo); // '다음' 버튼을 누를 때 현재 관리자 정보 출력
+    setStep(step + 1);
   };
 
   const handleSubmit = async (e) => {
@@ -29,40 +45,52 @@ const RegisterAdmin = () => {
   
     const adminData = {
       ...adminInfo,
-      is_active: adminInfo.is_active ? 1 : 0,
+      ...businessInfo,
+      admin_status: adminInfo.admin_status ? 1 : 0,
     };
-  
+    console.log('Admin and Business Info:', adminData); // '회원가입' 버튼을 누를 때 현재 관리자 정보와 어린이집 정보 출력
     try {
       const response = await axios.post('/api/admins/register', adminData);
   
-      
       setAdminInfo({
         admin_name: '',
         admin_password: '',
-        company_name: '',
-        company_address: '',
-        company_unique: '',
+        business_name: '',
+        business_addr1: '',
+        business_addr2: '',
+        business_bno: '',
         admin_email: '',
-        admin_phone: '',
-        admin_phone2: '',
-        role: '',
-        is_active: ''
+        admin_tel: '',
+        business_tel: '',
+        admin_role: '',
+        admin_status: ''
+      });
+
+      setBusinessInfo({ // 추가: businessInfo 상태 초기화
+        business_name: '',
+        business_addr1: '',
+        business_addr2: '',
+        business_bno: '',
+        business_tel: '',
       });
   
-      alert('가입됨!');
+      setStep(1); // 추가: step 상태 초기화
+
+      alert('성공적으로 등록되었습니다!');
       console.log(response.data);
       
     } catch (error) {
       if (error.response) {
         setMessage(error.response.data.message);
       } else if (error.request) {
-        setMessage('No response received. Check your network connection.');
+        setMessage('응답을 받지 못했습니다. 네트워크 연결을 확인해주세요.');
       } else {
-        setMessage('Error: ' + error.message);
+        setMessage('에러: ' + error.message);
       }
-      console.error('Registration error', error);
+      console.error('등록 에러', error);
     }
   };
+
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
     setAdminInfo({ ...adminInfo, [name]: checked });
@@ -71,89 +99,110 @@ const RegisterAdmin = () => {
   return (
     <Container component="main" maxWidth="sm">
       <Paper >
-        <Typography variant="h5" style={{ marginBottom: 20 }}>Register Admin</Typography>
+        <Typography variant="h5" style={{ marginBottom: 20 }}>관리자 등록하기</Typography>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <TextField
-            label="Admin Name"
-            type="text"
-            name="admin_name"
-            value={adminInfo.admin_name}
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            label="Admin Password"
-            type="password"
-            name="admin_password"
-            value={adminInfo.admin_password}
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            label="Company Name"
-            type="text"
-            name="company_name"
-            value={adminInfo.company_name}
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            label="Company Address"
-            type="text"
-            name="company_address"
-            value={adminInfo.company_address}
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            label="Company Unique Number"
-            type="text"
-            name="company_unique"
-            value={adminInfo.company_unique}
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            label="Admin Email"
-            type="email"
-            name="admin_email"
-            value={adminInfo.admin_email}
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            label="Admin Phone"
-            type="tel"
-            name="admin_phone"
-            pattern="[0-9]{11}"
-            value={adminInfo.admin_phone}
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            label="Secondary Admin Phone"
-            type="tel"
-            name="admin_phone2"
-            pattern="[0-9]{11}"
-            value={adminInfo.admin_phone2}
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            label="Role"
-            type="text"
-            name="role"
-            value={adminInfo.role}
-            onChange={handleChange}
-            fullWidth
-          />
-          <FormControlLabel
-            control={<Checkbox checked={adminInfo.is_active} onChange={handleCheckboxChange} name="is_active" />}
-            label="Is Active"
-          />
-          <Button type="submit" variant="contained" color="primary" fullWidth>
-            Submit
-          </Button>
+          {step === 1 ? (
+            <>
+              <TextField
+                label="관리자 아이디"
+                type="email"
+                name="admin_email"
+                value={adminInfo.admin_email}
+                onChange={handleChangeAdminInfo}
+                fullWidth
+              />
+              <TextField
+                label="관리자 비밀번호"
+                type="password"
+                name="admin_password"
+                value={adminInfo.admin_password}
+                onChange={handleChangeAdminInfo}
+                fullWidth
+              />
+              <TextField
+                label="관리자 이름"
+                type="text"
+                name="admin_name"
+                value={adminInfo.admin_name}
+                onChange={handleChangeAdminInfo}
+                fullWidth
+              />
+              <TextField
+                label="관리자 전화번호"
+                type="tel"
+                name="admin_tel"
+                pattern="[0-9]{11}"
+                value={adminInfo.admin_tel}
+                onChange={handleChangeAdminInfo}
+                fullWidth
+              />
+              <Select
+                label="역할"
+                name="admin_role"
+                value={adminInfo.admin_role}
+                onChange={handleChangeAdminInfo}
+                fullWidth
+              >
+                <MenuItem value="null">추후 추가</MenuItem>
+                <MenuItem value="관리자">관리자</MenuItem>
+                {/* 필요한 만큼 MenuItem을 추가하실 수 있습니다. */}
+              </Select>
+              <FormControlLabel
+                control={<Checkbox checked={adminInfo.admin_status} onChange={handleCheckboxChange} name="admin_status" />}
+                label="Is Active"
+              />
+              <Button onClick={handleNext} variant="contained" color="primary" fullWidth>
+                다음
+              </Button>
+            </>
+          ) : (
+            <>
+              <TextField
+                label="어린이집 이름"
+                type="text"
+                name="business_name"
+                value={businessInfo.business_name}
+                onChange={handleChangeBusinessInfo}
+                fullWidth
+              />
+              <TextField
+                label="어린이집 주소"
+                type="text"
+                name="business_addr1"
+                value={businessInfo.business_addr1}
+                onChange={handleChangeBusinessInfo}
+                fullWidth
+              />
+              <TextField
+                label="어린이집 상세주소"
+                type="text"
+                name="business_addr2"
+                value={businessInfo.business_addr2}
+                onChange={handleChangeBusinessInfo}
+                fullWidth
+              />
+              <TextField
+                label="사업자등록번호"
+                type="text"
+                name="business_bno"
+                value={businessInfo.business_bno}
+                onChange={handleChangeBusinessInfo}
+                fullWidth
+              />
+              <TextField
+                label="어린이집 전화번호"
+                type="tel"
+                name="business_tel"
+                pattern="[0-9]{11}"
+                value={businessInfo.business_tel}
+                onChange={handleChangeBusinessInfo}
+                fullWidth
+              />
+              <Button type="submit" variant="contained" color="primary" fullWidth>
+                회원가입
+              </Button>
+            </>
+          )}
         </form>
       </Paper>
     </Container>

@@ -47,11 +47,6 @@ ALTER TABLE cms_businesses
     ADD CONSTRAINT  FOREIGN KEY (admin_idx)
         REFERENCES cms_admins (admin_idx) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- Foreign Key 삭제 SQL - cms_businesses(admin_idx)
--- ALTER TABLE cms_businesses
--- DROP FOREIGN KEY ;
-
-
 -- children Table Create SQL
 -- 테이블 생성 SQL - children
 CREATE TABLE children
@@ -75,11 +70,6 @@ ALTER TABLE children
     ADD CONSTRAINT  FOREIGN KEY (business_bno)
         REFERENCES cms_businesses (business_bno) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- Foreign Key 삭제 SQL - children(business_bno)
--- ALTER TABLE children
--- DROP FOREIGN KEY ;
-
-
 -- cms_url Table Create SQL
 -- 테이블 생성 SQL - cms_url
 CREATE TABLE cms_url
@@ -100,11 +90,6 @@ ALTER TABLE cms_url COMMENT '도메인. 도메인 관련 데이터 저장';
 ALTER TABLE cms_url
     ADD CONSTRAINT  FOREIGN KEY (business_bno)
         REFERENCES cms_businesses (business_bno) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
--- Foreign Key 삭제 SQL - cms_url(business_bno)
--- ALTER TABLE cms_url
--- DROP FOREIGN KEY ;
-
 
 -- cms_users Table Create SQL
 -- 테이블 생성 SQL - cms_users
@@ -130,11 +115,6 @@ ALTER TABLE cms_users
     ADD CONSTRAINT  FOREIGN KEY (business_bno)
         REFERENCES cms_businesses (business_bno) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- Foreign Key 삭제 SQL - cms_users(business_bno)
--- ALTER TABLE cms_users
--- DROP FOREIGN KEY ;
-
-
 -- cms_videos Table Create SQL
 -- 테이블 생성 SQL - cms_videos
 CREATE TABLE cms_videos
@@ -157,11 +137,6 @@ ALTER TABLE cms_videos
     ADD CONSTRAINT  FOREIGN KEY (business_bno)
         REFERENCES cms_businesses (business_bno) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- Foreign Key 삭제 SQL - cms_videos(business_bno)
--- ALTER TABLE cms_videos
--- DROP FOREIGN KEY ;
-
-
 -- cms_url_log Table Create SQL
 -- 테이블 생성 SQL - cms_url_log
 CREATE TABLE cms_url_log
@@ -181,36 +156,6 @@ ALTER TABLE cms_url_log COMMENT '도메인 로그. 도메인 관련 데이터 �
 ALTER TABLE cms_url_log
     ADD CONSTRAINT  FOREIGN KEY (url_addr)
         REFERENCES cms_url (url_addr) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
--- Foreign Key 삭제 SQL - cms_url_log(url_addr)
--- ALTER TABLE cms_url_log
--- DROP FOREIGN KEY ;
-
-
--- cms_menu Table Create SQL
--- 테이블 생성 SQL - cms_menu
-CREATE TABLE cms_menu
-(
-    `menu_idx`         INT UNSIGNED    NOT NULL    AUTO_INCREMENT COMMENT '메뉴 순번', 
-    `menu_detail`      JSON            NULL        COMMENT '메뉴 디테일', 
-    `menu_created_at`  DATETIME        NULL        DEFAULT now() COMMENT '메뉴 등록 일자', 
-    `menu_updated_at`  DATETIME        NULL        DEFAULT now() COMMENT '메뉴 수정 일자', 
-    `url_idx`          INT UNSIGNED    NULL        COMMENT '도메인 순번', 
-     PRIMARY KEY (menu_idx)
-);
-
--- 테이블 Comment 설정 SQL - cms_menu
-ALTER TABLE cms_menu COMMENT '메뉴. 메뉴 관련 데이터 저장';
-
--- Foreign Key 설정 SQL - cms_menu(url_idx) -> cms_url(url_idx)
-ALTER TABLE cms_menu
-    ADD CONSTRAINT  FOREIGN KEY (url_idx)
-        REFERENCES cms_url (url_idx) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
--- Foreign Key 삭제 SQL - cms_menu(url_idx)
--- ALTER TABLE cms_menu
--- DROP FOREIGN KEY ;
-
 
 -- cms_log Table Create SQL
 -- 테이블 생성 SQL - cms_log
@@ -232,11 +177,6 @@ ALTER TABLE cms_log
     ADD CONSTRAINT  FOREIGN KEY (admin_idx)
         REFERENCES cms_admins (admin_idx) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- Foreign Key 삭제 SQL - cms_log(admin_idx)
--- ALTER TABLE cms_log
--- DROP FOREIGN KEY ;
-
-
 -- cms_contents Table Create SQL
 -- 테이블 생성 SQL - cms_contents
 CREATE TABLE cms_contents
@@ -253,11 +193,6 @@ CREATE TABLE cms_contents
 ALTER TABLE cms_contents
     ADD CONSTRAINT  FOREIGN KEY (business_name)
         REFERENCES cms_businesses (business_name) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
--- Foreign Key 삭제 SQL - cms_contents(business_name)
--- ALTER TABLE cms_contents
--- DROP FOREIGN KEY ;
-
 
 -- child_attendance Table Create SQL
 -- 테이블 생성 SQL - child_attendance
@@ -280,11 +215,6 @@ ALTER TABLE child_attendance
     ADD CONSTRAINT  FOREIGN KEY (child_idx)
         REFERENCES children (child_idx) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- Foreign Key 삭제 SQL - child_attendance(child_idx)
--- ALTER TABLE child_attendance
--- DROP FOREIGN KEY ;
-
-
 -- anomaly_detection Table Create SQL
 -- 테이블 생성 SQL - anomaly_detection
 CREATE TABLE anomaly_detection
@@ -306,29 +236,21 @@ ALTER TABLE anomaly_detection
     ADD CONSTRAINT  FOREIGN KEY (business_name)
         REFERENCES cms_businesses (business_name) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- Foreign Key 삭제 SQL - anomaly_detection(business_name)
--- ALTER TABLE anomaly_detection
--- DROP FOREIGN KEY ;
-
 -- 테이블 생성 SQL - board
 CREATE TABLE board (
-    `board_idx` INT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '게시물의 고유 인덱스',
-    `user_idx` INT UNSIGNED NULL COMMENT '작성자 사용자 ID',
-    `business_bno` VARCHAR(20) NULL COMMENT '어린이집 사업자번호', 
-    `header` VARCHAR(20) COMMENT '게시물의 종류를 나타내는 머리글',
-    `title` VARCHAR(50) NULL COMMENT '게시물의 제목',
-    `content` TEXT NOT NULL COMMENT '게시물의 내용',
-    `board_created_at` DATETIME NULL DEFAULT NOW() COMMENT '게시물 생성 시각',
-    `board_updated_at` DATETIME NULL DEFAULT NOW() COMMENT '게시물 수정 시각',
+    `board_idx`         INT UNSIGNED NOT NULL AUTO_INCREMENT  COMMENT '게시물의 고유 인덱스',
+    `writer`            VARCHAR(30)      NULL                 COMMENT '관리자 이름', 
+    `business_bno`      VARCHAR(20)      NULL                 COMMENT '어린이집 사업자번호', 
+    `header`            VARCHAR(20)                           COMMENT '게시물의 종류를 나타내는 머리글',
+    `title`             VARCHAR(50)      NULL                 COMMENT '게시물의 제목',
+    `content`           TEXT NOT         NULL                 COMMENT '게시물의 내용',
+    `board_created_at`  DATETIME         NULL DEFAULT NOW()   COMMENT '게시물 생성 시각',
+    `board_updated_at`  DATETIME         NULL DEFAULT NOW()   COMMENT '게시물 수정 시각',
     PRIMARY KEY (board_idx)
 );
 
 -- 테이블 Comment 설정 SQL - child_attendance
 ALTER TABLE board COMMENT '게시판. 어린이집 게시판 관련 데이터 저장';
-
-ALTER TABLE board
-    ADD CONSTRAINT fk_board_user_idx
-    FOREIGN KEY (user_idx) REFERENCES cms_users(user_idx);
 
 ALTER TABLE board
     ADD CONSTRAINT fk_board_business_bno
