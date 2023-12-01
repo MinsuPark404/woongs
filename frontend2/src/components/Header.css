@@ -1,0 +1,16 @@
+.header-box {
+    width: 100vw;
+    height: 5vh;
+    display: flex;
+    /* background-color: blanchedalmond; */
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 40px;
+    padding-right: 40px;
+    box-sizing: border-box;
+    
+}
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+}

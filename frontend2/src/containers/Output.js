@@ -44,6 +44,9 @@ class Output extends Component {
           
           <button onClick={this.handleSend}>Send to Server</button>
           <button onClick={this.fetchData}>Fetch from Server</button>
+          <div className='preview'>
+          
+        </div>
         </div>
       </div>
     );

@@ -61,7 +61,7 @@ app.post('/', async (req, res) => {
 
 app.get('/', async (req, res) => {
   try {
-    const [rows] = await connectDb.query('SELECT url_html FROM cms_contents where content_idx = 13');
+    const [rows] = await connectDb.query('SELECT url_html FROM cms_contents where content_idx = 35');
     // console.log(rows);
     res.status(200).json(rows);
   } catch (err) {

@@ -9,7 +9,7 @@ import {
 import renderHandlebars from '../utils/renderHandlebars';
 import NarrowSidebar from "../components/NarrowSidebar";
 import WideSidebar from "../components/WideSidebar";
-
+import Header from "../components/Header";
 import Preview from "./Preview";
 import BlocksGallery from "./BlocksGallery";
 import Search from "./Search";
@@ -32,11 +32,11 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    this.updateRenderedContent();
+    await this.updateRenderedContent();
     window.addEventListener("message", this.handleMessage);
   }
+  
   componentDidUpdate(prevProps) {
-    // 블록 배열이 변경되었는지 확인
     if (this.props.layout.blocks !== prevProps.layout.blocks) {
       this.updateRenderedContent();
     }
@@ -111,10 +111,13 @@ class App extends React.Component {
     const {activeTab, previewMode} = this.props.config;
 
     return (
+      <div><Header/>
       <Router>
         <div className="wrapper d-flex">
+        
           <Switch>
             <Route path="/">
+              
               <NarrowSidebar
                 onChangeActiveTab={this.handleChangeActiveTab}
                 activeTab={activeTab} />
@@ -152,6 +155,7 @@ class App extends React.Component {
           </Switch>
         </div>
       </Router>
+      </div>
     );
   }
 }

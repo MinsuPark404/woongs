@@ -11,7 +11,7 @@ const hbs = `
 	<title>템플릿유치원 V2</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="user-scalable=no, maximum-scale=1, minimum-scale=1.0 ,width=device-width">
+	<meta name="viewport" content="user-scalable=no, maximum-scale=1, minimum-scale=1.0, width=device-width">
 	<meta name="title" content="템플릿유치원">
 	<meta name="author" content="템플릿유치원">
 	<meta name="keywords" content="템플릿유치원, 교육안내, 포토앨범, 알리마당">
@@ -27,9 +27,9 @@ const hbs = `
 	<meta property="og:image" content="/images/common/preview.png"> <!-- 썸네일이미지 경로 -->	
 
 	<meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="하늘병아리 어린이집">
-    <meta name="twitter:description" content="하늘병아리어린이집, 교육안내, 포토앨범, 알리마당">
-    <meta name="twitter:image" content="/images/common/preview.jpg">
+	<meta name="twitter:title" content="하늘병아리 어린이집">
+	<meta name="twitter:description" content="하늘병아리어린이집, 교육안내, 포토앨범, 알리마당">
+	<meta name="twitter:image" content="/images/common/preview.jpg">
 	
 	<link rel="shortcut icon" href="../images/common/favicon.ico">
 	<link rel="apple-touch-icon" href="../images/common/bookmark.png">
@@ -39,7 +39,7 @@ const hbs = `
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/layerpopup.css" rel="stylesheet">
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/program.css" rel="stylesheet">
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/ebi.slider.css" rel="stylesheet">
-	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/layout.css" rel="stylesheet">
+
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/design.css" rel="stylesheet">
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/textRoll.css" rel="stylesheet">
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/main.css" rel="stylesheet">
@@ -65,6 +65,7 @@ const hbs = `
 		<link href="../style/ie.warning.css" rel="stylesheet" type="text/css">
 	<![endif]-->
 </head>
+
 
 <body>
 
