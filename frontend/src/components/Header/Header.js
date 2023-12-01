@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link,useNavigate  } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link,useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AppBar, Toolbar, Typography, IconButton, Avatar, Button, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -10,9 +10,12 @@ import axios from '../../axios';
 const Header = ({ toggleDrawer, open }) => {
     const data = useSelector((state) => state.user);
     const name = data.name;
-    const sampleProfilePic = "https://source.unsplash.com/random";
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const nav = useNavigate();
+
+    const sampleProfilePic = "https://source.unsplash.com/random";
+
+
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };

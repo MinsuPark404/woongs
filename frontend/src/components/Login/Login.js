@@ -41,6 +41,7 @@ function Login() {
       // 로그인 성공시 session데이터 요청후 데이터 저장
       const sessionData = await axios.post('/api/admins/sessiondata');
       console.log('sessionData', sessionData);
+      
       dispatch({
         type: 'LOGIN',
         bno : sessionData.data.admin.bno,

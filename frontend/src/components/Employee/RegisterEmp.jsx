@@ -81,15 +81,15 @@ const RegisterEmployee = () => {
         onChange={handleChange}
         margin="normal"
       />
-        <TextField
+      <TextField
         required
         fullWidth
-        label="직책"
+        label="역할"
         name="user_role"
         value={newEmp.user_role}
         onChange={handleChange}
         margin="normal"
-        />
+      />
       <Button
         type="submit"
         fullWidth

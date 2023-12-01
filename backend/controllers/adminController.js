@@ -45,7 +45,9 @@ const loginAdmin = asyncHandler(async (req, res) => {
   try {
     const { admin_email, admin_password } = req.body;
     const adminData = await adminModel.findAdminByEmail(admin_email);
+    console.log("어드민데이터", adminData)
     const admin = adminData.length > 0 ? adminData[0] : null;
+
     if (
       !admin ||
       !(await bcrypt.compare(admin_password, admin.admin_password))

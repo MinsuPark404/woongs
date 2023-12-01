@@ -6,53 +6,22 @@ const db = require('../config/dbConnMysql');
 
 // 새 게시물 생성
 router.post('/create', asyncHandler( async (req, res) => {
+  const { title, header, content } = req.body;
+  const writerName = req.session.admin?.name || req.session.user?.name;
+  const writerBno = req.session.admin?.bno || req.session.user?.bno;
   try {
-    const userId = req.session.admin.id; 
-    const userRole = req.session.admin.role; 
-    const userBno = req.session.admin.bno;
-    if (!userId) {
-      return res.status(401).json({
-        status: 'fail',
-        message: '로그인이 필요합니다',
-      });
-    }
-    let userExists;
-    // 관리자 여부에 따라 적절한 테이블에서 사용자 정보 조회
-    if (userRole === '관리자') {
-      userExists = await db.query(
-        `SELECT * FROM cms_admins WHERE admin_idx = ? AND business_bno = ?`,
-        [userId, userBno]
-      );
-    } else {
-      userExists = await db.query(
-        `SELECT * FROM cms_users WHERE user_idx = ? AND business_bno = ?`,
-        [userId, userBno]
-      );
-    }
-
-    // 사용자 존재 여부 확인
-    if (userExists.length === 0) {
-      // 사용자가 존재하지 않는 경우, 사용자를 찾을 수 없다는 메시지 응답
-      return res.status(401).json({
-        status: 'fail',
-        message: '사용자를 찾을 수 없습니다',
-      });
-    }
-
-    // 입력 데이터 검증
-    if (!req.body.title || !req.body.content) {
-      return res.status(400).json({
-        status: 'fail',
-        message: '제목과 내용은 필수입니다',
-      });
-    }
-
     // 데이터베이스에 새 게시물 생성
+    console.log("게시물 작성 정보:", {
+      "작성자 이름": writerName,
+      "작성자 소속사": writerBno,
+      "제목": title,
+      "헤더": header,
+      "내용": content
+    });    
     const newPost = await db.query(
-      `INSERT INTO board (title, content, user_id) VALUES (?, ?, ?)`,
-      [req.body.title, req.body.content, userId]
+      `INSERT INTO board (writer, business_bno, header, title, content) VALUES (?, ?, ?, ?, ?)`,
+      [writerName, writerBno, header, title, content]
     );
-
     // 성공적인 응답 반환
     res.status(201).json({
       status: 'success',

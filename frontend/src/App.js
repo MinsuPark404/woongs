@@ -17,7 +17,6 @@ import BoardDetail from './components/Board/BoardDetail';
 import store from './store';
 import { Provider } from 'react-redux';
 
-// TODO 컴포넌트화
 const SessionCheck = () => {
   const dispatch = useDispatch();
 
@@ -67,5 +66,3 @@ function App() {
 }
 
 export default App;
-
-

@@ -56,7 +56,7 @@ const Modal = ({ isOpen, close, admin, updateAdmin }) => {
               onChange={handleChange}
               inputProps={{ name: 'role', id: 'role' }}
             >
-              <MenuItem value="admin_e">선생님</MenuItem>
+              <MenuItem value="admin_e">추후 추가</MenuItem>
               <MenuItem value="admin_c">관리자</MenuItem>
               {/* Add more roles as needed */}
             </Select>

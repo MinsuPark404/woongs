@@ -26,7 +26,7 @@ const formatDate = (dateString) => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(`/api/boards/list/${bno}`);
-        console.log(response.data);
+        console.log("게시글조회 데이터들", response.data);
         setPosts(response.data.data.posts);
       } catch (error) {
         console.error('Error fetching posts', error);
@@ -103,7 +103,7 @@ const formatDate = (dateString) => {
                 {post.header}
               </TableCell>
               <TableCell>{post.title}</TableCell>
-              <TableCell>{post.author}</TableCell>
+              <TableCell>{post.writer}</TableCell>
               <TableCell align="right">{formatDate(post.board_created_at)}</TableCell>
             </TableRow>
           ))}
