@@ -217,15 +217,15 @@ ALTER TABLE child_attendance
 
 -- anomaly_detection Table Create SQL
 -- 테이블 생성 SQL - anomaly_detection
-CREATE TABLE anomaly_detection
+CREATE TABLE anomaly_detections
 (
-    `detection_idx`     INT UNSIGNED    NOT NULL    AUTO_INCREMENT COMMENT '이상탐지 순번', 
-    `detection_type`    VARCHAR(50)     NULL        COMMENT '이상탐지 유형', 
-    `detection_detail`  TEXT            NULL        COMMENT '이상탐지 디테일', 
-    `cctv_id`           VARCHAR(50)     NULL        COMMENT 'CCTV 아이디', 
-    `business_name`     VARCHAR(50)     NULL        COMMENT '어린이집 이름', 
-    `detected_at`       DATETIME        NULL        COMMENT '탐지된 일자', 
-     PRIMARY KEY (detection_idx)
+    `id`                INT UNSIGNED    NOT NULL   AUTO_INCREMENT  COMMENT '이상탐지(영상) 순번',
+    `business_bno`      VARCHAR(20)     NULL                       COMMENT '어린이집 사업자번호호',
+    `cctv_id`           VARCHAR(50)     NULL                       COMMENT 'CCTV 아이디', 
+    `video_path`        VARCHAR(255)    NULL                       COMMENT '어린이집 사업자번호호',
+    `action_detected`   VARCHAR(100)    NULL                       COMMENT '탐지된 일자',
+    `detected_at`       DATETIME        NULL                       COMMENT '탐지된 일자', 
+     PRIMARY KEY (id)
 );
 
 -- 테이블 Comment 설정 SQL - anomaly_detection

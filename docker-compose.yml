@@ -1,0 +1,25 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - 5000:5000
+    volumes:
+      - ./backend:/app
+  backend2:
+    build: ./backend2
+    ports:
+      - 5001:5001
+    volumes:
+      - ./backend2:/app
+  frontend:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app
+  frontend2:
+    build: ./frontend2
+    ports:
+      - 3001:3001
+    volumes:
+      - ./frontend2:/app
