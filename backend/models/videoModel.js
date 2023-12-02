@@ -1,6 +1,6 @@
 // videosModel.js
 const db = require('../config/dbConnMysql');
-const {videoQueries} = require('./_Queries');
+const { videoQueries } = require('./_Queries');
 
 const createVideo = async (videoData) => {
   try {
@@ -47,7 +47,9 @@ const getAllVideos = async (businessBno) => {
 
 const getAllVideosByBusinessIdx = async (businessIdx) => {
   try {
-    const videos = await db.query(videoQueries.getVideosBusinessQuery, [businessIdx]);
+    const videos = await db.query(videoQueries.getVideosBusinessQuery, [
+      businessIdx,
+    ]);
     return videos;
   } catch (error) {
     throw error;

@@ -4,8 +4,24 @@ const { adminQueries } = require('./_Queries');
 // 관리자 정보 등록
 const createAdmin = async (adminData) => {
   try {
-    const { admin_email, admin_password, admin_name, admin_tel, admin_role, admin_status, business_bno } = adminData;
-    const params = [admin_email, admin_password, admin_name, admin_tel, admin_role, admin_status, business_bno];
+    const {
+      admin_email,
+      admin_password,
+      admin_name,
+      admin_tel,
+      admin_role,
+      admin_status,
+      business_bno,
+    } = adminData;
+    const params = [
+      admin_email,
+      admin_password,
+      admin_name,
+      admin_tel,
+      admin_role,
+      admin_status,
+      business_bno,
+    ];
     const [results] = await db.query(adminQueries.createAdminQuery, params);
     return results;
   } catch (error) {
@@ -16,7 +32,9 @@ const createAdmin = async (adminData) => {
 // 이메일를 통해 관리자 조회
 const findAdminByEmail = async (admin_email) => {
   try {
-    const [results] = await db.query(adminQueries.loginAdminQuery, [admin_email]);
+    const [results] = await db.query(adminQueries.loginAdminQuery, [
+      admin_email,
+    ]);
     return results;
   } catch (error) {
     throw error;
@@ -27,7 +45,13 @@ const findAdminByEmail = async (admin_email) => {
 const updateAdminData = async (adminId, adminData) => {
   try {
     const { admin_email, admin_name, admin_role, admin_status } = adminData;
-    const [results] = await db.query(adminQueries.updateAdminQuery, [admin_email, admin_name, admin_role, admin_status, adminId]);
+    const [results] = await db.query(adminQueries.updateAdminQuery, [
+      admin_email,
+      admin_name,
+      admin_role,
+      admin_status,
+      adminId,
+    ]);
     return results;
   } catch (error) {
     throw error;
@@ -66,12 +90,14 @@ const deleteAdmin = async (adminId) => {
 
 const updateLogoutTime = async (adminId) => {
   try {
-    const [results] = await db.query(adminQueries.updateLogoutTimeQuery, [adminId]);
+    const [results] = await db.query(adminQueries.updateLogoutTimeQuery, [
+      adminId,
+    ]);
     return results;
   } catch (error) {
     throw error;
   }
-}
+};
 
 module.exports = {
   createAdmin,
@@ -80,5 +106,5 @@ module.exports = {
   getAlladmins,
   getAdminLoginLogs,
   deleteAdmin,
-  updateLogoutTime
+  updateLogoutTime,
 };

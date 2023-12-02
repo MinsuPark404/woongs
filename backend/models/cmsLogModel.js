@@ -12,7 +12,7 @@ const create = async (log_info, log_ip) => {
 
 // 관리자 로그를 데이터베이스에 기록
 const logAuthAttempt = async (admin, logInfo, ip) => {
-  console.log("로그인 로그 정보:", admin)
+  console.log('로그인 로그 정보:', admin);
   const params = {
     business_name: admin.business_name,
     admin_name: admin.admin_name,

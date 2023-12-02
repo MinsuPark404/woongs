@@ -1,6 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { businessList, createAdmin, loginAdmin, updateAdmin, adminLogs, logoutAdmin, getSessionData } = require('../controllers/adminController');
+const {
+  businessList,
+  createAdmin,
+  loginAdmin,
+  updateAdmin,
+  adminLogs,
+  logoutAdmin,
+  getSessionData,
+} = require('../controllers/adminController');
 
 // 사업자 등록
 router.post('/register', createAdmin);

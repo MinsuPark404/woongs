@@ -10,7 +10,10 @@ class CustomSessionStore extends session.Store {
   // 세션 데이터 가져오기
   async get(sessionId, callback) {
     try {
-      const [rows] = await db.query('SELECT data FROM sessions WHERE session_id = ? AND expires > UNIX_TIMESTAMP()', [sessionId]);
+      const [rows] = await db.query(
+        'SELECT data FROM sessions WHERE session_id = ? AND expires > UNIX_TIMESTAMP()',
+        [sessionId]
+      );
       if (rows.length > 0) {
         const sessionData = JSON.parse(rows[0].data);
         callback(null, sessionData);
@@ -29,7 +32,10 @@ class CustomSessionStore extends session.Store {
         ? Math.floor(session.cookie.expires.getTime() / 1000)
         : Math.floor(Date.now() / 1000) + 86400; // 현재 시간에서 1일(86400초) 후
       const data = JSON.stringify(session);
-      await db.query('REPLACE INTO sessions (session_id, expires, data) VALUES (?, ?, ?)', [sessionId, expires, data]);
+      await db.query(
+        'REPLACE INTO sessions (session_id, expires, data) VALUES (?, ?, ?)',
+        [sessionId, expires, data]
+      );
       callback(null);
     } catch (err) {
       callback(err);
