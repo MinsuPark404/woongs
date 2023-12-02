@@ -186,7 +186,7 @@ const childQueries = {
     VALUES (?, ?, ?, ?, ?)
   `,
   getAttendanceByDateQuery: `
-    SELECT * FROM child_attendance WHERE attendance_date = ?
+    SELECT * FROM child_attendance WHERE business_bno = ? AND attendance_date = ?
   `,
   getAttendanceByChildQuery: `
     SELECT * FROM child_attendance WHERE child_idx = ?

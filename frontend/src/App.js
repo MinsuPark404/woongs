@@ -55,8 +55,8 @@ function App() {
               <Route path="student" element={<Student />} />
               <Route path="contact" element={<Contact />} />
               <Route path="board"  element={<Board/>}/>
-              <Route path="write" element={<WriteBoard />} />
-              <Route path="board-detail/:id" element={<BoardDetail />} />
+            <Route path="write" element={<WriteBoard />} />
+            <Route path="board-detail/:id" element={<BoardDetail />} />
             </Route>
           <Route path="/" element={<Login />} />
         </Routes>

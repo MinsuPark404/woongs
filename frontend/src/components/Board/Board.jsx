@@ -5,7 +5,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftjsToHtml from "draftjs-to-html";
 import { Box, Paper, Typography, TextField, MenuItem, FormControl, Select, InputLabel, Button, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import axios from '../../axios'; // 실제 경로에 맞게 조정해야 합니다.
 
 const Draft = () => {
@@ -122,9 +122,11 @@ const Draft = () => {
         <br/>
         <Grid container justifyContent="flex-end">
             <Grid item>
-                <Button variant="contained" color="secondary" href="/main/board" >
+                  <Link to="/main/board" style={{textDecoration : 'none', color : 'inherit'}}>
+                <Button variant="contained" color="secondary" >
                 목록으로
                 </Button>
+                </Link>
             </Grid>
         </Grid>
       </Paper>

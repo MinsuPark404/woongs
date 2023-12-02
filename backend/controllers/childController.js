@@ -69,20 +69,17 @@ const deleteChild = asyncHandler(async (req, res) => {
 // @출석 기록
 // @Endpoint POST /api/childer/attendance
 const recordAttendance = asyncHandler(async (req, res) => {
+  console.log('출석 기록 요청 확인:', req.body);
   const {
     child_idx,
-    attendance_status,
-    business_bno,
     attendance_date,
+    business_bno,
+    attendance_status,
     attendance_time,
   } = req.body;
   try {
     const result = await childModel.recordAttendance(
-      child_idx,
-      attendance_status,
-      business_bno,
-      attendance_date,
-      attendance_time
+      req.body
     );
     console.log(result);
     res.status(201).json({ message: '출석 정보가 성공적으로 기록되었습니다.' });

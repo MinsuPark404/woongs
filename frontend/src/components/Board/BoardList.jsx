@@ -97,12 +97,16 @@ const formatDate = (dateString) => {
                 },
                 cursor: 'pointer'
               }}
-              onClick={() => window.location.href=`/main/board-detail/${post.board_idx}`}
+              // onClick={() => window.location.href=`/main/board-detail/${post.board_idx}`}
             >
               <TableCell component="th" scope="row">
                 {post.header}
               </TableCell>
-              <TableCell>{post.title}</TableCell>
+              <TableCell>
+                <Link to={`/main/board-detail/${post.board_idx}`} style={{textDecoration : 'none', color : 'inherit'}}>
+                {post.title}
+                </Link>
+              </TableCell>
               <TableCell>{post.writer}</TableCell>
               <TableCell align="right">{formatDate(post.board_created_at)}</TableCell>
             </TableRow>
@@ -122,9 +126,11 @@ const formatDate = (dateString) => {
     <br />
     <Grid container spacing={0} sx={{ marginBottom: 2 }}>
         <Grid item xs={3}>
-          <Button variant="outlined" color="primary" href='/main/write' size="large">
-            글쓰기
-          </Button>
+          <Link to="/main/write" style={{textDecoration : 'none', color : 'inherit'}}>
+            <Button variant="outlined" color="primary" size="large">
+              글쓰기
+            </Button>
+          </Link>
         </Grid>
         <Grid item xs={3}>
           <FormControl fullWidth>

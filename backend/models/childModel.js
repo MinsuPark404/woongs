@@ -60,21 +60,10 @@ const deleteChild = async (childId) => {
   }
 };
 
-const recordAttendance = async (
-  child_idx,
-  attendance_status,
-  business_bno,
-  attendance_date,
-  attendance_time
-) => {
+const recordAttendance = async (body) => {
+  console.log('model:', body);
   try {
-    const results = await db.query(childQueries.recordAttendanceQuery, [
-      child_idx,
-      attendance_status,
-      business_bno,
-      attendance_date,
-      attendance_time,
-    ]);
+    const results = await db.query(childQueries.recordAttendanceQuery, body);
     return results;
   } catch (error) {
     throw error;

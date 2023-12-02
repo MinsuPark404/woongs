@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from '../../axios';
-import { Container, Typography, Paper, Box } from '@mui/material';
+import { Container, Typography, Paper, Box, Grid, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const BoardDetail = () => {
     const [post, setPost] = useState(null);
@@ -34,6 +35,15 @@ const BoardDetail = () => {
         <Box sx={{ marginTop: 2 }}>
           <div dangerouslySetInnerHTML={{ __html: post.content }} />
         </Box>
+        <Grid container justifyContent="flex-end">
+            <Grid item>
+                  <Link to="/main/board" style={{textDecoration : 'none', color : 'inherit'}}>
+                <Button variant="contained" color="secondary" >
+                목록으로
+                </Button>
+                </Link>
+            </Grid>
+        </Grid>
       </Paper>
     </Container>
   );

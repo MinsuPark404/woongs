@@ -4,7 +4,7 @@ const detectModel = require('../models/detectModel');
 // 탐지 조회 컨트롤러
 const getDetect = asyncHandler(async (req, res) => {
   try {
-    const result = await detectModel.getDetect();
+    const result = await detectModel.detectModel();
     res.status(200).json(result);
   } catch (err) {
     console.log(err);
