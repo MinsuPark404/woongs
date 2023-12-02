@@ -4,13 +4,7 @@ const { boardQueries } = require('./_Queries');
 // 게시글 생성
 const createPost = async (writerName, writerBno, header, title, content) => {
   try {
-    const results = await db.query(boardQueries.createPost, [
-      writerName,
-      writerBno,
-      header,
-      title,
-      content,
-    ]);
+    const results = await db.query(boardQueries.createPost, [writerName, writerBno, header, title, content]);
     return results;
   } catch (err) {
     throw err;
@@ -49,11 +43,7 @@ const sqlCheck = async (board_idx) => {
 
 const updatePost = async (title, content, board_idx) => {
   try {
-    const [results] = await db.query(boardQueries.updatePost, [
-      title,
-      content,
-      board_idx,
-    ]);
+    const [results] = await db.query(boardQueries.updatePost, [title, content, board_idx]);
     return results;
   } catch (err) {
     throw err;

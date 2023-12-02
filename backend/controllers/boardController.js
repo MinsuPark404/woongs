@@ -16,13 +16,7 @@ const createBoard = asyncHandler(async (req, res) => {
       헤더: header,
       내용: content,
     });
-    const result = await boardModel.createPost(
-      writerName,
-      writerBno,
-      header,
-      title,
-      content
-    );
+    const result = await boardModel.createPost(writerName, writerBno, header, title, content);
     res.status(201).json({
       status: 'success',
       data: {
@@ -49,7 +43,7 @@ const getPosts = asyncHandler(async (req, res) => {
     res.status(200).json({
       status: 'success',
       data: {
-        result,
+        posts: result,
       },
     });
   } catch (error) {
@@ -84,7 +78,7 @@ const getPost = asyncHandler(async (req, res) => {
     res.status(200).json({
       status: 'success',
       data: {
-        result,
+        post: result,
       },
     });
   } catch (error) {
