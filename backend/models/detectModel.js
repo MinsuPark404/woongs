@@ -1,5 +1,5 @@
 const db = require('../config/dbConnMysql');
-const { detectQueries } = require('../_Queries');
+const { detectQueries } = require('./_Queries');
 
 // 탐지 조회 모델
 const detectModel = async () => {

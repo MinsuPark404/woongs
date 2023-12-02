@@ -50,7 +50,7 @@ app.use('/api/contents/:business_bno', require('./routes/contentsRoutes'));
 app.use('/api/visits', require('./routes/visitRoutes'));
 app.use('/api/videos', require('./routes/videoRoutes'));
 app.use('/api/boards', require('./routes/boardRoutes'));
-app.use('/api/detects', require('./routes/detectRoutes'));
+app.use('/api/detects', require('./routes/detectRouter'));
 
 // 특정 페이지 라우터
 app.use('/editor', (req, res) => {

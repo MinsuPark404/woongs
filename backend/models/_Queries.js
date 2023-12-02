@@ -245,6 +245,12 @@ const boardQueries = {
   `,
 };
 
+const detectQueries = {
+  getDetectQuery: `
+    SELECT * FROM anomaly_detections
+  `,
+};
+
 module.exports = {
   adminQueries,
   BusinessQueries,
@@ -257,4 +263,6 @@ module.exports = {
   domainQueries,
   visitsQueries,
   boardQueries,
+  detectQueries,
+
 };

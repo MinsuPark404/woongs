@@ -44,7 +44,7 @@ const Header = ({ toggleDrawer, open }) => {
                 </IconButton>
                 <Link to="/main" style={{ textDecoration: 'none', color: 'inherit', flexGrow: 1 }}>
                     <Typography variant="h6" noWrap>
-                        LOGO
+                        KinderGuard
                     </Typography>
                 </Link>
                 <IconButton color="inherit">
