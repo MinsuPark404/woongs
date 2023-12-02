@@ -52,7 +52,7 @@ const Dashboard = () => {
                   </div>
                   <br/>
                   <Alert variant="outlined" color="warning">
-                    의심정황 포착 건수 : 0
+                    의심정황 포착 건수 : 5
                   </Alert>
                   <br/>
                   <Alert variant="outlined" color="error">

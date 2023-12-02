@@ -4,12 +4,13 @@ import { List, ListItem, ListItemText, ListItemIcon, Divider, IconButton } from 
 import SettingsIcon from '@mui/icons-material/Settings';
 import LanguageIcon from '@mui/icons-material/Language';
 import CampaignIcon from '@mui/icons-material/Campaign';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+// import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import PersonIcon from '@mui/icons-material/Person';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import ChildCareIcon from '@mui/icons-material/ChildCare';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import ContentPasteOutlinedIcon from '@mui/icons-material/ContentPasteOutlined';
 import { useSelector } from 'react-redux';
 
 const Sidebar = ({ toggleDrawer, open }) => {
@@ -31,7 +32,7 @@ const Sidebar = ({ toggleDrawer, open }) => {
     { path: '/main/videos', icon: <VideocamIcon/>, text: 'CCTV 관리' },
     { path: '/main/employee', icon: <PersonIcon/>, text: '직원 관리' },
     { path: '/main/student', icon: <ChildCareIcon/>, text: '원생 관리' },
-    { path: '/main/board', icon: <HelpOutlineIcon/>, text: '게시판' }
+    { path: '/main/board', icon: <ContentPasteOutlinedIcon/>, text: '게시판' }
   ];
 
   const handleLinkClick = (path) => {

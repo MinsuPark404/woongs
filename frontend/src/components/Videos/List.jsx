@@ -206,7 +206,10 @@ const List = () => {
                         브라우저가 비디오를 지원하지 않습니다.
                     </video>
                 )} */}
-                <iframe width="1046" height="588" src="https://www.youtube.com/embed/8wfeIXahttg" title="요즘 난리난 개발자들 극대노한 Next.js 미친 업데이트 ㄷㄷ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <video width="100%" controls>
+                    <source src='/videos/nomal1.mp4' type="video/mp4" />
+                    브라우저가 비디오를 지원하지 않습니다.
+                </video>
             </DialogContent>
         </Dialog>
     </Paper>

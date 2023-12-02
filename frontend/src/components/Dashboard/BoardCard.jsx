@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Paper,
   Table,
@@ -10,35 +10,62 @@ import {
   Typography,
   Divider
 } from '@mui/material';
-
+import { useSelector } from 'react-redux';
+import axios from '../../axios';
 const sampleData = [
   {
-    category: '공지',
+    header: '공지',
     title: '공지사항입니다.',
-    author: '관리자',
-    date: '2023-10-01',
+    writer: '관리자',
+    board_created_at: '2023-10-01',
   },
   {
-    category: '특이사항',
+    header: '특이사항',
     title: '홍길동 특이사항 입니다.',
-    author: '최종용',
-    date: '2023-10-01',
+    writer: '최종용',
+    board_created_at: '2023-10-01',
   },
   {
-    category: '알람',
+    header: '알람',
     title: '일정입니다.',
-    author: '관리자',
-    date: '2023-10-01',
+    writer: '관리자',
+    board_created_at: '2023-10-01',
   },
   {
-    category: '특이사항',
+    header: '특이사항',
     title: '홍길 특이사항 입니다.',
-    author: '최종용',
-    date: '2023-10-01',
+    writer: '최종용',
+    board_created_at: '2023-10-01',
   },
 ];
 
 const BoardTable = () => {
+  const [writeData, setWriteData] = React.useState(sampleData);
+  const bno = useSelector((state) => state.user.bno);
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+  };
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get(`/api/boards/list/${bno}`);
+        console.log("게시글조회 데이터들", response.data);
+        //  데이터갯수 4개로 제한 (최신글 4개만 보여주기) 마지막 4개만 보여주기
+        const data = response.data.data.posts.slice(4);
+        setWriteData(data);
+      } catch (error) {
+        console.error('Error fetching posts', error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
   return (
     <Paper sx={{ width: '100%' }}>
       <TableContainer>
@@ -52,14 +79,14 @@ const BoardTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sampleData.map((data, index) => (
+            {writeData.map((data, index) => (
               <TableRow
                 key={index}
               >
-                <TableCell>{data.category}</TableCell>
+                <TableCell>{data.header}</TableCell>
                 <TableCell>{data.title}</TableCell>
-                <TableCell>{data.author}</TableCell>
-                <TableCell>{data.date}</TableCell>
+                <TableCell>{data.writer}</TableCell>
+                <TableCell>{formatDate(data.board_created_at)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
