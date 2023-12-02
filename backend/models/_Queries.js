@@ -229,7 +229,7 @@ const boardQueries = {
     INSERT INTO board (writer, business_bno, header, title, content) VALUES (?, ?, ?, ?, ?)
   `,
   getPosts: `
-    SELECT * FROM board WHERE business_bno = ?
+    SELECT * FROM board WHERE business_bno = ? ORDER BY board_created_at DESC
   `,
   getPost: `
     SELECT * FROM board WHERE board_idx = ?
@@ -264,5 +264,4 @@ module.exports = {
   visitsQueries,
   boardQueries,
   detectQueries,
-
 };

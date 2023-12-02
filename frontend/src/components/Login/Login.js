@@ -41,19 +41,16 @@ function Login() {
       // 로그인 성공시 session데이터 요청후 데이터 저장
       const sessionData = await axios.post('/api/admins/sessiondata');
       console.log('sessionData', sessionData);
-      
-      dispatch({
-        type: 'LOGIN',
-        bno : sessionData.data.admin.bno,
-        name: sessionData.data.admin.name,
-        email: sessionData.data.admin.email,
-        id: sessionData.data.admin.id,
-        roll: sessionData.data.admin.role,
-      });
-      
+
       // 세션 스토리지에 데이터 저장
       sessionStorage.setItem('user', JSON.stringify(sessionData.data.admin));
-      
+
+      // Redux 스토어에 사용자 데이터 저장
+      dispatch({
+        type: 'LOGIN',
+        payload: sessionData.data.admin,
+      });
+
       navigate('/main');
     } catch (error) {
       // 에러 처리 개선
@@ -79,8 +76,7 @@ function Login() {
           sx={{
             backgroundImage: 'url(https://i.pinimg.com/564x/ab/aa/28/abaa28131b2bc3e97b8e324f38c110d8.jpg)',
             backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
@@ -102,7 +98,7 @@ function Login() {
               Sign in
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            <TextField
+              <TextField
                 margin="normal"
                 required
                 fullWidth
@@ -126,19 +122,9 @@ function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />}
-                label="Remember me"
-              />
-              {message && (
-                <Typography color="error">{message}</Typography>
-              )}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
+              <FormControlLabel control={<Checkbox value="remember" color="primary" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} />} label="Remember me" />
+              {message && <Typography color="error">{message}</Typography>}
+              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 Sign In
               </Button>
               <Grid container>
@@ -147,8 +133,7 @@ function Login() {
                     로그인 정보를 잃어버렸습니까?
                   </Link>
                 </Grid>
-                <Grid item>
-                </Grid>
+                <Grid item></Grid>
               </Grid>
             </Box>
           </Box>
@@ -156,6 +141,6 @@ function Login() {
       </Grid>
     </ThemeProvider>
   );
-};
+}
 
 export default Login;
