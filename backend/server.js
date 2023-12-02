@@ -22,12 +22,12 @@ const sessionStore = new MySQLStore({}, connectDb);
 
 app.use(
   session({
-    store: sessionStore, 
-    secret: process.env.SESSION_SECRET, 
-    resave: false, 
-    saveUninitialized: false, 
+    store: sessionStore,
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
     cookie: {
-      httpOnly: true, 
+      httpOnly: true,
       secure: false,
       maxAge: 180000 * 20 * 8, // 쿠키의 생존 기간(세션 유지 시간: 8시간)
     },
@@ -35,7 +35,7 @@ app.use(
 );
 
 // 정적인 파일 관리
-app.use(express.static(path.join(__dirname, '../frontend', 'build')));  // build
+app.use(express.static(path.join(__dirname, '../frontend', 'build'))); // build
 
 // 인증 미들웨어 적용
 app.use(isAuthenticated);
@@ -50,6 +50,7 @@ app.use('/api/contents/:business_bno', require('./routes/contentsRoutes'));
 app.use('/api/visits', require('./routes/visitRoutes'));
 app.use('/api/videos', require('./routes/videoRoutes'));
 app.use('/api/boards', require('./routes/boardRoutes'));
+app.use('/api/detects', require('./routes/detectRoutes'));
 
 // 특정 페이지 라우터
 app.use('/editor', (req, res) => {

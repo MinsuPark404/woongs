@@ -9,10 +9,10 @@ WORKDIR /app/backend
 COPY package*.json ./
 
 # npm install을 실행
-RUN npm ci
+RUN npm install
 
 # 나머지 프로젝트 파일 복사
 COPY . .
 
 # 애플리케이션 실행
-ENTRYPOINT [ "node", "server.js" ]
+# ENTRYPOINT [ "node", "server.js" ]

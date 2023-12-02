@@ -26,7 +26,7 @@ const adminQueries = {
   `,
   updateLogoutTimeQuery: `
     UPDATE cms_log SET logouted_at = NOW() WHERE admin_idx = ? ORDER BY cms_log_idx DESC LIMIT 1
-  `
+  `,
 };
 
 const BusinessQueries = {
@@ -44,7 +44,7 @@ const BusinessQueries = {
   `,
   deleteBusinessQuery: `
     DELETE FROM cms_businesses WHERE business_id = ?
-  `
+  `,
 };
 
 const cmsLogQueries = {
@@ -76,7 +76,7 @@ const cmsLogQueries = {
   `,
   deleteLogQuery: `
     DELETE FROM cms_log WHERE cms_log_idx = ?
-  `
+  `,
 };
 
 const contentsQueries = {
@@ -92,7 +92,7 @@ const contentsQueries = {
   `,
   deleteContentQuery: `
     DELETE FROM cms_contents WHERE content_seq = ? AND business_bno = ?
-  `
+  `,
 };
 
 const urlQueries = {
@@ -107,7 +107,7 @@ const urlQueries = {
   `,
   deleteUrlQuery: `
     DELETE FROM cms_url WHERE url_idx = ?
-  `
+  `,
 };
 
 const userQueries = {
@@ -133,7 +133,7 @@ const userQueries = {
   `,
   findLogsQuery: `
     SELECT l.* FROM cms_log l JOIN cms_businesses b ON l.business_name = b.business_name WHERE b.business_bno = ?
-  `
+  `,
 };
 
 const videoQueries = {
@@ -163,7 +163,7 @@ const videoQueries = {
   `,
   deleteVideoQuery: `
     DELETE FROM cms_videos WHERE video_idx = ?
-  `
+  `,
 };
 
 const childQueries = {
@@ -190,7 +190,7 @@ const childQueries = {
   `,
   getAttendanceByChildQuery: `
     SELECT * FROM child_attendance WHERE child_idx = ?
-  `
+  `,
 };
 
 const domainQueries = {
@@ -205,7 +205,7 @@ const domainQueries = {
   updateDomainQuery: `
     UPDATE cms_url SET url_addr = ?, url_status = ?, business_bno = ?, url_created_at = ?, url_period_at = ? 
     WHERE url_idx = ?
-  `
+  `,
 };
 
 const visitsQueries = {
@@ -221,12 +221,12 @@ const visitsQueries = {
   `,
   dailyDomainVisitsQuery: `
     SELECT url_addr, COUNT(*) AS dailyVisits FROM cms_url_log WHERE DATE(log_date) = ? GROUP BY url_addr
-  `
+  `,
 };
 
 const boardQueries = {
   createPost: `
-    INSERT INTO board (title, content, user_id) VALUES (?, ?, ?)
+    INSERT INTO board (writer, business_bno, header, title, content) VALUES (?, ?, ?, ?, ?)
   `,
   getPosts: `
     SELECT * FROM board WHERE business_bno = ?
@@ -235,11 +235,14 @@ const boardQueries = {
     SELECT * FROM board WHERE board_idx = ?
   `,
   updatePost: `
-    UPDATE board SET title = ?, content = ? WHERE id = ?
+    UPDATE board SET title = ?, content = ?, board_updated_at = NOW() WHERE board_idx = ?
+  `,
+  sqlCheck: `
+    SELECT writer FROM board WHERE board_idx = ?
   `,
   deletePost: `
-    DELETE FROM board WHERE id = ?
-  `
+    DELETE FROM board WHERE board_idx = ?
+  `,
 };
 
 module.exports = {
@@ -253,5 +256,5 @@ module.exports = {
   childQueries,
   domainQueries,
   visitsQueries,
-  boardQueries
+  boardQueries,
 };
