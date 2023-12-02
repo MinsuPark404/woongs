@@ -1,4 +1,4 @@
-"
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -38,7 +38,292 @@
   <div class="sortable">
     
 <body style="background-image: url(''); background-size: cover; background-position: center;">
-<section visual-editor="840d1a78-8017-4016-aebe-df2cb47b99b6">
+<section visual-editor="e83bba29-7086-4673-b16a-6276da8d7fd2">
+
+<html lang="ko">
+<style>
+header {
+  height: 80%;
+	position: relative;
+	z-index: 1;
+  }
+  
+header h1 {
+    position: absolute;
+	  
+    top: 0%;
+    left: 0%;
+}
+header h2 {
+    position: absolute;
+    top: 50%;
+    left: 0;
+}
+
+header h1 img {
+    width: 200px;
+    height: auto;
+    align-items: center;
+    
+}
+.logo {
+  font-family: 'Gamja Flower', sans-serif;
+  font-size: 50px;
+}
+.login {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+}
+.login ul {
+  display: flex;
+  justify-content: space-around; /* 버튼 간의 간격을 균등하게 설정합니다. */
+  list-style-type: none; /* 기본 리스트 스타일을 제거합니다. */
+  padding: 0; /* 패딩을 제거합니다. */
+}
+
+.login ul li {
+  margin: 0 10px; /* 리스트 항목 주위에 마진을 추가합니다. */
+}
+
+.login ul li a {
+  text-decoration: none; /* 링크의 기본 밑줄 스타일을 제거합니다. */
+  color: #000; /* 링크의 색상을 검은색으로 설정합니다. */
+  font-size: 18px; /* 폰트 크기를 조정합니다. */
+  font-weight: bold; /* 폰트를 굵게 설정합니다. */
+  padding: 10px 20px; /* 패딩을 추가하여 버튼처럼 보이게 합니다. */
+  border: 1px solid #000; /* 테두리를 추가합니다. */
+  border-radius: 5px; /* 테두리를 둥글게 만듭니다. */
+  transition: background-color 0.3s ease; /* 배경색 변경 애니메이션을 추가합니다. */
+}
+
+.login ul li a:hover {
+  background-color: #000; /* 마우스를 올렸을 때의 배경색을 설정합니다. */
+  color: #fff; /* 마우스를 올렸을 때의 텍스트 색상을 설정합니다. */
+}
+
+nav {
+	position: absolute;
+	top: 25%;
+	left: 50%;
+	transform: translateX(-50%);
+	width:100%;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.05);
+  }
+  
+  nav ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+  }
+  
+  nav ul li {
+	position: relative;
+	display: flex;
+  }
+  
+  nav ul li a {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 30px 40px;
+	text-decoration: none;
+	color: black;
+	font-size: 18px;
+	font-weight: 600;
+	transition: color 0.3s, background 0.3s;
+  }
+  
+  nav ul ul {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	display: none;
+	width: 100%;
+	background: #F8F8FF;
+  }
+  
+  nav ul li:hover > ul {
+	display: block;
+	z-index: 100;
+  }
+  
+  nav ul li a:hover {
+	background: #E6E6FA;
+	color: black;
+	transform: translateY(-10px);
+  }
+  
+  
+  
+  header {
+	margin: 0;
+	height: 100vh;
+	overflow: hidden;
+  }
+  
+  @keyframes slideshow {
+	0% {background-image: url("http://temp.ebikids.co.kr/v2_01a/images/main/main_bg.jpg");}
+	50% {background-image: url("http://temp.ebikids.co.kr/v2_01a/images/main/main_bg2.jpg");}
+	100% {background-image: url("http://temp.ebikids.co.kr/v2_01a/images/main/main_bg3.jpg");}
+  }
+  
+  div[data-type="fade"] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	animation-name: slideshow;
+	animation-duration: 10s;
+	animation-iteration-count: infinite;
+	background-size: cover;
+	background-position: center;
+  }
+  .center-left {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 50%;
+
+	border-radius: 10px; /* 모서리 둥글게 */
+	padding: 20px; /* 패딩 추가 */
+  }
+  
+  .center-left h2 {
+	text-align: left;
+	top:42%;
+	font-family: 'Gamja Flower', sans-serif;
+	color: #ACFFFC; /* 색상 변경: 슬레이트 블루 */
+	font-size: 170px; /* 크기 변경: 130px */
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 텍스트 그림자 추가 */
+	z-index: 50;
+  }
+  
+  .center-left h2 .tag {
+	color: #FF6347; /* 색상 변경: 토마토 */
+	font-size: 140px; /* 크기 변경: 70px */
+	
+  }
+  .tagline{
+
+    color:white;
+    top:50%;
+    font-size:50px;
+  }
+  
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
+
+
+
+
+<!-- 컨텐츠 -->
+<section>
+    <div data-type="fade" data-speed="1000" data-time="4000" data-page="pageType1">
+        
+    </div>
+    <header>
+        <div>
+            <h1>
+                
+                <a class='logo'>웅이네 유치원</a>
+            </h1>
+            <div class='login'> 
+                  <ul>
+                    <li><a href="../main/main.html">HOME</a></li>
+                    <li><a href="/v2_common/login.html">로그인</a></li>
+                  </ul>
+                  
+            </div>
+            
+        </div>
+
+        <nav>
+            <div>
+                <div></div>
+                <div></div>
+            </div>
+            <div data-orgH="60" data-gap="130px" data-leftPos="">
+                <ul>
+                    <li>
+                        <a href="/v2_01a/intro/intro.html?proc=greeting">우리원소개</a>
+                        <ul>
+                            <li><a href="/v2_01a/intro/intro.html?proc=greeting">인사말</a></li>
+                            <li><a href="/v2_01a/intro/intro.html?proc=history">운영방침 및 연혁</a></li>
+                            <li><a href="/v2_01a/intro/intro.html?proc=teacher">선생님소개</a></li>
+                            <li><a href="/v2_01a/intro/intro.html?proc=facility">시설안내</a></li>
+                            <li><a href="/v2_01a/intro/intro.html?proc=location">찾아오시는 길</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/v2_01a/edu/edu.html?proc=edu_01">교육안내</a>
+                        <ul>
+                            <li><a href="/v2_01a/edu/edu.html?proc=edu_01">교육 프로그램</a></li>
+                            <li><a href="/v2_01a/edu/edu.html?proc=edu_02">연간 교육계획</a></li>
+                            <li><a href="/v2_01a/edu/edu.html?proc=edu_03">일일 활동계획</a></li>
+                            <li><a href="/v2_01a/edu/edu.html?proc=edu_04">특별활동</a></li>
+                            <li><a href="/v2_01a/edu/edu.html?proc=edu_05">교육행사</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/v2_01a/photo/list.html?tn=bbs_photo">포토앨범</a>
+                        <ul>
+                            <li><a href="/v2_01a/photo/photo.html?tn=bbs_photo&mMenuNum=1&classId=1">다윗반</a></li>
+                            <li><a href="/v2_01a/photo/photo.html?proc=history&tn=bbs_photo&mMenuNum=4" ">이전년도 앨범보기</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/v2_01a/entrance/entrance_01.html">입학안내</a>
+                        <ul>
+                            <li><a href="/v2_01a/entrance/entrance_01.html">모집요강</a></li>
+                            <li><a href="/v2_01a/entrance/entrance_02.html?tn=bbs_entrance">입학상담</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/v2_01a/community/notice.html?tn=bbs_notice">알림마당</a>
+                        <ul>
+                            <li><a href="/v2_01a/community/notice.html?tn=bbs_notice">공지사항</a></li>
+                            <li><a href="/v2_01a/community/paper.html?tn=bbs_paper">가정통신문</a></li>
+                            <li><a href="/v2_01a/community/food.html?tn=bbs_food">식단표</a></li>
+                            <li><a href="/v2_01a/community/schedule.html?tn=schedule_info">행사일정</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <nav data-arrow="right">
+            <div>
+                <div>
+                    <a href="javascript:void(0);" class="gnbClose"><div></div></a>
+                </div>
+            </div>
+        </nav>
+        <div class="gnbCover"></div>
+
+		    <div class="center-left">
+          <h2>&nbsp웅이네</br>&nbsp&nbsp;&nbsp;<span class='tag'>유치원</span><br/><span class ='tagline'>&nbsp;&nbsp;웅이네 유치원은 노력합니다.</span></h2>
+        
+        </div>
+        
+    </header>
+    
+   
+</section>
+
+
+
+</section>
+</body>
+
+
+<body style="background-image: url(''); background-size: cover; background-position: center;">
+<section visual-editor="782557cb-6187-4f12-b707-2f2afa3cf597">
 
 
 <!DOCTYPE html>
@@ -49,7 +334,7 @@
 	<title>템플릿유치원 V2</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="user-scalable=no, maximum-scale=1, minimum-scale=1.0 ,width=device-width">
+	<meta name="viewport" content="user-scalable=no, maximum-scale=1, minimum-scale=1.0, width=device-width">
 	<meta name="title" content="템플릿유치원">
 	<meta name="author" content="템플릿유치원">
 	<meta name="keywords" content="템플릿유치원, 교육안내, 포토앨범, 알리마당">
@@ -65,9 +350,9 @@
 	<meta property="og:image" content="/images/common/preview.png"> <!-- 썸네일이미지 경로 -->	
 
 	<meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="하늘병아리 어린이집">
-    <meta name="twitter:description" content="하늘병아리어린이집, 교육안내, 포토앨범, 알리마당">
-    <meta name="twitter:image" content="/images/common/preview.jpg">
+	<meta name="twitter:title" content="하늘병아리 어린이집">
+	<meta name="twitter:description" content="하늘병아리어린이집, 교육안내, 포토앨범, 알리마당">
+	<meta name="twitter:image" content="/images/common/preview.jpg">
 	
 	<link rel="shortcut icon" href="../images/common/favicon.ico">
 	<link rel="apple-touch-icon" href="../images/common/bookmark.png">
@@ -77,7 +362,7 @@
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/layerpopup.css" rel="stylesheet">
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/program.css" rel="stylesheet">
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/ebi.slider.css" rel="stylesheet">
-	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/layout.css" rel="stylesheet">
+
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/design.css" rel="stylesheet">
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/textRoll.css" rel="stylesheet">
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/main.css" rel="stylesheet">
@@ -103,6 +388,238 @@
 		<link href="../style/ie.warning.css" rel="stylesheet" type="text/css">
 	<![endif]-->
 </head>
+
+
+<body>
+
+
+
+<!-- 컨텐츠 -->
+<section class="main">
+
+	
+	
+	<div class="noticeWrap">
+		<div>
+			<div class="noticeTit">
+				<h3>알림마당</h3>
+				<p>우리 원의 다양한 새로운 소식을 전해드립니다.</p>
+			</div>
+			<div class="noticeIcon">
+				<a href="../community/notice_list.html?tn=bbs_notice">공지사항</a>
+				<a href="../community/paper_list.html?tn=bbs_paper">가정통신</a>
+				<a href="../community/food_list.html?tn=bbs_food">식단표</a>
+			</div>
+		</div>
+
+		<ul>
+	<li class="noticeList">
+		<a href="../community/notice_list.html?tn=bbs_notice">봄철 인플루엔자 등 감염병 예방 및 교육을 실시하였습니다.</a>
+		<span>2020.03.20</span>
+	</li>
+	<li class="noticeList">
+		<a href="../community/notice_list.html?tn=bbs_notice">3월 영양교육을 하였어요</a>
+		<span>2020.03.15</span>
+	</li>
+	<li class="foodList">
+		<a href="../community/food_list.html?tn=bbs_food">2020년 3월달 식단표입니다.</a>
+		<span>2020.03.02</span>
+	</li>
+	
+</ul>
+	</div>
+	</section>
+	
+</body>
+</html>
+
+</section>
+</body>
+
+
+<body style="background-image: url(''); background-size: cover; background-position: center;">
+<section visual-editor="d65a1f10-cca6-4dbe-a026-2b3077057361">
+
+
+<!DOCTYPE html>
+
+
+<html lang="ko">
+<head>
+	<title>템플릿유치원 V2</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="user-scalable=no, maximum-scale=1, minimum-scale=1.0, width=device-width">
+	<meta name="title" content="템플릿유치원">
+	<meta name="author" content="템플릿유치원">
+	<meta name="keywords" content="템플릿유치원, 교육안내, 포토앨범, 알리마당">
+	<meta name="subject" content="">
+	<meta name="Description" content="템플릿유치원, 교육안내, 포토앨범, 알리마당">
+	<meta name="classification" content="">
+
+	<!-- 카카오톡 링크 보낼 때 뜨는 이미지와 텍스트 설정 -->
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="템플릿유치원 V2"> <!-- 제목에 뜰 내용(굵은글씨) -->
+	<meta property="og:url" content="http://www.ebikids.co.kr">	<!-- 링크걸릴주소 -->
+	<meta property="og:description" content="템플릿유치원 V2, 교육안내, 포토앨범, 알리마당"> <!-- 제목아래쪽에 한줄 나오는 짧은 소개글 -->
+	<meta property="og:image" content="/images/common/preview.png"> <!-- 썸네일이미지 경로 -->	
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="하늘병아리 어린이집">
+	<meta name="twitter:description" content="하늘병아리어린이집, 교육안내, 포토앨범, 알리마당">
+	<meta name="twitter:image" content="/images/common/preview.jpg">
+	
+	<link rel="shortcut icon" href="../images/common/favicon.ico">
+	<link rel="apple-touch-icon" href="../images/common/bookmark.png">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/reset.css" rel="stylesheet">
+	<link type="text/css" href="../style/common.css" rel="stylesheet"><!-- 운영서버 CSS 파일사용 -->
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/common-ani.css" rel="stylesheet">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/layerpopup.css" rel="stylesheet">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/program.css" rel="stylesheet">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/ebi.slider.css" rel="stylesheet">
+
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/design.css" rel="stylesheet">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/textRoll.css" rel="stylesheet">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/main.css" rel="stylesheet">
+
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery.1.12.0.min.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery-ui.1.10.1.js"> </script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery.cookie.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery.easing.1.3.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.default.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.layerpopup.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.slider.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.textRoll.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.gnb.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.js"></script>
+	
+	<script src="http://temp.ebikids.co.kr/v2_01a/js/program.js"></script>
+	<script type="text/javascript" src="../js/sns_auth_login.js"></script>
+
+	<!-- push 전송 API -->
+	<script type="text/javascript" src="http://temp.ebikids.co.kr/v2_common/pushProvider/sender.js"></script>
+
+	<!--[if lt IE 10]>
+		<link href="../style/ie.warning.css" rel="stylesheet" type="text/css">
+	<![endif]-->
+</head>
+
+<body>
+
+
+<!-- 컨텐츠 -->
+<section class="main">
+
+	
+	
+	<div class="quickMenu">
+		<ul>
+			<li>
+				<span></span>
+				<h4></h4>
+				<p></p>
+				<a href="../entrance/entrance_01.html">바로가기</a>
+			</li>
+			<li>
+				<span></span>
+				<h4></h4>
+				<p></p>
+				<a href="../edu/edu_02.html">바로가기</a>
+			</li>
+			<li>
+				<span></span>
+				<h4></h4>
+				<p></p>
+				<a href="../intro/facility.html">바로가기</a>
+			</li>
+			<li>
+				<span></span>
+				<h4></h4>
+				<p></p>
+				<a href="../intro/teacher.html">바로가기</a>
+			</li>
+		</ul>
+	</div>
+	
+	
+</section><!-- //main -->
+
+
+
+</body>
+</html>
+
+</section>
+</body>
+
+
+<body style="background-image: url(''); background-size: cover; background-position: center;">
+<section visual-editor="40190586-a5cd-4bae-a0bd-1e31a47ec6f6">
+
+
+<!DOCTYPE html>
+
+
+<html lang="ko">
+<head>
+	<title>템플릿유치원 V2</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="user-scalable=no, maximum-scale=1, minimum-scale=1.0, width=device-width">
+	<meta name="title" content="템플릿유치원">
+	<meta name="author" content="템플릿유치원">
+	<meta name="keywords" content="템플릿유치원, 교육안내, 포토앨범, 알리마당">
+	<meta name="subject" content="">
+	<meta name="Description" content="템플릿유치원, 교육안내, 포토앨범, 알리마당">
+	<meta name="classification" content="">
+
+	<!-- 카카오톡 링크 보낼 때 뜨는 이미지와 텍스트 설정 -->
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="템플릿유치원 V2"> <!-- 제목에 뜰 내용(굵은글씨) -->
+	<meta property="og:url" content="http://www.ebikids.co.kr">	<!-- 링크걸릴주소 -->
+	<meta property="og:description" content="템플릿유치원 V2, 교육안내, 포토앨범, 알리마당"> <!-- 제목아래쪽에 한줄 나오는 짧은 소개글 -->
+	<meta property="og:image" content="/images/common/preview.png"> <!-- 썸네일이미지 경로 -->	
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="하늘병아리 어린이집">
+	<meta name="twitter:description" content="하늘병아리어린이집, 교육안내, 포토앨범, 알리마당">
+	<meta name="twitter:image" content="/images/common/preview.jpg">
+	
+	<link rel="shortcut icon" href="../images/common/favicon.ico">
+	<link rel="apple-touch-icon" href="../images/common/bookmark.png">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/reset.css" rel="stylesheet">
+	<link type="text/css" href="../style/common.css" rel="stylesheet"><!-- 운영서버 CSS 파일사용 -->
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/common-ani.css" rel="stylesheet">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/layerpopup.css" rel="stylesheet">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/program.css" rel="stylesheet">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/ebi.slider.css" rel="stylesheet">
+
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/design.css" rel="stylesheet">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/textRoll.css" rel="stylesheet">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/main.css" rel="stylesheet">
+
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery.1.12.0.min.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery-ui.1.10.1.js"> </script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery.cookie.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery.easing.1.3.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.default.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.layerpopup.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.slider.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.textRoll.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.gnb.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.js"></script>
+	
+	<script src="http://temp.ebikids.co.kr/v2_01a/js/program.js"></script>
+	<script type="text/javascript" src="../js/sns_auth_login.js"></script>
+
+	<!-- push 전송 API -->
+	<script type="text/javascript" src="http://temp.ebikids.co.kr/v2_common/pushProvider/sender.js"></script>
+
+	<!--[if lt IE 10]>
+		<link href="../style/ie.warning.css" rel="stylesheet" type="text/css">
+	<![endif]-->
+</head>
+
 
 <body>
 
@@ -149,6 +666,1053 @@
 	
 	
 </section><!-- //main -->
+
+
+
+
+</body>
+</html>
+
+</section>
+</body>
+
+
+<body style="background-image: url(''); background-size: cover; background-position: center;">
+<section visual-editor="e38bd702-28db-4865-ab9c-5fc2edebf037">
+
+
+
+<!DOCTYPE html>
+
+
+<html lang="ko">
+<head>
+	<title>템플릿유치원 V2</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="user-scalable=no, maximum-scale=1, minimum-scale=1.0 ,width=device-width">
+	<meta name="title" content="템플릿유치원">
+	<meta name="author" content="템플릿유치원">
+	<meta name="keywords" content="템플릿유치원, 교육안내, 포토앨범, 알리마당">
+	<meta name="subject" content="">
+	<meta name="Description" content="템플릿유치원, 교육안내, 포토앨범, 알리마당">
+	<meta name="classification" content="">
+
+	<!-- 카카오톡 링크 보낼 때 뜨는 이미지와 텍스트 설정 -->
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="템플릿유치원 V2"> <!-- 제목에 뜰 내용(굵은글씨) -->
+	<meta property="og:url" content="http://www.ebikids.co.kr">	<!-- 링크걸릴주소 -->
+	<meta property="og:description" content="템플릿유치원 V2, 교육안내, 포토앨범, 알리마당"> <!-- 제목아래쪽에 한줄 나오는 짧은 소개글 -->
+	<meta property="og:image" content="/images/common/preview.png"> <!-- 썸네일이미지 경로 -->	
+
+	<meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="하늘병아리 어린이집">
+    <meta name="twitter:description" content="하늘병아리어린이집, 교육안내, 포토앨범, 알리마당">
+    <meta name="twitter:image" content="/images/common/preview.jpg">
+	
+	<link rel="shortcut icon" href="../images/common/favicon.ico">
+	<link rel="apple-touch-icon" href="../images/common/bookmark.png">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/reset.css" rel="stylesheet">
+	<link type="text/css" href="../style/common.css" rel="stylesheet"><!-- 운영서버 CSS 파일사용 -->
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/common-ani.css" rel="stylesheet">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/layerpopup.css" rel="stylesheet">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/program.css" rel="stylesheet">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/ebi.slider.css" rel="stylesheet">
+
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/design.css" rel="stylesheet">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/textRoll.css" rel="stylesheet">
+	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/main.css" rel="stylesheet">
+
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery.1.12.0.min.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery-ui.1.10.1.js"> </script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery.cookie.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery.easing.1.3.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.default.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.layerpopup.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.slider.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.textRoll.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.gnb.js"></script>
+	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.js"></script>
+	
+	<script src="http://temp.ebikids.co.kr/v2_01a/js/program.js"></script>
+	<script type="text/javascript" src="../js/sns_auth_login.js"></script>
+
+	<!-- push 전송 API -->
+	<script type="text/javascript" src="http://temp.ebikids.co.kr/v2_common/pushProvider/sender.js"></script>
+
+	<!--[if lt IE 10]>
+		<link href="../style/ie.warning.css" rel="stylesheet" type="text/css">
+	<![endif]-->
+</head>
+
+<body>
+
+
+
+<!-- 컨텐츠 -->
+<section class="main">
+
+	
+	
+	<div class="mapWrap">
+		<div class="mapTit">
+			<h4>웅이네 유치원<span></span></h4>
+			<p>
+				웅이네 유치원<br>
+				전화 : 02-1234-1123<br>
+				팩스 : 02-1234-1122
+			</p>
+		</div>
+	
+		<!-- * 카카오맵 - 지도퍼가기 -->
+		<!-- 1. 지도 노드 -->
+		<div id="daumRoughmapContainer1585105260906" class="root_daum_roughmap root_daum_roughmap_landing"></div>
+		
+		<!--
+			2. 설치 스크립트
+			* 지도 퍼가기 서비스를 2개 이상 넣을 경우, 설치 스크립트는 하나만 삽입합니다.
+		-->
+		<script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+		
+		<!-- 3. 실행 스크립트 -->
+		<script charset="UTF-8">
+			new daum.roughmap.Lander({
+				"timestamp" : "1585105260906",
+				"key" : "xnpz",
+				"mapWidth" : "",
+				"mapHeight" : "600"
+			}).render();
+		</script>
+
+	</div>
+	
+</section><!-- //main -->
+
+
+</body>
+</html>
+
+</section>
+</body>
+
+
+<body style="background-image: url(''); background-size: cover; background-position: center;">
+<section visual-editor="57794276-66d8-40b2-afd1-25ff2668e6b7">
+
+
+<!DOCTYPE html>
+
+<style>
+footer {
+  background-color: #222;
+  color: #fff;
+  padding: 20px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+footer .logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+footer .info .morelink {
+  margin-bottom: 15px;
+}
+
+footer .info .morelink a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer .info .morelink a:hover {
+  text-decoration: underline;
+}
+
+footer address {
+  margin-bottom: 15px;
+}
+
+footer aside a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer aside a:hover {
+  text-decoration: underline;
+}
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+<!-- 컨텐츠 -->
+<section class="main">
+
+
+<footer>
+	<div class="wrap">
+		<div class="logo">웅이네 유치원</div>
+		<div class="info">
+			<div class="morelink">
+				<a href="/v2_common/agree.html">이용약관</a>                           
+				<a href="/v2_common/privacy.html">개인정보처리방침</a>
+				<a href="/v2_common/join_agree.html">회원가입</a>
+				<a href="/v2_common/search.html">아이디/비밀번호찾기</a>
+			</div>
+			<address>
+				<p class="copy">
+					<span>광주시 대성학원</span>
+					<span>전화 : 02-1234-4567</span>
+					<span>개인정보관리책임자 : 정지웅 (OOO@OOO.OOO)</span>
+				</p>
+				<p>&copy; by 웅이네. All rights reserved.</p>
+			</address>
+		</div>
+		<aside>
+			<a href="/admin/">Admin</a>
+			<a href="http://www.ebikids.co.kr" target="_blank">Design by 웅이네</a>
+		</aside>
+	</div><!-- //end wrap -->
+</footer>
+
+</section><!-- //main -->
+
+
+
+	
+	
+	
+
+
+
+
+
+</body>
+</html>
+
+</section>
+</body>
+
+
+<body style="background-image: url(''); background-size: cover; background-position: center;">
+<section visual-editor="e421c15d-4c0d-41e9-aedb-744305232f32">
+
+
+<!DOCTYPE html>
+
+<style>
+footer {
+  background-color: #222;
+  color: #fff;
+  padding: 20px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+footer .logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+footer .info .morelink {
+  margin-bottom: 15px;
+}
+
+footer .info .morelink a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer .info .morelink a:hover {
+  text-decoration: underline;
+}
+
+footer address {
+  margin-bottom: 15px;
+}
+
+footer aside a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer aside a:hover {
+  text-decoration: underline;
+}
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+<!-- 컨텐츠 -->
+<section class="main">
+
+
+<footer>
+	<div class="wrap">
+		<div class="logo">웅이네 유치원</div>
+		<div class="info">
+			<div class="morelink">
+				<a href="/v2_common/agree.html">이용약관</a>                           
+				<a href="/v2_common/privacy.html">개인정보처리방침</a>
+				<a href="/v2_common/join_agree.html">회원가입</a>
+				<a href="/v2_common/search.html">아이디/비밀번호찾기</a>
+			</div>
+			<address>
+				<p class="copy">
+					<span>광주시 대성학원</span>
+					<span>전화 : 02-1234-4567</span>
+					<span>개인정보관리책임자 : 정지웅 (OOO@OOO.OOO)</span>
+				</p>
+				<p>&copy; by 웅이네. All rights reserved.</p>
+			</address>
+		</div>
+		<aside>
+			<a href="/admin/">Admin</a>
+			<a href="http://www.ebikids.co.kr" target="_blank">Design by 웅이네</a>
+		</aside>
+	</div><!-- //end wrap -->
+</footer>
+
+</section><!-- //main -->
+
+
+
+	
+	
+	
+
+
+
+
+
+</body>
+</html>
+
+</section>
+</body>
+
+
+<body style="background-image: url(''); background-size: cover; background-position: center;">
+<section visual-editor="8a68212c-37d4-4d0c-a836-0829dff3efef">
+
+
+<!DOCTYPE html>
+
+<style>
+footer {
+  background-color: #222;
+  color: #fff;
+  padding: 20px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+footer .logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+footer .info .morelink {
+  margin-bottom: 15px;
+}
+
+footer .info .morelink a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer .info .morelink a:hover {
+  text-decoration: underline;
+}
+
+footer address {
+  margin-bottom: 15px;
+}
+
+footer aside a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer aside a:hover {
+  text-decoration: underline;
+}
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+<!-- 컨텐츠 -->
+<section class="main">
+
+
+<footer>
+	<div class="wrap">
+		<div class="logo">웅이네 유치원</div>
+		<div class="info">
+			<div class="morelink">
+				<a href="/v2_common/agree.html">이용약관</a>                           
+				<a href="/v2_common/privacy.html">개인정보처리방침</a>
+				<a href="/v2_common/join_agree.html">회원가입</a>
+				<a href="/v2_common/search.html">아이디/비밀번호찾기</a>
+			</div>
+			<address>
+				<p class="copy">
+					<span>광주시 대성학원</span>
+					<span>전화 : 02-1234-4567</span>
+					<span>개인정보관리책임자 : 정지웅 (OOO@OOO.OOO)</span>
+				</p>
+				<p>&copy; by 웅이네. All rights reserved.</p>
+			</address>
+		</div>
+		<aside>
+			<a href="/admin/">Admin</a>
+			<a href="http://www.ebikids.co.kr" target="_blank">Design by 웅이네</a>
+		</aside>
+	</div><!-- //end wrap -->
+</footer>
+
+</section><!-- //main -->
+
+
+
+	
+	
+	
+
+
+
+
+
+</body>
+</html>
+
+</section>
+</body>
+
+
+<body style="background-image: url(''); background-size: cover; background-position: center;">
+<section visual-editor="f39a0fc9-2f28-47c6-ac65-a10675adeb92">
+
+
+<!DOCTYPE html>
+
+<style>
+footer {
+  background-color: #222;
+  color: #fff;
+  padding: 20px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+footer .logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+footer .info .morelink {
+  margin-bottom: 15px;
+}
+
+footer .info .morelink a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer .info .morelink a:hover {
+  text-decoration: underline;
+}
+
+footer address {
+  margin-bottom: 15px;
+}
+
+footer aside a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer aside a:hover {
+  text-decoration: underline;
+}
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+<!-- 컨텐츠 -->
+<section class="main">
+
+
+<footer>
+	<div class="wrap">
+		<div class="logo">웅이네 유치원</div>
+		<div class="info">
+			<div class="morelink">
+				<a href="/v2_common/agree.html">이용약관</a>                           
+				<a href="/v2_common/privacy.html">개인정보처리방침</a>
+				<a href="/v2_common/join_agree.html">회원가입</a>
+				<a href="/v2_common/search.html">아이디/비밀번호찾기</a>
+			</div>
+			<address>
+				<p class="copy">
+					<span>광주시 대성학원</span>
+					<span>전화 : 02-1234-4567</span>
+					<span>개인정보관리책임자 : 정지웅 (OOO@OOO.OOO)</span>
+				</p>
+				<p>&copy; by 웅이네. All rights reserved.</p>
+			</address>
+		</div>
+		<aside>
+			<a href="/admin/">Admin</a>
+			<a href="http://www.ebikids.co.kr" target="_blank">Design by 웅이네</a>
+		</aside>
+	</div><!-- //end wrap -->
+</footer>
+
+</section><!-- //main -->
+
+
+
+	
+	
+	
+
+
+
+
+
+</body>
+</html>
+
+</section>
+</body>
+
+
+<body style="background-image: url(''); background-size: cover; background-position: center;">
+<section visual-editor="a68952fa-d357-4dd9-8042-3f3008b2bebc">
+
+
+<!DOCTYPE html>
+
+<style>
+footer {
+  background-color: #222;
+  color: #fff;
+  padding: 20px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+footer .logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+footer .info .morelink {
+  margin-bottom: 15px;
+}
+
+footer .info .morelink a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer .info .morelink a:hover {
+  text-decoration: underline;
+}
+
+footer address {
+  margin-bottom: 15px;
+}
+
+footer aside a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer aside a:hover {
+  text-decoration: underline;
+}
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+<!-- 컨텐츠 -->
+<section class="main">
+
+
+<footer>
+	<div class="wrap">
+		<div class="logo">웅이네 유치원</div>
+		<div class="info">
+			<div class="morelink">
+				<a href="/v2_common/agree.html">이용약관</a>                           
+				<a href="/v2_common/privacy.html">개인정보처리방침</a>
+				<a href="/v2_common/join_agree.html">회원가입</a>
+				<a href="/v2_common/search.html">아이디/비밀번호찾기</a>
+			</div>
+			<address>
+				<p class="copy">
+					<span>광주시 대성학원</span>
+					<span>전화 : 02-1234-4567</span>
+					<span>개인정보관리책임자 : 정지웅 (OOO@OOO.OOO)</span>
+				</p>
+				<p>&copy; by 웅이네. All rights reserved.</p>
+			</address>
+		</div>
+		<aside>
+			<a href="/admin/">Admin</a>
+			<a href="http://www.ebikids.co.kr" target="_blank">Design by 웅이네</a>
+		</aside>
+	</div><!-- //end wrap -->
+</footer>
+
+</section><!-- //main -->
+
+
+
+	
+	
+	
+
+
+
+
+
+</body>
+</html>
+
+</section>
+</body>
+
+
+<body style="background-image: url(''); background-size: cover; background-position: center;">
+<section visual-editor="fb055f2b-de2d-4936-b2cc-aa00d0012681">
+
+
+<!DOCTYPE html>
+
+<style>
+footer {
+  background-color: #222;
+  color: #fff;
+  padding: 20px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+footer .logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+footer .info .morelink {
+  margin-bottom: 15px;
+}
+
+footer .info .morelink a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer .info .morelink a:hover {
+  text-decoration: underline;
+}
+
+footer address {
+  margin-bottom: 15px;
+}
+
+footer aside a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer aside a:hover {
+  text-decoration: underline;
+}
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+<!-- 컨텐츠 -->
+<section class="main">
+
+
+<footer>
+	<div class="wrap">
+		<div class="logo">웅이네 유치원</div>
+		<div class="info">
+			<div class="morelink">
+				<a href="/v2_common/agree.html">이용약관</a>                           
+				<a href="/v2_common/privacy.html">개인정보처리방침</a>
+				<a href="/v2_common/join_agree.html">회원가입</a>
+				<a href="/v2_common/search.html">아이디/비밀번호찾기</a>
+			</div>
+			<address>
+				<p class="copy">
+					<span>광주시 대성학원</span>
+					<span>전화 : 02-1234-4567</span>
+					<span>개인정보관리책임자 : 정지웅 (OOO@OOO.OOO)</span>
+				</p>
+				<p>&copy; by 웅이네. All rights reserved.</p>
+			</address>
+		</div>
+		<aside>
+			<a href="/admin/">Admin</a>
+			<a href="http://www.ebikids.co.kr" target="_blank">Design by 웅이네</a>
+		</aside>
+	</div><!-- //end wrap -->
+</footer>
+
+</section><!-- //main -->
+
+
+
+	
+	
+	
+
+
+
+
+
+</body>
+</html>
+
+</section>
+</body>
+
+
+<body style="background-image: url(''); background-size: cover; background-position: center;">
+<section visual-editor="00417c58-67b0-4778-a76a-4f3de4ad781a">
+
+
+<!DOCTYPE html>
+
+<style>
+footer {
+  background-color: #222;
+  color: #fff;
+  padding: 20px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+footer .logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+footer .info .morelink {
+  margin-bottom: 15px;
+}
+
+footer .info .morelink a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer .info .morelink a:hover {
+  text-decoration: underline;
+}
+
+footer address {
+  margin-bottom: 15px;
+}
+
+footer aside a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer aside a:hover {
+  text-decoration: underline;
+}
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+<!-- 컨텐츠 -->
+<section class="main">
+
+
+<footer>
+	<div class="wrap">
+		<div class="logo">웅이네 유치원</div>
+		<div class="info">
+			<div class="morelink">
+				<a href="/v2_common/agree.html">이용약관</a>                           
+				<a href="/v2_common/privacy.html">개인정보처리방침</a>
+				<a href="/v2_common/join_agree.html">회원가입</a>
+				<a href="/v2_common/search.html">아이디/비밀번호찾기</a>
+			</div>
+			<address>
+				<p class="copy">
+					<span>광주시 대성학원</span>
+					<span>전화 : 02-1234-4567</span>
+					<span>개인정보관리책임자 : 정지웅 (OOO@OOO.OOO)</span>
+				</p>
+				<p>&copy; by 웅이네. All rights reserved.</p>
+			</address>
+		</div>
+		<aside>
+			<a href="/admin/">Admin</a>
+			<a href="http://www.ebikids.co.kr" target="_blank">Design by 웅이네</a>
+		</aside>
+	</div><!-- //end wrap -->
+</footer>
+
+</section><!-- //main -->
+
+
+
+	
+	
+	
+
+
+
+
+
+</body>
+</html>
+
+</section>
+</body>
+
+
+<body style="background-image: url(''); background-size: cover; background-position: center;">
+<section visual-editor="81dbc9d5-587a-4bb7-82fd-b3f38d5ea0c1">
+
+
+<!DOCTYPE html>
+
+<style>
+footer {
+  background-color: #222;
+  color: #fff;
+  padding: 20px 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+footer .logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+footer .info .morelink {
+  margin-bottom: 15px;
+}
+
+footer .info .morelink a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer .info .morelink a:hover {
+  text-decoration: underline;
+}
+
+footer address {
+  margin-bottom: 15px;
+}
+
+footer aside a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+footer aside a:hover {
+  text-decoration: underline;
+}
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+<!-- 컨텐츠 -->
+<section class="main">
+
+
+<footer>
+	<div class="wrap">
+		<div class="logo">웅이네 유치원</div>
+		<div class="info">
+			<div class="morelink">
+				<a href="/v2_common/agree.html">이용약관</a>                           
+				<a href="/v2_common/privacy.html">개인정보처리방침</a>
+				<a href="/v2_common/join_agree.html">회원가입</a>
+				<a href="/v2_common/search.html">아이디/비밀번호찾기</a>
+			</div>
+			<address>
+				<p class="copy">
+					<span>광주시 대성학원</span>
+					<span>전화 : 02-1234-4567</span>
+					<span>개인정보관리책임자 : 정지웅 (OOO@OOO.OOO)</span>
+				</p>
+				<p>&copy; by 웅이네. All rights reserved.</p>
+			</address>
+		</div>
+		<aside>
+			<a href="/admin/">Admin</a>
+			<a href="http://www.ebikids.co.kr" target="_blank">Design by 웅이네</a>
+		</aside>
+	</div><!-- //end wrap -->
+</footer>
+
+</section><!-- //main -->
+
+
+
+	
+	
+	
+
 
 
 
@@ -222,4 +1786,3 @@
   </script>
   </body>
 </html>
-"

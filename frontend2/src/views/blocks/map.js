@@ -6,7 +6,11 @@ const hbs = `
 
 <!DOCTYPE html>
 
-
+<style>
+body {
+	min-height:1000px;
+}
+</style>
 <html lang="ko">
 <head>
 	<title>템플릿유치원 V2</title>
@@ -40,7 +44,7 @@ const hbs = `
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/layerpopup.css" rel="stylesheet">
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/program.css" rel="stylesheet">
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/ebi.slider.css" rel="stylesheet">
-	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/layout.css" rel="stylesheet">
+
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/design.css" rel="stylesheet">
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/textRoll.css" rel="stylesheet">
 	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/main.css" rel="stylesheet">
@@ -87,24 +91,24 @@ const hbs = `
 		</div>
 	
 		<!-- * 카카오맵 - 지도퍼가기 -->
-		<!-- 1. 지도 노드 -->
-		<div id="daumRoughmapContainer1585105260906" class="root_daum_roughmap root_daum_roughmap_landing"></div>
-		
-		<!--
-			2. 설치 스크립트
-			* 지도 퍼가기 서비스를 2개 이상 넣을 경우, 설치 스크립트는 하나만 삽입합니다.
-		-->
-		<script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
-		
-		<!-- 3. 실행 스크립트 -->
-		<script charset="UTF-8">
-			new daum.roughmap.Lander({
-				"timestamp" : "1585105260906",
-				"key" : "xnpz",
-				"mapWidth" : "",
-				"mapHeight" : "600"
-			}).render();
-		</script>
+<!-- 1. 지도 노드 -->
+<div id="daumRoughmapContainer1701419579186" class="root_daum_roughmap root_daum_roughmap_landing"></div>
+
+<!--
+	2. 설치 스크립트
+	* 지도 퍼가기 서비스를 2개 이상 넣을 경우, 설치 스크립트는 하나만 삽입합니다.
+-->
+<script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+
+<!-- 3. 실행 스크립트 -->
+<script charset="UTF-8">
+	new daum.roughmap.Lander({
+		"timestamp" : "1701419579186",
+		"key" : "2h2uz",
+		"mapWidth" : "640",
+		"mapHeight" : "560"
+	}).render();
+</script>
 
 	</div>
 	
@@ -122,10 +126,10 @@ const block = {
 	category: 'photo',
 	defaultData: {
 		
-		title: "웅이네",
-		tagline1: "웅",
-        tagline2: "이",
-        tagline3: "네",
+		title: "웅이네 유치원",
+		tagline1: "웅이네 유치원",
+        tagline2: "02-1234-1123",
+        tagline3: "02-1234-1122",
 		
 	},
 	config: {

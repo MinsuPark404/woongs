@@ -2,190 +2,282 @@
 
 
 const hbs = `
-<head>
+<html lang="ko">
 <style>
-        /* Adding custom style for header */
-        header .head {
-            position: relative; /* Position set to relative for z-index to take effect */
-            z-index: 1000; /* High z-index value to ensure it's on top */
-        }
-		img.pc {
-            width: 80px; /* Set your desired width */
-            height: auto; /* Keeps the aspect ratio */
-            /* Add more CSS properties as needed */
-        }
-		
-    </style>
-	<title>템플릿유치원 V2</title>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="user-scalable=no, maximum-scale=1, minimum-scale=1.0 ,width=device-width">
-	<meta name="title" content="템플릿유치원">
-	<meta name="author" content="템플릿유치원">
-	<meta name="keywords" content="템플릿유치원, 교육안내, 포토앨범, 알리마당">
-	<meta name="subject" content="">
-	<meta name="Description" content="템플릿유치원, 교육안내, 포토앨범, 알리마당">
-	<meta name="classification" content="">
+header {
+  height: 80%;
+	position: relative;
+	z-index: 1;
+  }
+  
+header h1 {
+    position: absolute;
+	  
+    top: 0%;
+    left: 0%;
+}
+header h2 {
+    position: absolute;
+    top: 50%;
+    left: 0;
+}
 
-	<!-- 카카오톡 링크 보낼 때 뜨는 이미지와 텍스트 설정 -->
-	<meta property="og:type" content="website">
-	<meta property="og:title" content="템플릿유치원 V2"> <!-- 제목에 뜰 내용(굵은글씨) -->
-	<meta property="og:url" content="http://www.ebikids.co.kr">	<!-- 링크걸릴주소 -->
-	<meta property="og:description" content="템플릿유치원 V2, 교육안내, 포토앨범, 알리마당"> <!-- 제목아래쪽에 한줄 나오는 짧은 소개글 -->
-	<meta property="og:image" content="/images/common/preview.png"> <!-- 썸네일이미지 경로 -->	
+header h1 img {
+    width: 200px;
+    height: auto;
+    align-items: center;
+    
+}
+.logo {
+  font-family: 'Gamja Flower', sans-serif;
+  font-size: 50px;
+}
+.login {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+}
+.login ul {
+  display: flex;
+  justify-content: space-around; /* 버튼 간의 간격을 균등하게 설정합니다. */
+  list-style-type: none; /* 기본 리스트 스타일을 제거합니다. */
+  padding: 0; /* 패딩을 제거합니다. */
+}
 
-	<meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="하늘병아리 어린이집">
-    <meta name="twitter:description" content="하늘병아리어린이집, 교육안내, 포토앨범, 알리마당">
-    <meta name="twitter:image" content="/images/common/preview.jpg">
+.login ul li {
+  margin: 0 10px; /* 리스트 항목 주위에 마진을 추가합니다. */
+}
+
+.login ul li a {
+  text-decoration: none; /* 링크의 기본 밑줄 스타일을 제거합니다. */
+  color: #000; /* 링크의 색상을 검은색으로 설정합니다. */
+  font-size: 18px; /* 폰트 크기를 조정합니다. */
+  font-weight: bold; /* 폰트를 굵게 설정합니다. */
+  padding: 10px 20px; /* 패딩을 추가하여 버튼처럼 보이게 합니다. */
+  border: 1px solid #000; /* 테두리를 추가합니다. */
+  border-radius: 5px; /* 테두리를 둥글게 만듭니다. */
+  transition: background-color 0.3s ease; /* 배경색 변경 애니메이션을 추가합니다. */
+}
+
+.login ul li a:hover {
+  background-color: #000; /* 마우스를 올렸을 때의 배경색을 설정합니다. */
+  color: #fff; /* 마우스를 올렸을 때의 텍스트 색상을 설정합니다. */
+}
+
+nav {
+	position: absolute;
+	top: 25%;
+	left: 50%;
+	transform: translateX(-50%);
+	width:100%;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.05);
+  }
+  
+  nav ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+  }
+  
+  nav ul li {
+	position: relative;
+	display: flex;
+  }
+  
+  nav ul li a {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 30px 40px;
+	text-decoration: none;
+	color: black;
+	font-size: 18px;
+	font-weight: 600;
+	transition: color 0.3s, background 0.3s;
+  }
+  
+  nav ul ul {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	display: none;
+	width: 100%;
+	background: #F8F8FF;
+  }
+  
+  nav ul li:hover > ul {
+	display: block;
+	z-index: 100;
+  }
+  
+  nav ul li a:hover {
+	background: #E6E6FA;
+	color: black;
+	transform: translateY(-10px);
+  }
+  
+  
+  
+  header {
+	margin: 0;
+	height: 100vh;
+	overflow: hidden;
+  }
+  
+  @keyframes slideshow {
+	0% {background-image: url("{{imageSrc1}}");}
+	50% {background-image: url("{{imageSrc2}}");}
+	100% {background-image: url("{{imageSrc3}}");}
+  }
+  
+  div[data-type="fade"] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	animation-name: slideshow;
+	animation-duration: 10s;
+	animation-iteration-count: infinite;
+	background-size: cover;
+	background-position: center;
+  }
+  .center-left {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 50%;
+
+	border-radius: 10px; /* 모서리 둥글게 */
+	padding: 20px; /* 패딩 추가 */
+  }
+  
+  .center-left h2 {
+	text-align: left;
+	top:42%;
+	font-family: 'Gamja Flower', sans-serif;
+	color: #ACFFFC; /* 색상 변경: 슬레이트 블루 */
+	font-size: 170px; /* 크기 변경: 130px */
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* 텍스트 그림자 추가 */
+	z-index: 50;
+  }
+  
+  .center-left h2 .tag {
+	color: #FF6347; /* 색상 변경: 토마토 */
+	font-size: 140px; /* 크기 변경: 70px */
 	
-	<link rel="shortcut icon" href="../images/common/favicon.ico">
-	<link rel="apple-touch-icon" href="../images/common/bookmark.png">
-	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/reset.css" rel="stylesheet">
-	<link type="text/css" href="../style/common.css" rel="stylesheet"><!-- 운영서버 CSS 파일사용 -->
-	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/common-ani.css" rel="stylesheet">
-	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/layerpopup.css" rel="stylesheet">
-	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/program.css" rel="stylesheet">
-	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/ebi.slider.css" rel="stylesheet">
-	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/layout.css" rel="stylesheet">
-	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/design.css" rel="stylesheet">
-	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/textRoll.css" rel="stylesheet">
-	<link type="text/css" href="http://temp.ebikids.co.kr/v2_01a/style/main.css" rel="stylesheet">
+  }
+  .tagline{
 
-	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery.1.12.0.min.js"></script>
-	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery-ui.1.10.1.js"> </script>
-	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery.cookie.js"></script>
-	<script src="http://temp.ebikids.co.kr/v2_01a/script/jquery.easing.1.3.js"></script>
-	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.default.js"></script>
-	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.layerpopup.js"></script>
-	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.slider.js"></script>
-	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.textRoll.js"></script>
-	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.gnb.js"></script>
-	<script src="http://temp.ebikids.co.kr/v2_01a/script/ebi.js"></script>
-	
-	<script src="http://temp.ebikids.co.kr/v2_01a/js/program.js"></script>
-	<script type="text/javascript" src="../js/sns_auth_login.js"></script>
+    color:white;
+    top:50%;
+    font-size:50px;
+  }
+  
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
 
-	<!-- push 전송 API -->
-	<script type="text/javascript" src="http://temp.ebikids.co.kr/v2_common/pushProvider/sender.js"></script>
 
-	<!--[if lt IE 10]>
-		<link href="../style/ie.warning.css" rel="stylesheet" type="text/css">
-	<![endif]-->
-</head>
-
-<body>
 
 
 <!-- 컨텐츠 -->
-<section class="main">
-        <div class="slider" data-type="fade" data-speed="1000" data-time="4000" data-page="pageType1">
-            <ul class="sliderObj">
-                <li><img src="{{imageSrc1}}"></li>
-                <li><img src="{{imageSrc2}}"></li>
-                <li><img src="{{imageSrc3}}"></li>
-            </ul>
-<header>
-	<div class="head">
-		<h1>
-			<a href="../main/main.html" title="템플릿유치원 V2">
-				<img class="pc" src="{{logo}}" alt="템플릿유치원 V2 로고">
-				<img class="mobile" src="{{logo}}" alt="템플릿유치원 V2 로고">
-			</a>
-		</h1>
-		<div class="side pc">
-		</div>		
-		<aside class="mobile">
-			<a class="gnbView" href="javascript:void(0);" title="전체메뉴"><div></div></a>			
-		</aside>
-	</div>
-	
-	<!-- // gnb -->
-	<nav class="pc box">
-	<div class="navbg pc">
-		<div class="dep1"></div>
-		<div class="dep2"></div>
-	</div>
-	<!-- orgH:1차메뉴 높이 / leftgap:왼쪽에서 여백 px,% 사용가능 -->
-	<div class="gnb box" data-orgH="60" data-gap="130px" data-leftPos="">
-		<ul>
-			<li >
-				<a href="/v2_01a/intro/intro.html?proc=greeting">우리원소개</a>
-				<ul>
-					<li ><a href="/v2_01a/intro/intro.html?proc=greeting">인사말</a></li>
-					<li ><a href="/v2_01a/intro/intro.html?proc=history">운영방침 및 연혁</a></li>
-					<li ><a href="/v2_01a/intro/intro.html?proc=teacher">선생님소개</a></li>
-					<li ><a href="/v2_01a/intro/intro.html?proc=facility">시설안내</a></li>
-					<li ><a href="/v2_01a/intro/intro.html?proc=location">찾아오시는 길</a></li>
-				</ul>
-			</li>
-			<li >
-				<a href="/v2_01a/edu/edu.html?proc=edu_01">교육안내</a>
-				<ul>
-					<li ><a href="/v2_01a/edu/edu.html?proc=edu_01">교육 프로그램</a></li>
-					<li ><a href="/v2_01a/edu/edu.html?proc=edu_02">연간 교육계획</a></li>
-					<li ><a href="/v2_01a/edu/edu.html?proc=edu_03">일일 활동계획</a></li>
-					<li ><a href="/v2_01a/edu/edu.html?proc=edu_04">특별활동</a></li>
-					<li ><a href="/v2_01a/edu/edu.html?proc=edu_05">교육행사</a></li>
-				</ul>
-			</li>
-			<li >
-				<a href="/v2_01a/photo/list.html?tn=bbs_photo">포토앨범</a>
-				<ul>
-					 <li > <a href="/v2_01a/photo/photo.html?tn=bbs_photo&mMenuNum=1&classId=1 ">다윗반</a></li> <li ><a href="/v2_01a/photo/photo.html?proc=history&tn=bbs_photo&mMenuNum=4" ">이전년도 앨범보기</a></li>					<!--
-					<li ><a href="/v2_01a/photo/list.html">행복반</a></li>
-					<li ><a href="/v2_01a/photo/list.html">달빛반</a></li>
-					<li ><a href="/v2_01a/photo/list.html">기쁨반</a></li>
-					<li ><a href="/v2_01a/photo/list.html">슬기반</a></li>
-					<li ><a href="/v2_01a/photo/list.html">지혜반</a></li>
-					<li ><a href="/v2_01a/photo/list.html">이전년도 앨범</a></li>
-					-->
-				</ul>
-			</li>
-			<li >
-				<a href="/v2_01a/entrance/entrance_01.html">입학안내</a>
-				<ul>
-					<li ><a href="/v2_01a/entrance/entrance_01.html">모집요강</a></li>
-					<li ><a href="/v2_01a/entrance/entrance_02.html?tn=bbs_entrance">입학상담</a></li>
-				</ul>
-			</li>
-			<li >
-				<a href="/v2_01a/community/notice.html?tn=bbs_notice">알림마당</a>
-				<ul>
-					<li ><a href="/v2_01a/community/notice.html?tn=bbs_notice">공지사항</a></li>
-					<li ><a href="/v2_01a/community/paper.html?tn=bbs_paper">가정통신문</a></li>
-					<li ><a href="/v2_01a/community/food.html?tn=bbs_food">식단표</a></li>
-					<li ><a href="/v2_01a/community/schedule.html?tn=schedule_info">행사일정</a></li>
-				</ul>
-			</li>
-			
-					</ul>
-	</div>
-</nav><!-- //nav -->
+<section>
+    <div data-type="fade" data-speed="1000" data-time="4000" data-page="pageType1">
+        
+    </div>
+    <header>
+        <div>
+            <h1>
+                
+                <a class='logo'>웅이네 유치원</a>
+            </h1>
+            <div class='login'> 
+                  <ul>
+                    <li><a href="../main/main.html">HOME</a></li>
+                    <li><a href="/v2_common/login.html">로그인</a></li>
+                  </ul>
+                  
+            </div>
+            
+        </div>
 
-<nav class="mobile box" data-arrow="right">
-	<div class="closeWrap">
-		<div class="base">
+        <nav>
+            <div>
+                <div></div>
+                <div></div>
+            </div>
+            <div data-orgH="60" data-gap="130px" data-leftPos="">
+                <ul>
+                    <li>
+                        <a href="/v2_01a/intro/intro.html?proc=greeting">우리원소개</a>
+                        <ul>
+                            <li><a href="/v2_01a/intro/intro.html?proc=greeting">인사말</a></li>
+                            <li><a href="/v2_01a/intro/intro.html?proc=history">운영방침 및 연혁</a></li>
+                            <li><a href="/v2_01a/intro/intro.html?proc=teacher">선생님소개</a></li>
+                            <li><a href="/v2_01a/intro/intro.html?proc=facility">시설안내</a></li>
+                            <li><a href="/v2_01a/intro/intro.html?proc=location">찾아오시는 길</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/v2_01a/edu/edu.html?proc=edu_01">교육안내</a>
+                        <ul>
+                            <li><a href="/v2_01a/edu/edu.html?proc=edu_01">교육 프로그램</a></li>
+                            <li><a href="/v2_01a/edu/edu.html?proc=edu_02">연간 교육계획</a></li>
+                            <li><a href="/v2_01a/edu/edu.html?proc=edu_03">일일 활동계획</a></li>
+                            <li><a href="/v2_01a/edu/edu.html?proc=edu_04">특별활동</a></li>
+                            <li><a href="/v2_01a/edu/edu.html?proc=edu_05">교육행사</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/v2_01a/photo/list.html?tn=bbs_photo">포토앨범</a>
+                        <ul>
+                            <li><a href="/v2_01a/photo/photo.html?tn=bbs_photo&mMenuNum=1&classId=1">다윗반</a></li>
+                            <li><a href="/v2_01a/photo/photo.html?proc=history&tn=bbs_photo&mMenuNum=4" ">이전년도 앨범보기</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/v2_01a/entrance/entrance_01.html">입학안내</a>
+                        <ul>
+                            <li><a href="/v2_01a/entrance/entrance_01.html">모집요강</a></li>
+                            <li><a href="/v2_01a/entrance/entrance_02.html?tn=bbs_entrance">입학상담</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/v2_01a/community/notice.html?tn=bbs_notice">알림마당</a>
+                        <ul>
+                            <li><a href="/v2_01a/community/notice.html?tn=bbs_notice">공지사항</a></li>
+                            <li><a href="/v2_01a/community/paper.html?tn=bbs_paper">가정통신문</a></li>
+                            <li><a href="/v2_01a/community/food.html?tn=bbs_food">식단표</a></li>
+                            <li><a href="/v2_01a/community/schedule.html?tn=schedule_info">행사일정</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-			
-						<a href="javascript:void(0);" class="gnbClose"><div></div></a>
-		</div>
-	</div>
-</nav>
-<div class="gnbCover mobile"></div>
+        <nav data-arrow="right">
+            <div>
+                <div>
+                    <a href="javascript:void(0);" class="gnbClose"><div></div></a>
+                </div>
+            </div>
+        </nav>
+        <div class="gnbCover"></div>
 
-</header>
-<div class="sliderTit">
-	<h2>{{title}}<span>{{tagline}}</span></h2>
-	
-</div>
-		<!-- 페이징 -->
-		<div class="sliderPage"><div></div></div>
-	</div>
+		    <div class="center-left">
+          <h2>&nbsp{{title}}</br>&nbsp&nbsp;&nbsp;<span class='tag'>{{tagline}}</span><br/><span class ='tagline'>&nbsp;&nbsp;웅이네 유치원은 노력합니다.</span></h2>
+        
+        </div>
+        
+    </header>
+    
+   
+</section>
 
-	</section>
-	
-	</body>
 
 `;
 
@@ -195,7 +287,7 @@ const block = {
 	previewImageUrl: 'https://gamma.app/_next/static/media/Title-card.409d7081.svg',
 	category: 'header',
 	defaultData: {
-		logo: "https://dnvefa72aowie.cloudfront.net/jobs/article/29555513/1677765497662/job-post-2878178089.jpeg?q=95&s=1440x1440&t=inside",
+		logo: "https://i.imgur.com/vdPp1yM.png",
 		title: "웅이네",
 		tagline: "유치원",
 		imageSrc1: "http://temp.ebikids.co.kr/v2_01a/images/main/main_bg.jpg",

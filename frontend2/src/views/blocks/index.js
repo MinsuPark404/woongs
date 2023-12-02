@@ -13,7 +13,7 @@ import article2 from './2/article2';
 import article3 from './2/article3';
 import article4 from './2/article4';
 import article5 from './2/article5';
-
+import footer from './footer';
 import map from './map'
 const blocks = {
   header1,
@@ -30,11 +30,9 @@ const blocks = {
   gallery3,
   gallery4,
   gallery2,
-  
-  
-  
-  
-  map
+
+  map,
+  footer,
 };
 
 export default blocks;

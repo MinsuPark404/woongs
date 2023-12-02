@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function Preview(props) {
+  useEffect(()=>{},[props])
+
   return <div className='page-content-wrapper overflow-hidden d-flex justify-content-center'>
     <div className={`preview-window shadow-lg preview-mode-${props.previewMode}`}>
       <div className='preview-toolbar d-flex align-items-center justify-content-between'>
