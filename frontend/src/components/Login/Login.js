@@ -91,7 +91,11 @@ function Login() {
               alignItems: 'center',
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <Avatar 
+              alt="logo"
+              src="/images/Woong_logo.png"
+              sx={{ width: 100, height: 100 }}
+            >
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">

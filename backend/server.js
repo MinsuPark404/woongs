@@ -32,35 +32,36 @@ app.use(
       maxAge: 180000 * 20 * 8, // 쿠키의 생존 기간(세션 유지 시간: 8시간)
     },
   })
-);
-
-// 정적인 파일 관리
-app.use(express.static(path.join(__dirname, '../frontend', 'build'))); // build
-
-// 인증 미들웨어 적용
-app.use(isAuthenticated);
-
-// API 라우터
-app.use('/api/admins', require('./routes/adminRoutes'));
-app.use('/api/businesses', require('./routes/businessRoutes'));
-app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/domains', require('./routes/domainRoutes'));
-app.use('/api/children', require('./routes/childRoutes'));
-app.use('/api/contents/:business_bno', require('./routes/contentsRoutes'));
-app.use('/api/visits', require('./routes/visitRoutes'));
-app.use('/api/videos', require('./routes/videoRoutes'));
-app.use('/api/boards', require('./routes/boardRoutes'));
-app.use('/api/detects', require('./routes/detectRouter'));
-
-// 특정 페이지 라우터
-app.use('/editor', (req, res) => {
-  console.log('editor');
-  res.sendFile(path.join(__dirname, '../frontend', 'build', 'index2.html'));
-});
-app.use('/', (req, res) => {
-  console.log('main');
-  res.sendFile(path.join(__dirname, '../frontend', 'build', 'index.html'));
-});
+  );
+  
+  // 정적인 파일 관리
+  app.use(express.static(path.join(__dirname, '../frontend', 'build')));
+  
+  // 인증 미들웨어 적용
+  app.use(isAuthenticated);
+  
+  // API 라우터
+  app.use('/api/admins', require('./routes/adminRoutes'));
+  app.use('/api/businesses', require('./routes/businessRoutes'));
+  app.use('/api/users', require('./routes/userRoutes'));
+  app.use('/api/domains', require('./routes/domainRoutes'));
+  app.use('/api/children', require('./routes/childRoutes'));
+  app.use('/api/contents/:business_bno', require('./routes/contentsRoutes'));
+  app.use('/api/visits', require('./routes/visitRoutes'));
+  app.use('/api/videos', require('./routes/videoRoutes'));
+  app.use('/api/boards', require('./routes/boardRoutes'));
+  app.use('/api/detects', require('./routes/detectRouter'));
+  
+  // 특정 페이지 라우터
+  app.get('/editor/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend2', 'build', 'index.html'));
+  });
+  // frontend
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend', 'build', 'index.html'));
+  });
+  
+  // frontend2를 /editor 경로로 호스팅
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
