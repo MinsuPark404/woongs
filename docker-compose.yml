@@ -1,9 +1,29 @@
 services:
-  # backend:
-  #   build: ./backend2
-  #   ports:
-  #     - 5001:5001
-  frontend:
-    build: ./frontend2
+  #nginx
+  # nginx 서비스 정의
+  nginx:
+    image: 'nginx:1.24.0'
+    restart: always # 컨테이너 실패시 항상 재시작
     ports:
-      - 5002:5002
+      - '80:80'
+    stdin_open: true
+    tty: true # 컨테이너에 가상 터미널(tty) 할당 -> stdin_open: true, tty: true를 통하여 대화식 터미널 활성화
+    container_name: nginx # 컨테이너 이름을 nginx으로 설정
+
+  # web 서비스 정의
+  web1:
+    build: .
+    image: project
+    env_file:
+      - ./backend2/.env
+    working_dir: /app
+    restart: always # 컨테이너 실패시 항상 재시작
+    ports:
+      - '5001:5000' # 호스트의 5001번 포트와 컨테이너의 5000번 포트 연결
+    stdin_open: true
+    tty: true
+    container_name: container_1 # 컨테이너 이름을 container_1 설정
+
+
+  # web 서비스 정의
+  # web1 복붙해서 포트, 컨테이너이름 바꿔주면됨
