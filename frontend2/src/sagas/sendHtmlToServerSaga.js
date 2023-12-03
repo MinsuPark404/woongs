@@ -8,6 +8,9 @@ function* sendHtmlToServerSaga(action) {
     const response = yield call(axios.post, 'http://localhost:5000', { url_html: action.html });
     console.log('success', response.data);
     // 성공 액션 디스패치 가능
+    // alert 창 띄우기
+    window.alert('배포되었습니다.');
+
   } catch (error) {
     console.log(action.html)
     console.error('Error sending HTML', error);

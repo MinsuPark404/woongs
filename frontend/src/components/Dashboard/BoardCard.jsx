@@ -55,8 +55,8 @@ const BoardTable = () => {
       try {
         const response = await axios.get(`/api/boards/list/${bno}`);
         console.log("게시글조회 데이터들", response.data);
-        //  데이터갯수 4개로 제한 (최신글 4개만 보여주기) 마지막 4개만 보여주기
-        const data = response.data.data.posts.slice(4);
+        //  데이터갯수 4개로 제한 (최신글 4개만 보여주기) 위 의 4개
+        const data = response.data.data.posts.slice(0, 4);
         setWriteData(data);
       } catch (error) {
         console.error('Error fetching posts', error);

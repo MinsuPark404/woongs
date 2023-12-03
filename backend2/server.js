@@ -45,7 +45,7 @@ app.use(
 app.post('/', async (req, res) => {
   try {
     const { url_html } = req.body;
-    const url_addr = '123'
+    const url_addr = 'woongkinder.com'
     const business_bno = '916-23-31691';
     const [result] = await connectDb.query(
       'INSERT INTO cms_contents (url_addr, business_bno, url_html) VALUES (?, ?, ?)',
@@ -61,9 +61,12 @@ app.post('/', async (req, res) => {
 
 app.get('/', async (req, res) => {
   try {
-    const [rows] = await connectDb.query('SELECT url_html FROM cms_contents where content_idx = 35');
-    // console.log(rows);
-    res.status(200).json(rows);
+    const [rows] = await connectDb.query('SELECT url_html FROM cms_contents where content_idx = 39');
+    const cleanedHtml = rows.map(row => ({
+      ...row,
+      url_html: row.url_html.replace(/\\n/g, "").replace(/\\t/g, "").replace(/\\\\/g, "")
+    }));
+    res.send(cleanedHtml[0].url_html);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

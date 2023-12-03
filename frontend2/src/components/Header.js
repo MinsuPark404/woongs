@@ -5,7 +5,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
 import './Header.css'
 const Header = () => {
-    const name = "User Name";
+    const name = "김현정";
     const sampleProfilePic = "https://source.unsplash.com/random";
 
     return (
@@ -15,7 +15,7 @@ const Header = () => {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" noWrap style={{ flexGrow: 1 }}>
-                    <img style={{width: 50, height:50}} src='https://i.imgur.com/vdPp1yM.png'/>
+                    KinderGuard
                 </Typography>
                 <IconButton color="inherit">
                     <Badge badgeContent={2} color="error">
