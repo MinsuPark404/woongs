@@ -1,23 +1,19 @@
-import React from "react";
-import { connect } from "react-redux";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import renderHandlebars from '../utils/renderHandlebars';
-import NarrowSidebar from "../components/NarrowSidebar";
-import WideSidebar from "../components/WideSidebar";
-import Header from "../components/Header";
-import Preview from "./Preview";
-import BlocksGallery from "./BlocksGallery";
-import Search from "./Search";
-import Inspector from "./Inspector";
-import Settings from "./Settings";
+import NarrowSidebar from '../components/NarrowSidebar';
+import WideSidebar from '../components/WideSidebar';
+// import Header from '../components/Header';
+import Preview from './Preview';
+import BlocksGallery from './BlocksGallery';
+import Search from './Search';
+import Inspector from './Inspector';
+import Settings from './Settings';
 
-import actionTypes from "../constants/actionTypes";
-import Output from "./Output";
+import actionTypes from '../constants/actionTypes';
+import Output from './Output';
 
 class App extends React.Component {
   constructor(props) {
@@ -33,26 +29,28 @@ class App extends React.Component {
 
   async componentDidMount() {
     await this.updateRenderedContent();
-    window.addEventListener("message", this.handleMessage);
+    window.addEventListener('message', this.handleMessage);
   }
-  
+
   componentDidUpdate(prevProps) {
     if (this.props.layout.blocks !== prevProps.layout.blocks) {
       this.updateRenderedContent();
     }
   }
   async updateRenderedContent() {
-    const innerHTML = await renderHandlebars(this.props.layout.blocks, this.props.layout.documentId);
+    const innerHTML = await renderHandlebars(
+      this.props.layout.blocks,
+      this.props.layout.documentId
+    );
     this.setState({ innerHTML });
   }
 
-
   componentWillUnmount() {
-    window.removeEventListener("message", this.handleMessage)
+    window.removeEventListener('message', this.handleMessage);
   }
 
   handleMessage(event) {
-    console.log(event.data)
+    console.log(event.data);
     if (event.data.event) {
       if (event.data.blockId && event.data.event === 'click') {
         this.handleChangeActiveTab(0);
@@ -66,107 +64,111 @@ class App extends React.Component {
   handleChangeActiveTab(index) {
     this.props.dispatch({
       type: actionTypes.CHANGE_ACTIVE_TAB,
-      index
+      index,
     });
   }
 
   handleChangePreviewMode(mode) {
     this.props.dispatch({
       type: actionTypes.CHANGE_PREVIEW_MODE,
-      mode
+      mode,
     });
   }
 
   handlePushBlock(blockId) {
     this.props.dispatch({
       type: actionTypes.PUSH_BLOCK,
-      blockId
+      blockId,
     });
   }
 
   handleSetSelectedBlock(blockUuid) {
     this.props.dispatch({
       type: actionTypes.SET_SELECTED_BLOCK,
-      blockUuid
+      blockUuid,
     });
   }
 
   handleReorderLayout(newOrder) {
     const newBlocksLayout = [];
-    newOrder.forEach(blockUuid => {
-      const block = this.props.layout.blocks.find(el => {
+    newOrder.forEach((blockUuid) => {
+      const block = this.props.layout.blocks.find((el) => {
         return el.uuid === blockUuid;
-      })
+      });
       newBlocksLayout.push(block);
     });
 
     this.props.dispatch({
       type: actionTypes.REORDER_LAYOUT,
-      newBlocksLayout
+      newBlocksLayout,
     });
   }
 
   render() {
     const { innerHTML } = this.state;
-    const {activeTab, previewMode} = this.props.config;
+    const { activeTab, previewMode } = this.props.config;
 
     return (
-      <div><Header/>
-      <Router>
-        <div className="wrapper d-flex">
-        
-          <Switch>
-            <Route path="/">
-              
-              <NarrowSidebar
-                onChangeActiveTab={this.handleChangeActiveTab}
-                activeTab={activeTab} />
-              <WideSidebar>
-                <Inspector
-                  display={activeTab === 0} />
-                <Search
-                  display={activeTab === 1}
-                  onPushBlock={this.handlePushBlock} />
-                <BlocksGallery
-                  category='header'
-                  display={activeTab === 2}
-                  onPushBlock={this.handlePushBlock} />
-                <BlocksGallery
-                  category='article'
-                  display={activeTab === 3}
-                  onPushBlock={this.handlePushBlock} />
-                <BlocksGallery
-                  category='gallery'
-                  display={activeTab === 4}
-                  onPushBlock={this.handlePushBlock} />
-                <BlocksGallery
-                  category='photo'
-                  display={activeTab === 5}
-                  onPushBlock={this.handlePushBlock} />
-                <Output display={activeTab === 9} html={innerHTML}/>
-                <Settings
-                  display={activeTab === 10}/>
-              </WideSidebar>
-              <Preview
-                html={innerHTML}
-                onChangePreviewMode={this.handleChangePreviewMode}
-                previewMode={previewMode}/>
-            </Route>
-          </Switch>
-        </div>
-      </Router>
+      <div>
+        {/* <Header /> */}
+        <Router>
+          <div className="wrapper d-flex">
+            <Switch>
+              <Route path="/">
+                <NarrowSidebar
+                  onChangeActiveTab={this.handleChangeActiveTab}
+                  activeTab={activeTab}
+                />
+                <WideSidebar>
+                  <Inspector display={activeTab === 0} />
+                  <Search
+                    display={activeTab === 1}
+                    onPushBlock={this.handlePushBlock}
+                  />
+                  <BlocksGallery
+                    category="header"
+                    display={activeTab === 2}
+                    onPushBlock={this.handlePushBlock}
+                  />
+                  <BlocksGallery
+                    category="article"
+                    display={activeTab === 3}
+                    onPushBlock={this.handlePushBlock}
+                  />
+                  <BlocksGallery
+                    category="gallery"
+                    display={activeTab === 4}
+                    onPushBlock={this.handlePushBlock}
+                  />
+                  <BlocksGallery
+                    category="photo"
+                    display={activeTab === 5}
+                    onPushBlock={this.handlePushBlock}
+                  />
+                  <Output display={activeTab === 9} html={innerHTML} />
+                  <Settings display={activeTab === 10} />
+                </WideSidebar>
+                <Preview
+                  html={innerHTML}
+                  onChangePreviewMode={this.handleChangePreviewMode}
+                  previewMode={previewMode}
+                />
+              </Route>
+            </Switch>
+          </div>
+        </Router>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     config: state.config,
     layout: state.layout,
   };
 };
 
-const mapDispatchToProps = dispatch => ({ dispatch });
+const mapDispatchToProps = (dispatch) => ({ dispatch });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

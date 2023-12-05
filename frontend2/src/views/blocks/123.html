@@ -42,11 +42,40 @@
 
 <html lang="ko">
 <style>
+	/* 반응형 디자인을 위한 추가 스타일 */
+@media (max-width: 768px) {
+	header h1 img {
+		width: 150px; /* 이미지 크기 조정 */
+	}
+	.logo {
+		font-size: 40px; /* 글자 크기 조정 */
+	}
+	/* 추가적인 스타일 변경 */
+}
+
+@media (max-width: 480px) {
+	header h1 img {
+		width: 100px; /* 이미지 크기 조정 */
+	}
+	.logo {
+		font-size: 30px; /* 글자 크기 조정 */
+	}
+	/* 추가적인 스타일 변경 */
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+body {
+	font-size: 2vw;
+}
 header {
   height: 80%;
 	position: relative;
 	z-index: 1;
-  }
+}
   
 header h1 {
     position: absolute;
